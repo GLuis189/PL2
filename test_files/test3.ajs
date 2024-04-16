@@ -20,5 +20,5 @@ function gte(a: int, b: int): boolean {
 if (gte(var1.nested["prop2"], var2)) {
     var3 = 'A';
 } else {
-    var3 = 'N;
+    var3 = 'N';
 }
