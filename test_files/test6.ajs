@@ -1,0 +1,5 @@
+let var1, VAR1, Var1;
+let var1;
+
+VAR1 = 10;
+VAR1 = tr;
