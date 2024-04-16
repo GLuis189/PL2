@@ -14,7 +14,7 @@ class Tokens:
         "MAYOR_IGUAL",
         "MENOR_IGUAL",
         "CORCHETE_ABRE",
-        "CORCHETE_CIERRA"
+        "CORCHETE_CIERRA",
         "PUNTO_Y_COMA",
         "PUNTO",
         "PARENTESIS_ABRE",
@@ -28,7 +28,7 @@ class Tokens:
         "RESTA",
         "MULTIPLICACION",
         "DIVISION",
-        "ASIGNACION"
+        "ASIGNACION",
         "CARACTER"
     ]
 

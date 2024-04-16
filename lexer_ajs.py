@@ -1,5 +1,6 @@
 import ply.lex as lex
 from tokens import Tokens
+import sys
 
 tokens = Tokens.tokens + Tokens.reserved
 
@@ -22,8 +23,6 @@ t_PUNTO_Y_COMA = r";"
 t_PUNTO = r"\."
 t_PARENTESIS_ABRE = r"\("
 t_PARENTESIS_CIERRA = r"\)"
-t_COMENTARIO_LINEA = r"//.*"
-t_COMENTARIO_BLOQUE = r"/\*.*\*/"
 t_CONJUNCION = r"&&"
 t_DISYUNCION = r"\|\|"
 t_NEGACION = r"!"
@@ -38,7 +37,7 @@ def t_COMENTARIO_LINEA(t):
     pass
 
 def t_COMENTARIO_BLOQUE(t):
-    r"/\*.*\*/"
+    r'/\*(.|\n)*?\*/'
     t.lexer.lineno += t.value.count("\n")
     pass
 
@@ -63,27 +62,50 @@ def t_CARACTER(t):
     t.value = t.value[1]
     return t
 
-entero = r"-?\d+"
-decimal = r"-?(\d+\.\d+)|(\.\d+)"
-cientifico = r"-?((\d+\.\d+)|(\.\d+)|(\d+))[eE]-?\d+"
+entero = r'0|[1-9][0-9]*'
+decimal =r'('+ entero + r')'+ r'\.[0-9]*'
+cientifico = r'('+ entero + r')' +r'|'+ r'('+ decimal + r')' + r'[eE]-?\d+'
 binario = r"0(b|B)[01]+"
 octal = r"0[0-7]+"
 hexadecimal = r"0(x|X)[0-9a-fA-F]+"
-numero = r"|".join([ binario, hexadecimal, cientifico, decimal, entero, octal])
 
-@lex.TOKEN(numero)
-def t_NUMERO(t):
+entero = r"|".join([entero, binario, hexadecimal, octal])
+decimal = r"|".join([cientifico, decimal])
+
+@lex.TOKEN(decimal)
+def t_DECIMAL(t):
+    t.value = float(t.value)
+    return t
+
+@lex.TOKEN(entero)
+def t_ENTERO(t):
     if t.value.startswith("0b") or t.value.startswith("0B"):
         t.value = int(t.value, 2)
     elif t.value.startswith("0x") or t.value.startswith("0X"):
         t.value = int(t.value, 16)
     elif t.value.startswith("0") and all(c in '01234567' for c in t.value[1:]):
         t.value = int(t.value, 8)
-    elif "." in t.value or "e" in t.value or "E" in t.value:
-        t.value = float(t.value)
     else:
         t.value = int(t.value)
     return t
+
+
+
+# @lex.TOKEN(numero)
+# def t_NUMERO(t):
+#     t.type = "ENTERO"
+#     if t.value.startswith("0b") or t.value.startswith("0B"):
+#         t.value = int(t.value, 2)
+#     elif t.value.startswith("0x") or t.value.startswith("0X"):
+#         t.value = int(t.value, 16)
+#     elif t.value.startswith("0") and all(c in '01234567' for c in t.value[1:]):
+#         t.value = int(t.value, 8)
+#     elif "." in t.value or "e" in t.value or "E" in t.value:
+#         t.value = float(t.value)
+#         t.type = "DECIMAL"
+#     else:
+#         t.value = int(t.value)
+#     return t
 
 t_ignore = " \t"
 
@@ -94,3 +116,9 @@ def t_newline(t):
 def t_error(t):
     print("Illegal character '%s'" % t.value[0])
     t.lexer.skip(1)
+
+lexer = lex.lex()
+content = open(sys.argv[1], 'r').read()
+lexer.input(content)
+for token in lexer:
+    print(token.type, token.value)
