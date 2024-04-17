@@ -99,8 +99,8 @@ def t_error(t):
     print("Illegal character '%s'" % t.value[0])
     t.lexer.skip(1)
 
-lexer = lex.lex()
-content = open(sys.argv[1], 'r').read()
-lexer.input(content)
-for token in lexer:
-    print(token.type, token.value)
+# lexer = lex.lex()
+# content = open(sys.argv[1], 'r').read()
+# lexer.input(content)
+# for token in lexer:
+#     print(token.type, token.value)
