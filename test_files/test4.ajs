@@ -1,2 +1,7 @@
 let A;
-A = (4 * B) + 3 - 7;
+A = 4 + 2 - 4;
+
+let var1 : int, var2;
+
+var1 = 3;
+var2 = 0123;

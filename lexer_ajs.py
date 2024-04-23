@@ -59,7 +59,8 @@ def t_CADENA_COMILLAS(t):
 
 def t_CARACTER(t):
     r"'.'"
-    t.value = t.value[1]
+    if t.value == "''": t.value = ''
+    else: t.value = t.value[1]
     return t
 
 entero = r"\d+"
