@@ -19,8 +19,6 @@ class Tokens:
         "PUNTO",
         "PARENTESIS_ABRE",
         "PARENTESIS_CIERRA",
-        "COMENTARIO_LINEA",
-        "COMENTARIO_BLOQUE",
         "CONJUNCION",
         "DISYUNCION",
         "NEGACION",

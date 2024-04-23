@@ -52,10 +52,9 @@ def p_num(p):
 
 def p_ident(p):
     '''ident : CADENA_NO_COMILLAS
-             | CADENA_COMILLAS
-             | CADENA_COMILLAS PUNTO ident
-             | CADENA_COMILLAS CORCHETE_ABRE CADENA_NO_COMILLAS CORCHETE_CIERRA
-             | CADENA_COMILLAS CORCHETE_ABRE CADENA_NO_COMILLAS CORCHETE_CIERRA indent
+             | CADENA_NO_COMILLAS PUNTO ident
+             | CADENA_NO_COMILLAS CORCHETE_ABRE CADENA_COMILLAS CORCHETE_CIERRA
+             | CADENA_NO_COMILLAS CORCHETE_ABRE CADENA_COMILLAS CORCHETE_CIERRA PUNTO ident
              '''
     print('ident')
     
@@ -84,14 +83,13 @@ def p_assign(p):
     print('assign')
 
 def p_valor(p):
-    '''valor : CADENA_COMILLAS
+    '''valor : ident
              | num
              | operacion
              | bool
              | NULL
              | ajson_v
              | CARACTER
-             | CADENA_NO_COMILLAS
              | function_call
              | PARENTESIS_ABRE valor PARENTESIS_CIERRA
     '''
@@ -235,10 +233,15 @@ def p_function_def(p):
 
 def p_function_call(p):
     '''
-    function_call : CADENA_NO_COMILLAS PARENTESIS_ABRE valor PARENTESIS_CIERRA
+    function_call : CADENA_NO_COMILLAS PARENTESIS_ABRE arg PARENTESIS_CIERRA
                   | CADENA_NO_COMILLAS PARENTESIS_ABRE PARENTESIS_CIERRA
     '''
     print('function_call')
+
+def p_arg(p):
+    '''arg : valor
+           | valor COMA arg'''
+    print('arg')
 
 def p_error(p):
     if p: print('[ERROR][PARSER] At line: %s' % p)

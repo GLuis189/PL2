@@ -13,5 +13,5 @@ let my_house: House = {
     },
 };
 
-let with_tax = my_house["price].euro * 1.1;
+let with_tax = my_house["price"].euro * 1.1;
 let euro_to_yen = my_house.price["euro"] * 163.97;

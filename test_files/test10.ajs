@@ -1,5 +1,5 @@
-function mod (a:int b:int): int{
-    while (a=>b){
+function mod (a: int, b: int): int{
+    while (a >= b) {
         a = a -b;
     }
     return a;
