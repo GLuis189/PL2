@@ -17,7 +17,7 @@ def p_programa(p):
     #print('programa')
     
 def p_empty(p):
-    'empty : '
+    '''empty : '''
 
 
 def p_statement(p):
@@ -45,18 +45,6 @@ def p_no_semicolon(p):
     '''
     #print('no_semicolon')
 
-###################### HOJAS ######################
-
-def p_bool(p):
-    '''bool : TR
-            | FL'''
-    #print('bool')
-
-def p_num(p):
-    '''num : ENTERO
-           | DECIMAL'''
-    #print('num')
-
 def p_ident(p):
     '''ident : CADENA_NO_COMILLAS
              | CADENA_NO_COMILLAS PUNTO ident
@@ -80,9 +68,9 @@ def p_id(p):
           | variable ASIGNACION valor COMA id'''
     #print('id')
 
-def p_variable(p):
-    '''variable : CADENA_NO_COMILLAS 
-                | CADENA_NO_COMILLAS DOS_PUNTOS tipo'''
+def p_variable(p): 
+    '''variable : ident
+                | ident DOS_PUNTOS tipo'''
     #print('variable')
 
 ###################### ASIGNACIONES ######################
@@ -95,9 +83,11 @@ def p_assign(p):
 
 def p_valor(p):
     '''valor : ident
-             | num
+             | ENTERO
+             | DECIMAL
              | operacion
-             | bool
+             | TR
+             | FL
              | NULL
              | ajson_v
              | CARACTER
