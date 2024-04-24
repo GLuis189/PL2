@@ -6,6 +6,7 @@ tokens = Tokens.tokens + Tokens.reserved
 precedence = (
         ('left', 'SUMA', 'RESTA'),
         ('left', 'MULTIPLICACION', 'DIVISION'),
+        ('right', 'UPLUS', 'UMINUS'),
         ('left', 'CONJUNCION', 'DISYUNCION'),
         ('right', 'NEGACION'),
         ('nonassoc', 'MENOR_IGUAL', 'MENOR', 'MAYOR_IGUAL', 'MAYOR', 'IGUAL'),
@@ -93,8 +94,8 @@ def p_valor(p):
              | CARACTER
              | function_call
              | PARENTESIS_ABRE valor PARENTESIS_CIERRA
-             | SUMA valor
-             | RESTA valor
+             | SUMA valor %prec UPLUS
+             | RESTA valor %prec UMINUS
     '''
     #print('valor')
 

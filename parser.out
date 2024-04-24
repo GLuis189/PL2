@@ -2475,12 +2475,12 @@ state 84
 
     SUMA            reduce using rule 37 (valor -> SUMA valor .)
     RESTA           reduce using rule 37 (valor -> SUMA valor .)
+    MULTIPLICACION  reduce using rule 37 (valor -> SUMA valor .)
+    DIVISION        reduce using rule 37 (valor -> SUMA valor .)
     PUNTO_Y_COMA    reduce using rule 37 (valor -> SUMA valor .)
     PARENTESIS_CIERRA reduce using rule 37 (valor -> SUMA valor .)
     COMA            reduce using rule 37 (valor -> SUMA valor .)
     LLAVE_CIERRA    reduce using rule 37 (valor -> SUMA valor .)
-    MULTIPLICACION  shift and go to state 74
-    DIVISION        shift and go to state 75
     CONJUNCION      shift and go to state 76
     DISYUNCION      shift and go to state 77
     MAYOR           shift and go to state 78
@@ -2489,8 +2489,6 @@ state 84
     MENOR_IGUAL     shift and go to state 81
     IGUAL           shift and go to state 82
 
-  ! MULTIPLICACION  [ reduce using rule 37 (valor -> SUMA valor .) ]
-  ! DIVISION        [ reduce using rule 37 (valor -> SUMA valor .) ]
   ! CONJUNCION      [ reduce using rule 37 (valor -> SUMA valor .) ]
   ! DISYUNCION      [ reduce using rule 37 (valor -> SUMA valor .) ]
   ! MAYOR           [ reduce using rule 37 (valor -> SUMA valor .) ]
@@ -2500,6 +2498,8 @@ state 84
   ! IGUAL           [ reduce using rule 37 (valor -> SUMA valor .) ]
   ! SUMA            [ shift and go to state 72 ]
   ! RESTA           [ shift and go to state 73 ]
+  ! MULTIPLICACION  [ shift and go to state 74 ]
+  ! DIVISION        [ shift and go to state 75 ]
 
 
 state 85
@@ -2519,12 +2519,12 @@ state 85
 
     SUMA            reduce using rule 38 (valor -> RESTA valor .)
     RESTA           reduce using rule 38 (valor -> RESTA valor .)
+    MULTIPLICACION  reduce using rule 38 (valor -> RESTA valor .)
+    DIVISION        reduce using rule 38 (valor -> RESTA valor .)
     PUNTO_Y_COMA    reduce using rule 38 (valor -> RESTA valor .)
     PARENTESIS_CIERRA reduce using rule 38 (valor -> RESTA valor .)
     COMA            reduce using rule 38 (valor -> RESTA valor .)
     LLAVE_CIERRA    reduce using rule 38 (valor -> RESTA valor .)
-    MULTIPLICACION  shift and go to state 74
-    DIVISION        shift and go to state 75
     CONJUNCION      shift and go to state 76
     DISYUNCION      shift and go to state 77
     MAYOR           shift and go to state 78
@@ -2533,8 +2533,6 @@ state 85
     MENOR_IGUAL     shift and go to state 81
     IGUAL           shift and go to state 82
 
-  ! MULTIPLICACION  [ reduce using rule 38 (valor -> RESTA valor .) ]
-  ! DIVISION        [ reduce using rule 38 (valor -> RESTA valor .) ]
   ! CONJUNCION      [ reduce using rule 38 (valor -> RESTA valor .) ]
   ! DISYUNCION      [ reduce using rule 38 (valor -> RESTA valor .) ]
   ! MAYOR           [ reduce using rule 38 (valor -> RESTA valor .) ]
@@ -2544,6 +2542,8 @@ state 85
   ! IGUAL           [ reduce using rule 38 (valor -> RESTA valor .) ]
   ! SUMA            [ shift and go to state 72 ]
   ! RESTA           [ shift and go to state 73 ]
+  ! MULTIPLICACION  [ shift and go to state 74 ]
+  ! DIVISION        [ shift and go to state 75 ]
 
 
 state 86
