@@ -78,7 +78,7 @@ def p_variable(p):
     
 def p_assign(p):
     '''
-    assign : variable ASIGNACION valor
+    assign : ident ASIGNACION valor
     '''
     #print('assign')
 

@@ -58,8 +58,9 @@ def t_CADENA_COMILLAS(t):
     return t
 
 def t_CARACTER(t):
-    r"'[\x00-\xFF]'"
-    t.value = t.value[1]
+    r"'[\x00-\xFF]?'"
+    if len(t.value) == 2: t.value = None
+    else: t.value = t.value[1]
     return t
 
 entero = r"\d+"
