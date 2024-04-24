@@ -163,15 +163,6 @@ def p_aritmetica(p):
                   | valor DIVISION valor'''
     #print('aritmetica')
     
-# def p_operador1(p):
-#     '''operador1 : SUMA
-#                  | RESTA'''
-#     #print('operador1')
-    
-# def p_operador2(p):
-#     '''operador2 : MULTIPLICACION
-#                  | DIVISION'''
-#     #print('operador2')
 
 def p_comparacion(p):
     '''comparacion : valor MAYOR valor
@@ -180,27 +171,12 @@ def p_comparacion(p):
                    | valor MENOR_IGUAL valor
                    | valor IGUAL valor'''
     #print('comparacion')
-    
-# def p_comparador1(p):
-#     '''comparador : MAYOR 
-#                   | MENOR 
-#                   | MAYOR_IGUAL
-#                   | MENOR_IGUAL
-#     '''
-#     #print('comparador1')
 
 def p_booleana(p):
     '''booleana : valor CONJUNCION valor
                 | valor DISYUNCION valor
                 | NEGACION valor'''
     #print('booleana')
-    
-# def p_comparador2(p):
-#     '''comparador2 : CONJUNCION
-#                    | DISYUNCION
-#     '''
-#     #print('comparador2')
-
 
 def p_tipo(p):
     '''tipo : INT
