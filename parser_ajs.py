@@ -93,8 +93,11 @@ def p_valor(p):
              | CARACTER
              | function_call
              | PARENTESIS_ABRE valor PARENTESIS_CIERRA
+             | SUMA valor
+             | RESTA valor
     '''
     #print('valor')
+
 
 def p_define(p):
     '''
