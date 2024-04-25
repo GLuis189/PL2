@@ -1,17 +1,24 @@
-type House = {
-    localition : {
-        city : character, country:character},
-        price:{euro:int, dollar:int, yen: int}
-};
+function mod (a: int, b: int): int{
+    while (a >= b) {
+        a = a -b;
+    }
+    return a;
+}
 
-let my_house: House = {
-    localition:{
-        city: 'M', country: 'E',
-    },
-    price:{
-        euro: 100, "dolar": 108, "yen":16397
-    },
-};
+function greatest_common_divisor(a:int, b:int): int {
+    let temp;
+    while (!(b == 0)){
+        temp = b;
+        b = mod(a,b);
+        a = temp;
+    }
+    return a;
+}
 
-let with_tax = my_house["price"].euro * 1.1;
-let euro_to_yen = my_house.price["euro"] * 163.97;
+let result = greatest_common_divisor(132,0xFF);
+
+type Point = {x: int, y: int};
+
+function get_point_after_jump(point: Point): Point {
+    return {x: point.x, y: point.y +10 };
+}

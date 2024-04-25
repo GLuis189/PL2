@@ -1,24 +1,22 @@
-type NestedObject = { "this is": character, prop2: int, "prop3": boolean };
-type Object = { prop1: float, "nested": NestedObject };
 
-let var1: Object, var2, var3;
-var1 = {
-    prop1: 10e-1,
-    nested: { "this is": 'A', prop2: 10, prop3: tr }
-};
-var2 = 10;
-
-//This us a function
-function gte(a: int, b: int): boolean {
-    return a > b;
-}
-
-/*
- * we can access object properties using dot notation (sometimes) or,
- * we can also use the bracket notation (always)
- */
-if (gte(var1.nested["prop2"], var2)) {
-    var3 = 'A';
-} else {
-    var3 = 'N';
-}
+#
+1 => 3
+0xF3F =! 50b111011
+1e+-1 => 0.1
+ELSE
+;
+()
+&&&
+|||
+LET
+BOOLEAN
+function
+calculo = 44 -3 +33
+condicion = false
+condicion = null
+condicion = True
+WHILE condicion :
+    'if' 44 === 44:
+        RETURN
+    ELSE:
+    TYPE(33)

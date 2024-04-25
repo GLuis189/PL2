@@ -1,20 +1,17 @@
-type Circle = { cx: float, cy: float, radio: float, color: character };
-type Square = {side: float, color: character};
-
-let circle: Circle = {
-    cx: 0.,
-    cy: 0.,
-    radio: 10.2,
-    color: 'r',
+type House = {
+    localition : {
+        city : character, country:character},
+        price:{euro:int, dollar:int, yen: int}
 };
 
-let square: Square, circle_area;
-circle_area = 3.14 * circle.radio * circle["radio"];
-
-square.side = 10.; // Error: square is not initialized
-square = {
-    side: 10.,
-    color: 'b'
+let my_house: House = {
+    localition:{
+        city: 'M', country: 'E',
+    },
+    price:{
+        euro: 100, "dolar": 108, "yen":16397
+    },
 };
 
-let square_area = square.side * square["side"];
+let with_tax = my_house["price"].euro * 1.1;
+let euro_to_yen = my_house.price["euro"] * 163.97;

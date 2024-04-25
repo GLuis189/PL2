@@ -1,18 +1,24 @@
-function mod (a: int, b: int): int{
-    while (a >= b) {
-        a = a -b;
-    }
-    return a;
+type NestedObject = { "this is": character, prop2: int, "prop3": boolean };
+type Object = { prop1: float, "nested": NestedObject };
+
+let var1: Object, var2, var3;
+var1 = {
+    prop1: 10e-1,
+    nested: { "this is": 'A', prop2: 10, prop3: 'r' }
+;
+var2 = 10;
+
+//This us a function
+function gte(a: int, b: int): boolean {
+    return a > b;
 }
 
-function greatest_common_divisor(a:int, b:int): int {
-    let temp;
-    while (!(b == 0)){
-        temp = b;
-        b = mod(a,b);
-        a = temp;
-    }
-    return a;
+/*
+ * we can access object properties using dot notation (sometimes) or,
+ * we can also use the bracket notation (always)
+ */
+if (gte(var1.nested["prop2], var2))) {
+    var3 = 'A';
+} else {
+    var3 = var3['error];
 }
-
-let result = greatest_common_divisor(132,0xFF);

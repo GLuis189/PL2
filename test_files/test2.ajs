@@ -1,10 +1,42 @@
-// asd asd asd qwe qwd asd asdq w
-Comentario1;
-// asd asdasdwqe asd asd qw 
-Comentario2;
-/* comentario */
-Comentario3;
-/*
-* comentario
-*/
-Comentario4;
+'' //vacio
+55 //entero
+5.5 //float
+:
+1 > 3
+0xFF >= 0b111011
+1e-1 == 0.1
+077 < 62
+1.4e10
+3
+10E2
+50.
+5.5 * 7
+a = 5*5.5
+5 >= 3
+{}
+[] //LLAVE_ABRE, LLAVE_CIERRA
+a.["variable"] = 45
+ a ='d' 
+else
+, 
+abc : cba
+44 <= 44, 44 >= 44;
+()
+&&
+||
+!
+let
+boolean
+function
+calculo = 44 -3 +33
+condicion = tr
+condicion = null
+condicion = fl
+while condicion :
+    if 44 == 44:
+        return
+    else:
+    type(33)
+        
+ 
+
