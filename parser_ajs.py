@@ -157,25 +157,25 @@ def p_operacion(p):
     
 
 def p_aritmetica(p):
-    '''aritmetica : valor SUMA valor
-                  | valor RESTA valor
-                  | valor MULTIPLICACION valor
-                  | valor DIVISION valor'''
+    '''aritmetica : valor SUMA valor %prec SUMA
+                  | valor RESTA valor %prec RESTA
+                  | valor MULTIPLICACION valor %prec MULTIPLICACION
+                  | valor DIVISION valor %prec DIVISION'''
     #print('aritmetica')
     
 
 def p_comparacion(p):
-    '''comparacion : valor MAYOR valor
-                   | valor MENOR valor
-                   | valor MAYOR_IGUAL valor
-                   | valor MENOR_IGUAL valor
-                   | valor IGUAL valor'''
+    '''comparacion : valor MAYOR valor %prec MAYOR
+                   | valor MENOR valor %prec MENOR
+                   | valor MAYOR_IGUAL valor %prec MAYOR_IGUAL
+                   | valor MENOR_IGUAL valor %prec MENOR_IGUAL
+                   | valor IGUAL valor %prec IGUAL'''
     #print('comparacion')
 
 def p_booleana(p):
-    '''booleana : valor CONJUNCION valor
-                | valor DISYUNCION valor
-                | NEGACION valor'''
+    '''booleana : valor CONJUNCION valor %prec CONJUNCION
+                | valor DISYUNCION valor %prec DISYUNCION
+                | NEGACION valor %prec NEGACION'''
     #print('booleana')
 
 def p_tipo(p):
