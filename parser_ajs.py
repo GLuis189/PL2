@@ -3,23 +3,28 @@ from tokens import Tokens
 
 tokens = Tokens.tokens + Tokens.reserved
 
+symbols = {}
+
 precedence = (
-        ('left', 'SUMA', 'RESTA'),
-        ('left', 'MULTIPLICACION', 'DIVISION'),
-        ('right', 'UPLUS', 'UMINUS'),
         ('left', 'CONJUNCION', 'DISYUNCION'),
         ('right', 'NEGACION'),
-        ('nonassoc', 'MENOR_IGUAL', 'MENOR', 'MAYOR_IGUAL', 'MAYOR', 'IGUAL'),
+        ('nonassoc', 'IGUAL'),
+        ('nonassoc', 'MENOR_IGUAL', 'MENOR', 'MAYOR_IGUAL', 'MAYOR'),
+        ('left', 'SUMA', 'RESTA'),
+        ('left', 'MULTIPLICACION', 'DIVISION'),
+        ('right', 'UPLUS', 'UMINUS')
     )
 ###################### INICIO ######################
 def p_programa(p):
     '''programa : statement
                 | empty'''
     #print('programa')
+    print(symbols)
     
 def p_empty(p):
     '''empty : '''
-
+    #print('empty')
+    p[0] = None
 
 def p_statement(p):
     '''
@@ -52,52 +57,151 @@ def p_ident(p):
              | CADENA_NO_COMILLAS CORCHETE_ABRE CADENA_COMILLAS CORCHETE_CIERRA
              | CADENA_NO_COMILLAS CORCHETE_ABRE CADENA_COMILLAS CORCHETE_CIERRA PUNTO ident
              '''
-    #print('ident')
+    p[0] = p[1]
 
 ###################### DECLARACIONES ######################
 
 def p_declare(p):
     '''
-    declare : LET id
+    declare : LET id asign_valor
     '''
     #print('declare')
+    lista_vars = p[2]
+    tipo_a, value = p[3]
+    print(lista_vars)
+    print(value)
+    for var in lista_vars:
+        tipo, name = var
+        if name in symbols:
+            print('[ERROR][PARSER] Variable %s already declared' % name)
+        else:
+            if tipo == None or tipo == tipo_a:
+                symbols[name] = (tipo_a, value)
+    
+
+def p_asign_valor(p):
+    '''
+    asign_valor : ASIGNACION valor
+                | empty
+    '''
+    #print('asign_valor')
+    if len(p) > 2: p[0] = p[2]
+    else: p[0] = (None, p[1])
 
 def p_id(p):
-    '''id : variable
-          | variable COMA id
-          | variable ASIGNACION valor
-          | variable ASIGNACION valor COMA id'''
+    '''id : variable'''
     #print('id')
+    p[0] = [p[1]]
+
+def p_id_varios(p):
+    '''id : variable COMA id'''
+    # print('id_varios')
+    ultimo = p[1]
+    resto = p[3]
+    p[0] = [ultimo] + resto
+    
 
 def p_variable(p): 
     '''variable : ident
-                | ident DOS_PUNTOS tipo'''
-    #print('variable')
+                | ident DOS_PUNTOS CADENA_NO_COMILLAS'''
+    # print('variable')
+    if len(p) == 2: p[0] = (None, p[1])
+    else:
+        # Para ahcer, comprobar que el tipo (cadena no comillas) sea valido 
+        p[0] = (p[3], p[1])
 
 ###################### ASIGNACIONES ######################
     
 def p_assign(p):
     '''
-    assign : ident ASIGNACION valor
+    assign : ident asign_valor
     '''
-    #print('assign')
+    # print('assign')
+    ident = p[1]
+    if isinstance(ident, list):
+        for i in ident:
+            if i in symbols:
+                tipo, value = p[2]
+                if tipo == symbols[i][0]:
+                    symbols[i] = (tipo, value)
+                else:
+                    print('[ERROR][PARSER] Type mismatch in variable %s' % i)
+            else:
+                print('[ERROR][PARSER] Variable %s not declared' % i)
+    else:
+        if ident in symbols:
+            tipo, value = p[2]
+            if tipo == symbols[ident][0]:
+                symbols[ident] = (tipo, value)
+            else:
+                print('[ERROR][PARSER] Type mismatch in variable %s' % ident)
+        else:
+            print('[ERROR][PARSER] Variable %s not declared' % ident)
+
+# def p_valor(p):
+#     '''valor : ident
+#              | ENTERO
+#              | DECIMAL
+#              | operacion
+#              | v_bool
+#              | NULL
+#              | ajson_v
+#              | CARACTER
+#              | function_call
+#              | PARENTESIS_ABRE valor PARENTESIS_CIERRA
+#              | SUMA valor %prec UPLUS
+#              | RESTA valor %prec UMINUS
+#     '''
+#     #print('valor')
 
 def p_valor(p):
     '''valor : ident
-             | ENTERO
-             | DECIMAL
              | operacion
-             | TR
-             | FL
-             | NULL
              | ajson_v
-             | CARACTER
-             | function_call
-             | PARENTESIS_ABRE valor PARENTESIS_CIERRA
-             | SUMA valor %prec UPLUS
+             | function_call'''
+    p[0] = p[1]
+
+def p_valor_entero(p):
+    '''valor : ENTERO'''
+    #print('valor_entero')
+
+    p[0] = ('int', p[1])
+
+def p_valor_decimal(p):
+    '''valor : DECIMAL'''
+    #print('valor_decimal')
+    p[0] = ('float', p[1])
+
+def p_valor_bool(p):
+    '''valor : TR
+              | FL'''
+    #print('valor_bool')
+    p[0] = ('bool', p[1])
+
+def p_valor_null(p):
+    '''valor : NULL'''
+    #print('valor_null')
+    p[0] = ('null', p[1])
+
+def p_valor_caracter(p):
+    '''valor : CARACTER'''
+    #print('valor_caracter')
+    p[0] = ('char', p[1])
+
+def p_valor_parentesis(p):
+    '''valor : PARENTESIS_ABRE valor PARENTESIS_CIERRA'''
+    #print('valor_parentesis')
+    p[0] = p[2]
+
+def p_valor_unary(p):
+    '''valor : SUMA valor %prec UPLUS
              | RESTA valor %prec UMINUS
     '''
-    #print('valor')
+    #print('valor_unary')
+    tipo, valor = p[2]
+    signo = p[1]
+    if signo == '-': valor = -valor
+    p[0] = (tipo, valor)
 
 
 def p_define(p):
@@ -200,25 +304,35 @@ def p_loop(p):
     '''
     #print('loop')
 
+def p_id_t(p):
+    '''id_t : variable_t
+            | variable_t COMA id_t
+            | empty'''
+    #print('id_t')
+
+def p_variable_t(p):
+    '''variable_t : CADENA_NO_COMILLAS DOS_PUNTOS tipo
+    '''
+
+    #print('variable_t')
+
 def p_function_def(p):
     '''
-    function_def : FUNCTION CADENA_NO_COMILLAS PARENTESIS_ABRE id PARENTESIS_CIERRA DOS_PUNTOS tipo LLAVE_ABRE statement RETURN valor PUNTO_Y_COMA LLAVE_CIERRA
-                 | FUNCTION CADENA_NO_COMILLAS PARENTESIS_ABRE id PARENTESIS_CIERRA DOS_PUNTOS tipo LLAVE_ABRE RETURN valor PUNTO_Y_COMA LLAVE_CIERRA
-                 | FUNCTION CADENA_NO_COMILLAS PARENTESIS_ABRE PARENTESIS_CIERRA DOS_PUNTOS tipo LLAVE_ABRE statement RETURN valor PUNTO_Y_COMA LLAVE_CIERRA
-                 | FUNCTION CADENA_NO_COMILLAS PARENTESIS_ABRE PARENTESIS_CIERRA DOS_PUNTOS tipo LLAVE_ABRE RETURN valor PUNTO_Y_COMA LLAVE_CIERRA
+    function_def : FUNCTION CADENA_NO_COMILLAS PARENTESIS_ABRE id_t PARENTESIS_CIERRA DOS_PUNTOS tipo LLAVE_ABRE statement RETURN valor PUNTO_Y_COMA LLAVE_CIERRA
+                 | FUNCTION CADENA_NO_COMILLAS PARENTESIS_ABRE id_t PARENTESIS_CIERRA DOS_PUNTOS tipo LLAVE_ABRE RETURN valor PUNTO_Y_COMA LLAVE_CIERRA
     '''
     #print('function_def')
 
 def p_function_call(p):
     '''
     function_call : CADENA_NO_COMILLAS PARENTESIS_ABRE arg PARENTESIS_CIERRA
-                  | CADENA_NO_COMILLAS PARENTESIS_ABRE PARENTESIS_CIERRA
     '''
     #print('function_call')
 
 def p_arg(p):
     '''arg : valor
-           | valor COMA arg'''
+           | valor COMA arg
+           | empty'''
     #print('arg')
 
 def p_error(p):
