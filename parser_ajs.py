@@ -1,9 +1,32 @@
 import ply.yacc as yacc
 from tokens import Tokens
+import json
+
+
+def convert_keys_to_strings(d):
+    if isinstance(d, dict):
+        new_dict = {}
+        for k, v in d.items():
+            new_key = str(k) if isinstance(k, tuple) else k
+            new_dict[new_key] = convert_keys_to_strings(v)
+        return new_dict
+    elif isinstance(d, list):
+        return [convert_keys_to_strings(item) for item in d]
+    else:
+        return d
+
+def cargar_symbolos():
+    with open('tables.out', 'w') as f:
+        f.write('Symbols:\n')
+        f.write(json.dumps(convert_keys_to_strings(symbols), indent=4))
+        f.write('\n')
+        f.write('Objects:\n')
+        f.write(json.dumps(convert_keys_to_strings(objects), indent=4))
 
 tokens = Tokens.tokens + Tokens.reserved
 
 symbols = {}
+objects = {}
 
 precedence = (
         ('left', 'CONJUNCION', 'DISYUNCION'),
@@ -19,7 +42,7 @@ def p_programa(p):
     '''programa : statement
                 | empty'''
     #print('programa')
-    print(symbols)
+    cargar_symbolos()
     
 def p_empty(p):
     '''empty : '''
@@ -68,8 +91,6 @@ def p_declare(p):
     #print('declare')
     lista_vars = p[2]
     tipo_a, value = p[3]
-    print(lista_vars)
-    print(value)
     for var in lista_vars:
         tipo, name = var
         if name in symbols:
@@ -131,10 +152,18 @@ def p_assign(p):
     else:
         if ident in symbols:
             tipo, value = p[2]
-            if tipo == symbols[ident][0]:
-                symbols[ident] = (tipo, value)
-            else:
-                print('[ERROR][PARSER] Type mismatch in variable %s' % ident)
+            tipo_s= symbols[ident][0]
+            symbols[ident] = (tipo, value)
+            # Comprobaciones de tipo pero no se si es necesario #######################################################################################
+            # if tipo == tipo_s or tipo_s == None:
+            #     symbols[ident] = (tipo, value)
+            # else:
+            #     if tipo == 'int' and tipo_s == 'float':
+            #         symbols[ident] = (tipo, value)
+            #     elif tipo == 'char' and tipo_s == 'int':
+            #         symbols[ident] = (tipo_s, value.encode('utf-8'))
+            #     else:
+            #         print('[ERROR][PARSER] Type mismatch in variable %s' % ident)
         else:
             print('[ERROR][PARSER] Variable %s not declared' % ident)
 
@@ -208,45 +237,75 @@ def p_define(p):
     '''
     define : TYPE CADENA_NO_COMILLAS ASIGNACION ajson
     '''
-    #print('define')
+    # print('define')
+    name = p[2]
+    if name in objects:
+        print('[ERROR][PARSER] Object %s already defined' % name)
+    else:
+        objects[name] = p[4]
 
 def p_ajson(p):
     '''ajson : LLAVE_ABRE lista LLAVE_CIERRA'''
     #print('ajson')
+    p[0] = p[2]
 
 def p_lista(p):
     '''lista : elemento
              | elemento COMA 
              | elemento COMA lista'''
     #print('lista')
+    if len(p) <= 3: p[0] = p[1]
+    else: p[0] = p[1] | p[3]
 
 def p_elemento(p):
     '''elemento : clave DOS_PUNTOS valor_t'''
     #print('elemento')
+    p[0] = {p[1]: p[3]}
 
 def p_valor_t(p):
     '''valor_t : tipo
                | ajson'''
     #print('valor_t')
+    p[0] = p[1]
 
-def p_clave(p):
-    '''clave : CADENA_NO_COMILLAS
-             | CADENA_COMILLAS'''
-    #print('clave')
+# Hay dos tipos de claves, sin comillas que se pueden acceder con punto #####################################################################33
+# y corchete, y con comillas que solo se pueden acceder con corchetes
+# para eso lo codifico como una tupla (key, tipo) 
+# siendo tipo 0 si es sin comillas y 1 si es con comillas
+
+# def p_clave(p):
+#     '''clave : CADENA_NO_COMILLAS
+#              | CADENA_COMILLAS'''
+#     #print('clave')
+
+def p_clave_comillas(p):
+    '''clave : CADENA_COMILLAS'''
+    #print('clave_comillas')
+    p[0] = (p[1], 0)
+
+def p_clave_no_comillas(p):
+    '''clave : CADENA_NO_COMILLAS'''
+    #print('clave_no_comillas')
+    p[0] = (p[1], 1)
+
 
 def p_ajson_v(p):
     '''ajson_v : LLAVE_ABRE lista_v LLAVE_CIERRA'''
     #print('ajson_v')
+    p[0] = p[2]
 
 def p_lista_v(p):
     '''lista_v : elemento_v
                | elemento_v COMA 
                | elemento_v COMA lista_v'''
     #print('lista_v')
+    if len(p) == 2: p[0] = p[1]
+    else: p[0] = p[1] | p[3]
 
 def p_elemento_v(p):
     '''elemento_v : clave_v DOS_PUNTOS valor'''
     #print('elemento')
+    print(p[1])
 
 def p_clave_v(p):
     '''clave_v : CADENA_NO_COMILLAS
@@ -282,14 +341,42 @@ def p_booleana(p):
                 | NEGACION valor %prec NEGACION'''
     #print('booleana')
 
-def p_tipo(p):
-    '''tipo : INT
-            | FLOAT
-            | CHARACTER
-            | BOOLEAN
-            | CADENA_NO_COMILLAS
-    '''
-    #print('tipo')
+# def p_tipo(p):
+#     '''tipo : INT
+#             | FLOAT
+#             | CHARACTER
+#             | BOOLEAN
+#             | CADENA_NO_COMILLAS
+#     '''
+#     #print('tipo')
+
+def p_tipo_entero(p):
+    '''tipo : INT'''
+    #print('tipo_entero')
+    p[0] = 'int'
+
+def p_tipo_decimal(p):
+    '''tipo : FLOAT'''
+    #print('tipo_decimal')
+    p[0] = 'float'
+
+def p_tipo_caracter(p):
+    '''tipo : CHARACTER'''
+    #print('tipo_caracter')
+    p[0] = 'char'
+
+def p_tipo_booleano(p):
+    '''tipo : BOOLEAN'''
+    #print('tipo_booleano')
+    p[0] = 'bool'
+
+def p_tipo_cadena(p):
+    '''tipo : CADENA_NO_COMILLAS'''
+    #print('tipo_cadena')
+    if p[1] not in objects:
+        print('[ERROR][PARSER] Type %s not defined' % p[1])
+    else:
+        p[0] = p[1]
 
 def p_condition(p):
     '''

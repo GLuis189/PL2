@@ -1,2 +1,6 @@
-let var, var1 = 0;
-let var2;
+type est = {
+    a: character,
+    b: int,
+};
+
+let e: est;

@@ -49,8 +49,8 @@ Rule 43    lista -> elemento COMA lista
 Rule 44    elemento -> clave DOS_PUNTOS valor_t
 Rule 45    valor_t -> tipo
 Rule 46    valor_t -> ajson
-Rule 47    clave -> CADENA_NO_COMILLAS
-Rule 48    clave -> CADENA_COMILLAS
+Rule 47    clave -> CADENA_COMILLAS
+Rule 48    clave -> CADENA_NO_COMILLAS
 Rule 49    ajson_v -> LLAVE_ABRE lista_v LLAVE_CIERRA
 Rule 50    lista_v -> elemento_v
 Rule 51    lista_v -> elemento_v COMA
@@ -96,8 +96,8 @@ Terminals, with rules where they appear
 
 ASIGNACION           : 19 39
 BOOLEAN              : 74
-CADENA_COMILLAS      : 16 17 48 55
-CADENA_NO_COMILLAS   : 14 15 16 17 24 39 47 54 75 82 83 84 85
+CADENA_COMILLAS      : 16 17 47 55
+CADENA_NO_COMILLAS   : 14 15 16 17 24 39 48 54 75 82 83 84 85
 CARACTER             : 35
 CHARACTER            : 73
 COMA                 : 22 42 43 51 52 80 87
@@ -1537,11 +1537,11 @@ state 64
     (42) lista -> . elemento COMA
     (43) lista -> . elemento COMA lista
     (44) elemento -> . clave DOS_PUNTOS valor_t
-    (47) clave -> . CADENA_NO_COMILLAS
-    (48) clave -> . CADENA_COMILLAS
+    (47) clave -> . CADENA_COMILLAS
+    (48) clave -> . CADENA_NO_COMILLAS
 
-    CADENA_NO_COMILLAS shift and go to state 98
-    CADENA_COMILLAS shift and go to state 99
+    CADENA_COMILLAS shift and go to state 98
+    CADENA_NO_COMILLAS shift and go to state 99
 
     lista                          shift and go to state 95
     elemento                       shift and go to state 96
@@ -2587,16 +2587,16 @@ state 97
 
 state 98
 
-    (47) clave -> CADENA_NO_COMILLAS .
+    (47) clave -> CADENA_COMILLAS .
 
-    DOS_PUNTOS      reduce using rule 47 (clave -> CADENA_NO_COMILLAS .)
+    DOS_PUNTOS      reduce using rule 47 (clave -> CADENA_COMILLAS .)
 
 
 state 99
 
-    (48) clave -> CADENA_COMILLAS .
+    (48) clave -> CADENA_NO_COMILLAS .
 
-    DOS_PUNTOS      reduce using rule 48 (clave -> CADENA_COMILLAS .)
+    DOS_PUNTOS      reduce using rule 48 (clave -> CADENA_NO_COMILLAS .)
 
 
 state 100
@@ -3408,12 +3408,12 @@ state 125
     (42) lista -> . elemento COMA
     (43) lista -> . elemento COMA lista
     (44) elemento -> . clave DOS_PUNTOS valor_t
-    (47) clave -> . CADENA_NO_COMILLAS
-    (48) clave -> . CADENA_COMILLAS
+    (47) clave -> . CADENA_COMILLAS
+    (48) clave -> . CADENA_NO_COMILLAS
 
     LLAVE_CIERRA    reduce using rule 42 (lista -> elemento COMA .)
-    CADENA_NO_COMILLAS shift and go to state 98
-    CADENA_COMILLAS shift and go to state 99
+    CADENA_COMILLAS shift and go to state 98
+    CADENA_NO_COMILLAS shift and go to state 99
 
     elemento                       shift and go to state 96
     lista                          shift and go to state 142
