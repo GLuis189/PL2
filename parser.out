@@ -28,10 +28,10 @@ Rule 22    id -> variable COMA id
 Rule 23    variable -> ident
 Rule 24    variable -> ident DOS_PUNTOS CADENA_NO_COMILLAS
 Rule 25    assign -> ident asign_valor
-Rule 26    valor -> ident
-Rule 27    valor -> operacion
-Rule 28    valor -> ajson_v
-Rule 29    valor -> function_call
+Rule 26    valor -> operacion
+Rule 27    valor -> ajson_v
+Rule 28    valor -> function_call
+Rule 29    valor -> ident
 Rule 30    valor -> ENTERO
 Rule 31    valor -> DECIMAL
 Rule 32    valor -> TR
@@ -141,7 +141,7 @@ error                :
 Nonterminals, with rules where they appear
 
 ajson                : 39 46
-ajson_v              : 28
+ajson_v              : 27
 arg                  : 85 87
 aritmetica           : 56
 asign_valor          : 18 25
@@ -157,16 +157,16 @@ define               : 8
 elemento             : 41 42 43
 elemento_v           : 50 51 52
 empty                : 2 20 81 88
-function_call        : 29
+function_call        : 28
 function_def         : 13
 id                   : 18 22
 id_t                 : 80 83 84
-ident                : 15 17 23 24 25 26
+ident                : 15 17 23 24 25 29
 lista                : 40 43
 lista_v              : 49 52
 loop                 : 12
 no_semicolon         : 6 7
-operacion            : 27
+operacion            : 26
 programa             : 0
 statement            : 1 5 7 76 77 77 78 83
 tipo                 : 45 82 83 84
@@ -586,10 +586,10 @@ state 27
 state 28
 
     (19) asign_valor -> ASIGNACION . valor
-    (26) valor -> . ident
-    (27) valor -> . operacion
-    (28) valor -> . ajson_v
-    (29) valor -> . function_call
+    (26) valor -> . operacion
+    (27) valor -> . ajson_v
+    (28) valor -> . function_call
+    (29) valor -> . ident
     (30) valor -> . ENTERO
     (31) valor -> . DECIMAL
     (32) valor -> . TR
@@ -599,15 +599,15 @@ state 28
     (36) valor -> . PARENTESIS_ABRE valor PARENTESIS_CIERRA
     (37) valor -> . SUMA valor
     (38) valor -> . RESTA valor
-    (14) ident -> . CADENA_NO_COMILLAS
-    (15) ident -> . CADENA_NO_COMILLAS PUNTO ident
-    (16) ident -> . CADENA_NO_COMILLAS CORCHETE_ABRE CADENA_COMILLAS CORCHETE_CIERRA
-    (17) ident -> . CADENA_NO_COMILLAS CORCHETE_ABRE CADENA_COMILLAS CORCHETE_CIERRA PUNTO ident
     (56) operacion -> . aritmetica
     (57) operacion -> . booleana
     (58) operacion -> . comparacion
     (49) ajson_v -> . LLAVE_ABRE lista_v LLAVE_CIERRA
     (85) function_call -> . CADENA_NO_COMILLAS PARENTESIS_ABRE arg PARENTESIS_CIERRA
+    (14) ident -> . CADENA_NO_COMILLAS
+    (15) ident -> . CADENA_NO_COMILLAS PUNTO ident
+    (16) ident -> . CADENA_NO_COMILLAS CORCHETE_ABRE CADENA_COMILLAS CORCHETE_CIERRA
+    (17) ident -> . CADENA_NO_COMILLAS CORCHETE_ABRE CADENA_COMILLAS CORCHETE_CIERRA PUNTO ident
     (59) aritmetica -> . valor SUMA valor
     (60) aritmetica -> . valor RESTA valor
     (61) aritmetica -> . valor MULTIPLICACION valor
@@ -630,18 +630,18 @@ state 28
     PARENTESIS_ABRE shift and go to state 51
     SUMA            shift and go to state 52
     RESTA           shift and go to state 53
-    CADENA_NO_COMILLAS shift and go to state 54
-    LLAVE_ABRE      shift and go to state 58
+    LLAVE_ABRE      shift and go to state 57
+    CADENA_NO_COMILLAS shift and go to state 58
     NEGACION        shift and go to state 59
 
     valor                          shift and go to state 40
-    ident                          shift and go to state 41
-    operacion                      shift and go to state 42
-    ajson_v                        shift and go to state 43
-    function_call                  shift and go to state 44
-    aritmetica                     shift and go to state 55
-    booleana                       shift and go to state 56
-    comparacion                    shift and go to state 57
+    operacion                      shift and go to state 41
+    ajson_v                        shift and go to state 42
+    function_call                  shift and go to state 43
+    ident                          shift and go to state 44
+    aritmetica                     shift and go to state 54
+    booleana                       shift and go to state 55
+    comparacion                    shift and go to state 56
 
 state 29
 
@@ -654,10 +654,10 @@ state 30
 
     (76) condition -> IF PARENTESIS_ABRE . valor PARENTESIS_CIERRA LLAVE_ABRE statement LLAVE_CIERRA
     (77) condition -> IF PARENTESIS_ABRE . valor PARENTESIS_CIERRA LLAVE_ABRE statement LLAVE_CIERRA ELSE LLAVE_ABRE statement LLAVE_CIERRA
-    (26) valor -> . ident
-    (27) valor -> . operacion
-    (28) valor -> . ajson_v
-    (29) valor -> . function_call
+    (26) valor -> . operacion
+    (27) valor -> . ajson_v
+    (28) valor -> . function_call
+    (29) valor -> . ident
     (30) valor -> . ENTERO
     (31) valor -> . DECIMAL
     (32) valor -> . TR
@@ -667,15 +667,15 @@ state 30
     (36) valor -> . PARENTESIS_ABRE valor PARENTESIS_CIERRA
     (37) valor -> . SUMA valor
     (38) valor -> . RESTA valor
-    (14) ident -> . CADENA_NO_COMILLAS
-    (15) ident -> . CADENA_NO_COMILLAS PUNTO ident
-    (16) ident -> . CADENA_NO_COMILLAS CORCHETE_ABRE CADENA_COMILLAS CORCHETE_CIERRA
-    (17) ident -> . CADENA_NO_COMILLAS CORCHETE_ABRE CADENA_COMILLAS CORCHETE_CIERRA PUNTO ident
     (56) operacion -> . aritmetica
     (57) operacion -> . booleana
     (58) operacion -> . comparacion
     (49) ajson_v -> . LLAVE_ABRE lista_v LLAVE_CIERRA
     (85) function_call -> . CADENA_NO_COMILLAS PARENTESIS_ABRE arg PARENTESIS_CIERRA
+    (14) ident -> . CADENA_NO_COMILLAS
+    (15) ident -> . CADENA_NO_COMILLAS PUNTO ident
+    (16) ident -> . CADENA_NO_COMILLAS CORCHETE_ABRE CADENA_COMILLAS CORCHETE_CIERRA
+    (17) ident -> . CADENA_NO_COMILLAS CORCHETE_ABRE CADENA_COMILLAS CORCHETE_CIERRA PUNTO ident
     (59) aritmetica -> . valor SUMA valor
     (60) aritmetica -> . valor RESTA valor
     (61) aritmetica -> . valor MULTIPLICACION valor
@@ -698,26 +698,26 @@ state 30
     PARENTESIS_ABRE shift and go to state 51
     SUMA            shift and go to state 52
     RESTA           shift and go to state 53
-    CADENA_NO_COMILLAS shift and go to state 54
-    LLAVE_ABRE      shift and go to state 58
+    LLAVE_ABRE      shift and go to state 57
+    CADENA_NO_COMILLAS shift and go to state 58
     NEGACION        shift and go to state 59
 
     valor                          shift and go to state 60
-    ident                          shift and go to state 41
-    operacion                      shift and go to state 42
-    ajson_v                        shift and go to state 43
-    function_call                  shift and go to state 44
-    aritmetica                     shift and go to state 55
-    booleana                       shift and go to state 56
-    comparacion                    shift and go to state 57
+    operacion                      shift and go to state 41
+    ajson_v                        shift and go to state 42
+    function_call                  shift and go to state 43
+    ident                          shift and go to state 44
+    aritmetica                     shift and go to state 54
+    booleana                       shift and go to state 55
+    comparacion                    shift and go to state 56
 
 state 31
 
     (78) loop -> WHILE PARENTESIS_ABRE . valor PARENTESIS_CIERRA LLAVE_ABRE statement LLAVE_CIERRA
-    (26) valor -> . ident
-    (27) valor -> . operacion
-    (28) valor -> . ajson_v
-    (29) valor -> . function_call
+    (26) valor -> . operacion
+    (27) valor -> . ajson_v
+    (28) valor -> . function_call
+    (29) valor -> . ident
     (30) valor -> . ENTERO
     (31) valor -> . DECIMAL
     (32) valor -> . TR
@@ -727,15 +727,15 @@ state 31
     (36) valor -> . PARENTESIS_ABRE valor PARENTESIS_CIERRA
     (37) valor -> . SUMA valor
     (38) valor -> . RESTA valor
-    (14) ident -> . CADENA_NO_COMILLAS
-    (15) ident -> . CADENA_NO_COMILLAS PUNTO ident
-    (16) ident -> . CADENA_NO_COMILLAS CORCHETE_ABRE CADENA_COMILLAS CORCHETE_CIERRA
-    (17) ident -> . CADENA_NO_COMILLAS CORCHETE_ABRE CADENA_COMILLAS CORCHETE_CIERRA PUNTO ident
     (56) operacion -> . aritmetica
     (57) operacion -> . booleana
     (58) operacion -> . comparacion
     (49) ajson_v -> . LLAVE_ABRE lista_v LLAVE_CIERRA
     (85) function_call -> . CADENA_NO_COMILLAS PARENTESIS_ABRE arg PARENTESIS_CIERRA
+    (14) ident -> . CADENA_NO_COMILLAS
+    (15) ident -> . CADENA_NO_COMILLAS PUNTO ident
+    (16) ident -> . CADENA_NO_COMILLAS CORCHETE_ABRE CADENA_COMILLAS CORCHETE_CIERRA
+    (17) ident -> . CADENA_NO_COMILLAS CORCHETE_ABRE CADENA_COMILLAS CORCHETE_CIERRA PUNTO ident
     (59) aritmetica -> . valor SUMA valor
     (60) aritmetica -> . valor RESTA valor
     (61) aritmetica -> . valor MULTIPLICACION valor
@@ -758,18 +758,18 @@ state 31
     PARENTESIS_ABRE shift and go to state 51
     SUMA            shift and go to state 52
     RESTA           shift and go to state 53
-    CADENA_NO_COMILLAS shift and go to state 54
-    LLAVE_ABRE      shift and go to state 58
+    LLAVE_ABRE      shift and go to state 57
+    CADENA_NO_COMILLAS shift and go to state 58
     NEGACION        shift and go to state 59
 
     valor                          shift and go to state 61
-    ident                          shift and go to state 41
-    operacion                      shift and go to state 42
-    ajson_v                        shift and go to state 43
-    function_call                  shift and go to state 44
-    aritmetica                     shift and go to state 55
-    booleana                       shift and go to state 56
-    comparacion                    shift and go to state 57
+    operacion                      shift and go to state 41
+    ajson_v                        shift and go to state 42
+    function_call                  shift and go to state 43
+    ident                          shift and go to state 44
+    aritmetica                     shift and go to state 54
+    booleana                       shift and go to state 55
+    comparacion                    shift and go to state 56
 
 state 32
 
@@ -891,86 +891,86 @@ state 40
 
 state 41
 
-    (26) valor -> ident .
+    (26) valor -> operacion .
 
-    SUMA            reduce using rule 26 (valor -> ident .)
-    RESTA           reduce using rule 26 (valor -> ident .)
-    MULTIPLICACION  reduce using rule 26 (valor -> ident .)
-    DIVISION        reduce using rule 26 (valor -> ident .)
-    CONJUNCION      reduce using rule 26 (valor -> ident .)
-    DISYUNCION      reduce using rule 26 (valor -> ident .)
-    MAYOR           reduce using rule 26 (valor -> ident .)
-    MENOR           reduce using rule 26 (valor -> ident .)
-    MAYOR_IGUAL     reduce using rule 26 (valor -> ident .)
-    MENOR_IGUAL     reduce using rule 26 (valor -> ident .)
-    IGUAL           reduce using rule 26 (valor -> ident .)
-    PUNTO_Y_COMA    reduce using rule 26 (valor -> ident .)
-    PARENTESIS_CIERRA reduce using rule 26 (valor -> ident .)
-    COMA            reduce using rule 26 (valor -> ident .)
-    LLAVE_CIERRA    reduce using rule 26 (valor -> ident .)
+    SUMA            reduce using rule 26 (valor -> operacion .)
+    RESTA           reduce using rule 26 (valor -> operacion .)
+    MULTIPLICACION  reduce using rule 26 (valor -> operacion .)
+    DIVISION        reduce using rule 26 (valor -> operacion .)
+    CONJUNCION      reduce using rule 26 (valor -> operacion .)
+    DISYUNCION      reduce using rule 26 (valor -> operacion .)
+    MAYOR           reduce using rule 26 (valor -> operacion .)
+    MENOR           reduce using rule 26 (valor -> operacion .)
+    MAYOR_IGUAL     reduce using rule 26 (valor -> operacion .)
+    MENOR_IGUAL     reduce using rule 26 (valor -> operacion .)
+    IGUAL           reduce using rule 26 (valor -> operacion .)
+    PUNTO_Y_COMA    reduce using rule 26 (valor -> operacion .)
+    PARENTESIS_CIERRA reduce using rule 26 (valor -> operacion .)
+    COMA            reduce using rule 26 (valor -> operacion .)
+    LLAVE_CIERRA    reduce using rule 26 (valor -> operacion .)
 
 
 state 42
 
-    (27) valor -> operacion .
+    (27) valor -> ajson_v .
 
-    SUMA            reduce using rule 27 (valor -> operacion .)
-    RESTA           reduce using rule 27 (valor -> operacion .)
-    MULTIPLICACION  reduce using rule 27 (valor -> operacion .)
-    DIVISION        reduce using rule 27 (valor -> operacion .)
-    CONJUNCION      reduce using rule 27 (valor -> operacion .)
-    DISYUNCION      reduce using rule 27 (valor -> operacion .)
-    MAYOR           reduce using rule 27 (valor -> operacion .)
-    MENOR           reduce using rule 27 (valor -> operacion .)
-    MAYOR_IGUAL     reduce using rule 27 (valor -> operacion .)
-    MENOR_IGUAL     reduce using rule 27 (valor -> operacion .)
-    IGUAL           reduce using rule 27 (valor -> operacion .)
-    PUNTO_Y_COMA    reduce using rule 27 (valor -> operacion .)
-    PARENTESIS_CIERRA reduce using rule 27 (valor -> operacion .)
-    COMA            reduce using rule 27 (valor -> operacion .)
-    LLAVE_CIERRA    reduce using rule 27 (valor -> operacion .)
+    SUMA            reduce using rule 27 (valor -> ajson_v .)
+    RESTA           reduce using rule 27 (valor -> ajson_v .)
+    MULTIPLICACION  reduce using rule 27 (valor -> ajson_v .)
+    DIVISION        reduce using rule 27 (valor -> ajson_v .)
+    CONJUNCION      reduce using rule 27 (valor -> ajson_v .)
+    DISYUNCION      reduce using rule 27 (valor -> ajson_v .)
+    MAYOR           reduce using rule 27 (valor -> ajson_v .)
+    MENOR           reduce using rule 27 (valor -> ajson_v .)
+    MAYOR_IGUAL     reduce using rule 27 (valor -> ajson_v .)
+    MENOR_IGUAL     reduce using rule 27 (valor -> ajson_v .)
+    IGUAL           reduce using rule 27 (valor -> ajson_v .)
+    PUNTO_Y_COMA    reduce using rule 27 (valor -> ajson_v .)
+    PARENTESIS_CIERRA reduce using rule 27 (valor -> ajson_v .)
+    COMA            reduce using rule 27 (valor -> ajson_v .)
+    LLAVE_CIERRA    reduce using rule 27 (valor -> ajson_v .)
 
 
 state 43
 
-    (28) valor -> ajson_v .
+    (28) valor -> function_call .
 
-    SUMA            reduce using rule 28 (valor -> ajson_v .)
-    RESTA           reduce using rule 28 (valor -> ajson_v .)
-    MULTIPLICACION  reduce using rule 28 (valor -> ajson_v .)
-    DIVISION        reduce using rule 28 (valor -> ajson_v .)
-    CONJUNCION      reduce using rule 28 (valor -> ajson_v .)
-    DISYUNCION      reduce using rule 28 (valor -> ajson_v .)
-    MAYOR           reduce using rule 28 (valor -> ajson_v .)
-    MENOR           reduce using rule 28 (valor -> ajson_v .)
-    MAYOR_IGUAL     reduce using rule 28 (valor -> ajson_v .)
-    MENOR_IGUAL     reduce using rule 28 (valor -> ajson_v .)
-    IGUAL           reduce using rule 28 (valor -> ajson_v .)
-    PUNTO_Y_COMA    reduce using rule 28 (valor -> ajson_v .)
-    PARENTESIS_CIERRA reduce using rule 28 (valor -> ajson_v .)
-    COMA            reduce using rule 28 (valor -> ajson_v .)
-    LLAVE_CIERRA    reduce using rule 28 (valor -> ajson_v .)
+    SUMA            reduce using rule 28 (valor -> function_call .)
+    RESTA           reduce using rule 28 (valor -> function_call .)
+    MULTIPLICACION  reduce using rule 28 (valor -> function_call .)
+    DIVISION        reduce using rule 28 (valor -> function_call .)
+    CONJUNCION      reduce using rule 28 (valor -> function_call .)
+    DISYUNCION      reduce using rule 28 (valor -> function_call .)
+    MAYOR           reduce using rule 28 (valor -> function_call .)
+    MENOR           reduce using rule 28 (valor -> function_call .)
+    MAYOR_IGUAL     reduce using rule 28 (valor -> function_call .)
+    MENOR_IGUAL     reduce using rule 28 (valor -> function_call .)
+    IGUAL           reduce using rule 28 (valor -> function_call .)
+    PUNTO_Y_COMA    reduce using rule 28 (valor -> function_call .)
+    PARENTESIS_CIERRA reduce using rule 28 (valor -> function_call .)
+    COMA            reduce using rule 28 (valor -> function_call .)
+    LLAVE_CIERRA    reduce using rule 28 (valor -> function_call .)
 
 
 state 44
 
-    (29) valor -> function_call .
+    (29) valor -> ident .
 
-    SUMA            reduce using rule 29 (valor -> function_call .)
-    RESTA           reduce using rule 29 (valor -> function_call .)
-    MULTIPLICACION  reduce using rule 29 (valor -> function_call .)
-    DIVISION        reduce using rule 29 (valor -> function_call .)
-    CONJUNCION      reduce using rule 29 (valor -> function_call .)
-    DISYUNCION      reduce using rule 29 (valor -> function_call .)
-    MAYOR           reduce using rule 29 (valor -> function_call .)
-    MENOR           reduce using rule 29 (valor -> function_call .)
-    MAYOR_IGUAL     reduce using rule 29 (valor -> function_call .)
-    MENOR_IGUAL     reduce using rule 29 (valor -> function_call .)
-    IGUAL           reduce using rule 29 (valor -> function_call .)
-    PUNTO_Y_COMA    reduce using rule 29 (valor -> function_call .)
-    PARENTESIS_CIERRA reduce using rule 29 (valor -> function_call .)
-    COMA            reduce using rule 29 (valor -> function_call .)
-    LLAVE_CIERRA    reduce using rule 29 (valor -> function_call .)
+    SUMA            reduce using rule 29 (valor -> ident .)
+    RESTA           reduce using rule 29 (valor -> ident .)
+    MULTIPLICACION  reduce using rule 29 (valor -> ident .)
+    DIVISION        reduce using rule 29 (valor -> ident .)
+    CONJUNCION      reduce using rule 29 (valor -> ident .)
+    DISYUNCION      reduce using rule 29 (valor -> ident .)
+    MAYOR           reduce using rule 29 (valor -> ident .)
+    MENOR           reduce using rule 29 (valor -> ident .)
+    MAYOR_IGUAL     reduce using rule 29 (valor -> ident .)
+    MENOR_IGUAL     reduce using rule 29 (valor -> ident .)
+    IGUAL           reduce using rule 29 (valor -> ident .)
+    PUNTO_Y_COMA    reduce using rule 29 (valor -> ident .)
+    PARENTESIS_CIERRA reduce using rule 29 (valor -> ident .)
+    COMA            reduce using rule 29 (valor -> ident .)
+    LLAVE_CIERRA    reduce using rule 29 (valor -> ident .)
 
 
 state 45
@@ -1102,10 +1102,10 @@ state 50
 state 51
 
     (36) valor -> PARENTESIS_ABRE . valor PARENTESIS_CIERRA
-    (26) valor -> . ident
-    (27) valor -> . operacion
-    (28) valor -> . ajson_v
-    (29) valor -> . function_call
+    (26) valor -> . operacion
+    (27) valor -> . ajson_v
+    (28) valor -> . function_call
+    (29) valor -> . ident
     (30) valor -> . ENTERO
     (31) valor -> . DECIMAL
     (32) valor -> . TR
@@ -1115,15 +1115,15 @@ state 51
     (36) valor -> . PARENTESIS_ABRE valor PARENTESIS_CIERRA
     (37) valor -> . SUMA valor
     (38) valor -> . RESTA valor
-    (14) ident -> . CADENA_NO_COMILLAS
-    (15) ident -> . CADENA_NO_COMILLAS PUNTO ident
-    (16) ident -> . CADENA_NO_COMILLAS CORCHETE_ABRE CADENA_COMILLAS CORCHETE_CIERRA
-    (17) ident -> . CADENA_NO_COMILLAS CORCHETE_ABRE CADENA_COMILLAS CORCHETE_CIERRA PUNTO ident
     (56) operacion -> . aritmetica
     (57) operacion -> . booleana
     (58) operacion -> . comparacion
     (49) ajson_v -> . LLAVE_ABRE lista_v LLAVE_CIERRA
     (85) function_call -> . CADENA_NO_COMILLAS PARENTESIS_ABRE arg PARENTESIS_CIERRA
+    (14) ident -> . CADENA_NO_COMILLAS
+    (15) ident -> . CADENA_NO_COMILLAS PUNTO ident
+    (16) ident -> . CADENA_NO_COMILLAS CORCHETE_ABRE CADENA_COMILLAS CORCHETE_CIERRA
+    (17) ident -> . CADENA_NO_COMILLAS CORCHETE_ABRE CADENA_COMILLAS CORCHETE_CIERRA PUNTO ident
     (59) aritmetica -> . valor SUMA valor
     (60) aritmetica -> . valor RESTA valor
     (61) aritmetica -> . valor MULTIPLICACION valor
@@ -1146,26 +1146,26 @@ state 51
     PARENTESIS_ABRE shift and go to state 51
     SUMA            shift and go to state 52
     RESTA           shift and go to state 53
-    CADENA_NO_COMILLAS shift and go to state 54
-    LLAVE_ABRE      shift and go to state 58
+    LLAVE_ABRE      shift and go to state 57
+    CADENA_NO_COMILLAS shift and go to state 58
     NEGACION        shift and go to state 59
 
     valor                          shift and go to state 79
-    ident                          shift and go to state 41
-    operacion                      shift and go to state 42
-    ajson_v                        shift and go to state 43
-    function_call                  shift and go to state 44
-    aritmetica                     shift and go to state 55
-    booleana                       shift and go to state 56
-    comparacion                    shift and go to state 57
+    operacion                      shift and go to state 41
+    ajson_v                        shift and go to state 42
+    function_call                  shift and go to state 43
+    ident                          shift and go to state 44
+    aritmetica                     shift and go to state 54
+    booleana                       shift and go to state 55
+    comparacion                    shift and go to state 56
 
 state 52
 
     (37) valor -> SUMA . valor
-    (26) valor -> . ident
-    (27) valor -> . operacion
-    (28) valor -> . ajson_v
-    (29) valor -> . function_call
+    (26) valor -> . operacion
+    (27) valor -> . ajson_v
+    (28) valor -> . function_call
+    (29) valor -> . ident
     (30) valor -> . ENTERO
     (31) valor -> . DECIMAL
     (32) valor -> . TR
@@ -1175,15 +1175,15 @@ state 52
     (36) valor -> . PARENTESIS_ABRE valor PARENTESIS_CIERRA
     (37) valor -> . SUMA valor
     (38) valor -> . RESTA valor
-    (14) ident -> . CADENA_NO_COMILLAS
-    (15) ident -> . CADENA_NO_COMILLAS PUNTO ident
-    (16) ident -> . CADENA_NO_COMILLAS CORCHETE_ABRE CADENA_COMILLAS CORCHETE_CIERRA
-    (17) ident -> . CADENA_NO_COMILLAS CORCHETE_ABRE CADENA_COMILLAS CORCHETE_CIERRA PUNTO ident
     (56) operacion -> . aritmetica
     (57) operacion -> . booleana
     (58) operacion -> . comparacion
     (49) ajson_v -> . LLAVE_ABRE lista_v LLAVE_CIERRA
     (85) function_call -> . CADENA_NO_COMILLAS PARENTESIS_ABRE arg PARENTESIS_CIERRA
+    (14) ident -> . CADENA_NO_COMILLAS
+    (15) ident -> . CADENA_NO_COMILLAS PUNTO ident
+    (16) ident -> . CADENA_NO_COMILLAS CORCHETE_ABRE CADENA_COMILLAS CORCHETE_CIERRA
+    (17) ident -> . CADENA_NO_COMILLAS CORCHETE_ABRE CADENA_COMILLAS CORCHETE_CIERRA PUNTO ident
     (59) aritmetica -> . valor SUMA valor
     (60) aritmetica -> . valor RESTA valor
     (61) aritmetica -> . valor MULTIPLICACION valor
@@ -1206,26 +1206,26 @@ state 52
     PARENTESIS_ABRE shift and go to state 51
     SUMA            shift and go to state 52
     RESTA           shift and go to state 53
-    CADENA_NO_COMILLAS shift and go to state 54
-    LLAVE_ABRE      shift and go to state 58
+    LLAVE_ABRE      shift and go to state 57
+    CADENA_NO_COMILLAS shift and go to state 58
     NEGACION        shift and go to state 59
 
     valor                          shift and go to state 80
-    ident                          shift and go to state 41
-    operacion                      shift and go to state 42
-    ajson_v                        shift and go to state 43
-    function_call                  shift and go to state 44
-    aritmetica                     shift and go to state 55
-    booleana                       shift and go to state 56
-    comparacion                    shift and go to state 57
+    operacion                      shift and go to state 41
+    ajson_v                        shift and go to state 42
+    function_call                  shift and go to state 43
+    ident                          shift and go to state 44
+    aritmetica                     shift and go to state 54
+    booleana                       shift and go to state 55
+    comparacion                    shift and go to state 56
 
 state 53
 
     (38) valor -> RESTA . valor
-    (26) valor -> . ident
-    (27) valor -> . operacion
-    (28) valor -> . ajson_v
-    (29) valor -> . function_call
+    (26) valor -> . operacion
+    (27) valor -> . ajson_v
+    (28) valor -> . function_call
+    (29) valor -> . ident
     (30) valor -> . ENTERO
     (31) valor -> . DECIMAL
     (32) valor -> . TR
@@ -1235,15 +1235,15 @@ state 53
     (36) valor -> . PARENTESIS_ABRE valor PARENTESIS_CIERRA
     (37) valor -> . SUMA valor
     (38) valor -> . RESTA valor
-    (14) ident -> . CADENA_NO_COMILLAS
-    (15) ident -> . CADENA_NO_COMILLAS PUNTO ident
-    (16) ident -> . CADENA_NO_COMILLAS CORCHETE_ABRE CADENA_COMILLAS CORCHETE_CIERRA
-    (17) ident -> . CADENA_NO_COMILLAS CORCHETE_ABRE CADENA_COMILLAS CORCHETE_CIERRA PUNTO ident
     (56) operacion -> . aritmetica
     (57) operacion -> . booleana
     (58) operacion -> . comparacion
     (49) ajson_v -> . LLAVE_ABRE lista_v LLAVE_CIERRA
     (85) function_call -> . CADENA_NO_COMILLAS PARENTESIS_ABRE arg PARENTESIS_CIERRA
+    (14) ident -> . CADENA_NO_COMILLAS
+    (15) ident -> . CADENA_NO_COMILLAS PUNTO ident
+    (16) ident -> . CADENA_NO_COMILLAS CORCHETE_ABRE CADENA_COMILLAS CORCHETE_CIERRA
+    (17) ident -> . CADENA_NO_COMILLAS CORCHETE_ABRE CADENA_COMILLAS CORCHETE_CIERRA PUNTO ident
     (59) aritmetica -> . valor SUMA valor
     (60) aritmetica -> . valor RESTA valor
     (61) aritmetica -> . valor MULTIPLICACION valor
@@ -1266,48 +1266,20 @@ state 53
     PARENTESIS_ABRE shift and go to state 51
     SUMA            shift and go to state 52
     RESTA           shift and go to state 53
-    CADENA_NO_COMILLAS shift and go to state 54
-    LLAVE_ABRE      shift and go to state 58
+    LLAVE_ABRE      shift and go to state 57
+    CADENA_NO_COMILLAS shift and go to state 58
     NEGACION        shift and go to state 59
 
     valor                          shift and go to state 81
-    ident                          shift and go to state 41
-    operacion                      shift and go to state 42
-    ajson_v                        shift and go to state 43
-    function_call                  shift and go to state 44
-    aritmetica                     shift and go to state 55
-    booleana                       shift and go to state 56
-    comparacion                    shift and go to state 57
+    operacion                      shift and go to state 41
+    ajson_v                        shift and go to state 42
+    function_call                  shift and go to state 43
+    ident                          shift and go to state 44
+    aritmetica                     shift and go to state 54
+    booleana                       shift and go to state 55
+    comparacion                    shift and go to state 56
 
 state 54
-
-    (14) ident -> CADENA_NO_COMILLAS .
-    (15) ident -> CADENA_NO_COMILLAS . PUNTO ident
-    (16) ident -> CADENA_NO_COMILLAS . CORCHETE_ABRE CADENA_COMILLAS CORCHETE_CIERRA
-    (17) ident -> CADENA_NO_COMILLAS . CORCHETE_ABRE CADENA_COMILLAS CORCHETE_CIERRA PUNTO ident
-    (85) function_call -> CADENA_NO_COMILLAS . PARENTESIS_ABRE arg PARENTESIS_CIERRA
-
-    SUMA            reduce using rule 14 (ident -> CADENA_NO_COMILLAS .)
-    RESTA           reduce using rule 14 (ident -> CADENA_NO_COMILLAS .)
-    MULTIPLICACION  reduce using rule 14 (ident -> CADENA_NO_COMILLAS .)
-    DIVISION        reduce using rule 14 (ident -> CADENA_NO_COMILLAS .)
-    CONJUNCION      reduce using rule 14 (ident -> CADENA_NO_COMILLAS .)
-    DISYUNCION      reduce using rule 14 (ident -> CADENA_NO_COMILLAS .)
-    MAYOR           reduce using rule 14 (ident -> CADENA_NO_COMILLAS .)
-    MENOR           reduce using rule 14 (ident -> CADENA_NO_COMILLAS .)
-    MAYOR_IGUAL     reduce using rule 14 (ident -> CADENA_NO_COMILLAS .)
-    MENOR_IGUAL     reduce using rule 14 (ident -> CADENA_NO_COMILLAS .)
-    IGUAL           reduce using rule 14 (ident -> CADENA_NO_COMILLAS .)
-    PUNTO_Y_COMA    reduce using rule 14 (ident -> CADENA_NO_COMILLAS .)
-    PARENTESIS_CIERRA reduce using rule 14 (ident -> CADENA_NO_COMILLAS .)
-    COMA            reduce using rule 14 (ident -> CADENA_NO_COMILLAS .)
-    LLAVE_CIERRA    reduce using rule 14 (ident -> CADENA_NO_COMILLAS .)
-    PUNTO           shift and go to state 22
-    CORCHETE_ABRE   shift and go to state 23
-    PARENTESIS_ABRE shift and go to state 82
-
-
-state 55
 
     (56) operacion -> aritmetica .
 
@@ -1328,7 +1300,7 @@ state 55
     LLAVE_CIERRA    reduce using rule 56 (operacion -> aritmetica .)
 
 
-state 56
+state 55
 
     (57) operacion -> booleana .
 
@@ -1349,7 +1321,7 @@ state 56
     LLAVE_CIERRA    reduce using rule 57 (operacion -> booleana .)
 
 
-state 57
+state 56
 
     (58) operacion -> comparacion .
 
@@ -1370,7 +1342,7 @@ state 57
     LLAVE_CIERRA    reduce using rule 58 (operacion -> comparacion .)
 
 
-state 58
+state 57
 
     (49) ajson_v -> LLAVE_ABRE . lista_v LLAVE_CIERRA
     (50) lista_v -> . elemento_v
@@ -1380,20 +1352,48 @@ state 58
     (54) clave_v -> . CADENA_NO_COMILLAS
     (55) clave_v -> . CADENA_COMILLAS
 
-    CADENA_NO_COMILLAS shift and go to state 86
-    CADENA_COMILLAS shift and go to state 87
+    CADENA_NO_COMILLAS shift and go to state 85
+    CADENA_COMILLAS shift and go to state 86
 
-    lista_v                        shift and go to state 83
-    elemento_v                     shift and go to state 84
-    clave_v                        shift and go to state 85
+    lista_v                        shift and go to state 82
+    elemento_v                     shift and go to state 83
+    clave_v                        shift and go to state 84
+
+state 58
+
+    (85) function_call -> CADENA_NO_COMILLAS . PARENTESIS_ABRE arg PARENTESIS_CIERRA
+    (14) ident -> CADENA_NO_COMILLAS .
+    (15) ident -> CADENA_NO_COMILLAS . PUNTO ident
+    (16) ident -> CADENA_NO_COMILLAS . CORCHETE_ABRE CADENA_COMILLAS CORCHETE_CIERRA
+    (17) ident -> CADENA_NO_COMILLAS . CORCHETE_ABRE CADENA_COMILLAS CORCHETE_CIERRA PUNTO ident
+
+    PARENTESIS_ABRE shift and go to state 87
+    SUMA            reduce using rule 14 (ident -> CADENA_NO_COMILLAS .)
+    RESTA           reduce using rule 14 (ident -> CADENA_NO_COMILLAS .)
+    MULTIPLICACION  reduce using rule 14 (ident -> CADENA_NO_COMILLAS .)
+    DIVISION        reduce using rule 14 (ident -> CADENA_NO_COMILLAS .)
+    CONJUNCION      reduce using rule 14 (ident -> CADENA_NO_COMILLAS .)
+    DISYUNCION      reduce using rule 14 (ident -> CADENA_NO_COMILLAS .)
+    MAYOR           reduce using rule 14 (ident -> CADENA_NO_COMILLAS .)
+    MENOR           reduce using rule 14 (ident -> CADENA_NO_COMILLAS .)
+    MAYOR_IGUAL     reduce using rule 14 (ident -> CADENA_NO_COMILLAS .)
+    MENOR_IGUAL     reduce using rule 14 (ident -> CADENA_NO_COMILLAS .)
+    IGUAL           reduce using rule 14 (ident -> CADENA_NO_COMILLAS .)
+    PUNTO_Y_COMA    reduce using rule 14 (ident -> CADENA_NO_COMILLAS .)
+    PARENTESIS_CIERRA reduce using rule 14 (ident -> CADENA_NO_COMILLAS .)
+    COMA            reduce using rule 14 (ident -> CADENA_NO_COMILLAS .)
+    LLAVE_CIERRA    reduce using rule 14 (ident -> CADENA_NO_COMILLAS .)
+    PUNTO           shift and go to state 22
+    CORCHETE_ABRE   shift and go to state 23
+
 
 state 59
 
     (70) booleana -> NEGACION . valor
-    (26) valor -> . ident
-    (27) valor -> . operacion
-    (28) valor -> . ajson_v
-    (29) valor -> . function_call
+    (26) valor -> . operacion
+    (27) valor -> . ajson_v
+    (28) valor -> . function_call
+    (29) valor -> . ident
     (30) valor -> . ENTERO
     (31) valor -> . DECIMAL
     (32) valor -> . TR
@@ -1403,15 +1403,15 @@ state 59
     (36) valor -> . PARENTESIS_ABRE valor PARENTESIS_CIERRA
     (37) valor -> . SUMA valor
     (38) valor -> . RESTA valor
-    (14) ident -> . CADENA_NO_COMILLAS
-    (15) ident -> . CADENA_NO_COMILLAS PUNTO ident
-    (16) ident -> . CADENA_NO_COMILLAS CORCHETE_ABRE CADENA_COMILLAS CORCHETE_CIERRA
-    (17) ident -> . CADENA_NO_COMILLAS CORCHETE_ABRE CADENA_COMILLAS CORCHETE_CIERRA PUNTO ident
     (56) operacion -> . aritmetica
     (57) operacion -> . booleana
     (58) operacion -> . comparacion
     (49) ajson_v -> . LLAVE_ABRE lista_v LLAVE_CIERRA
     (85) function_call -> . CADENA_NO_COMILLAS PARENTESIS_ABRE arg PARENTESIS_CIERRA
+    (14) ident -> . CADENA_NO_COMILLAS
+    (15) ident -> . CADENA_NO_COMILLAS PUNTO ident
+    (16) ident -> . CADENA_NO_COMILLAS CORCHETE_ABRE CADENA_COMILLAS CORCHETE_CIERRA
+    (17) ident -> . CADENA_NO_COMILLAS CORCHETE_ABRE CADENA_COMILLAS CORCHETE_CIERRA PUNTO ident
     (59) aritmetica -> . valor SUMA valor
     (60) aritmetica -> . valor RESTA valor
     (61) aritmetica -> . valor MULTIPLICACION valor
@@ -1434,18 +1434,18 @@ state 59
     PARENTESIS_ABRE shift and go to state 51
     SUMA            shift and go to state 52
     RESTA           shift and go to state 53
-    CADENA_NO_COMILLAS shift and go to state 54
-    LLAVE_ABRE      shift and go to state 58
+    LLAVE_ABRE      shift and go to state 57
+    CADENA_NO_COMILLAS shift and go to state 58
     NEGACION        shift and go to state 59
 
     valor                          shift and go to state 88
-    ident                          shift and go to state 41
-    operacion                      shift and go to state 42
-    ajson_v                        shift and go to state 43
-    function_call                  shift and go to state 44
-    aritmetica                     shift and go to state 55
-    booleana                       shift and go to state 56
-    comparacion                    shift and go to state 57
+    operacion                      shift and go to state 41
+    ajson_v                        shift and go to state 42
+    function_call                  shift and go to state 43
+    ident                          shift and go to state 44
+    aritmetica                     shift and go to state 54
+    booleana                       shift and go to state 55
+    comparacion                    shift and go to state 56
 
 state 60
 
@@ -1592,10 +1592,10 @@ state 67
 state 68
 
     (59) aritmetica -> valor SUMA . valor
-    (26) valor -> . ident
-    (27) valor -> . operacion
-    (28) valor -> . ajson_v
-    (29) valor -> . function_call
+    (26) valor -> . operacion
+    (27) valor -> . ajson_v
+    (28) valor -> . function_call
+    (29) valor -> . ident
     (30) valor -> . ENTERO
     (31) valor -> . DECIMAL
     (32) valor -> . TR
@@ -1605,15 +1605,15 @@ state 68
     (36) valor -> . PARENTESIS_ABRE valor PARENTESIS_CIERRA
     (37) valor -> . SUMA valor
     (38) valor -> . RESTA valor
-    (14) ident -> . CADENA_NO_COMILLAS
-    (15) ident -> . CADENA_NO_COMILLAS PUNTO ident
-    (16) ident -> . CADENA_NO_COMILLAS CORCHETE_ABRE CADENA_COMILLAS CORCHETE_CIERRA
-    (17) ident -> . CADENA_NO_COMILLAS CORCHETE_ABRE CADENA_COMILLAS CORCHETE_CIERRA PUNTO ident
     (56) operacion -> . aritmetica
     (57) operacion -> . booleana
     (58) operacion -> . comparacion
     (49) ajson_v -> . LLAVE_ABRE lista_v LLAVE_CIERRA
     (85) function_call -> . CADENA_NO_COMILLAS PARENTESIS_ABRE arg PARENTESIS_CIERRA
+    (14) ident -> . CADENA_NO_COMILLAS
+    (15) ident -> . CADENA_NO_COMILLAS PUNTO ident
+    (16) ident -> . CADENA_NO_COMILLAS CORCHETE_ABRE CADENA_COMILLAS CORCHETE_CIERRA
+    (17) ident -> . CADENA_NO_COMILLAS CORCHETE_ABRE CADENA_COMILLAS CORCHETE_CIERRA PUNTO ident
     (59) aritmetica -> . valor SUMA valor
     (60) aritmetica -> . valor RESTA valor
     (61) aritmetica -> . valor MULTIPLICACION valor
@@ -1636,26 +1636,26 @@ state 68
     PARENTESIS_ABRE shift and go to state 51
     SUMA            shift and go to state 52
     RESTA           shift and go to state 53
-    CADENA_NO_COMILLAS shift and go to state 54
-    LLAVE_ABRE      shift and go to state 58
+    LLAVE_ABRE      shift and go to state 57
+    CADENA_NO_COMILLAS shift and go to state 58
     NEGACION        shift and go to state 59
 
     valor                          shift and go to state 101
-    ident                          shift and go to state 41
-    operacion                      shift and go to state 42
-    ajson_v                        shift and go to state 43
-    function_call                  shift and go to state 44
-    aritmetica                     shift and go to state 55
-    booleana                       shift and go to state 56
-    comparacion                    shift and go to state 57
+    operacion                      shift and go to state 41
+    ajson_v                        shift and go to state 42
+    function_call                  shift and go to state 43
+    ident                          shift and go to state 44
+    aritmetica                     shift and go to state 54
+    booleana                       shift and go to state 55
+    comparacion                    shift and go to state 56
 
 state 69
 
     (60) aritmetica -> valor RESTA . valor
-    (26) valor -> . ident
-    (27) valor -> . operacion
-    (28) valor -> . ajson_v
-    (29) valor -> . function_call
+    (26) valor -> . operacion
+    (27) valor -> . ajson_v
+    (28) valor -> . function_call
+    (29) valor -> . ident
     (30) valor -> . ENTERO
     (31) valor -> . DECIMAL
     (32) valor -> . TR
@@ -1665,15 +1665,15 @@ state 69
     (36) valor -> . PARENTESIS_ABRE valor PARENTESIS_CIERRA
     (37) valor -> . SUMA valor
     (38) valor -> . RESTA valor
-    (14) ident -> . CADENA_NO_COMILLAS
-    (15) ident -> . CADENA_NO_COMILLAS PUNTO ident
-    (16) ident -> . CADENA_NO_COMILLAS CORCHETE_ABRE CADENA_COMILLAS CORCHETE_CIERRA
-    (17) ident -> . CADENA_NO_COMILLAS CORCHETE_ABRE CADENA_COMILLAS CORCHETE_CIERRA PUNTO ident
     (56) operacion -> . aritmetica
     (57) operacion -> . booleana
     (58) operacion -> . comparacion
     (49) ajson_v -> . LLAVE_ABRE lista_v LLAVE_CIERRA
     (85) function_call -> . CADENA_NO_COMILLAS PARENTESIS_ABRE arg PARENTESIS_CIERRA
+    (14) ident -> . CADENA_NO_COMILLAS
+    (15) ident -> . CADENA_NO_COMILLAS PUNTO ident
+    (16) ident -> . CADENA_NO_COMILLAS CORCHETE_ABRE CADENA_COMILLAS CORCHETE_CIERRA
+    (17) ident -> . CADENA_NO_COMILLAS CORCHETE_ABRE CADENA_COMILLAS CORCHETE_CIERRA PUNTO ident
     (59) aritmetica -> . valor SUMA valor
     (60) aritmetica -> . valor RESTA valor
     (61) aritmetica -> . valor MULTIPLICACION valor
@@ -1696,26 +1696,26 @@ state 69
     PARENTESIS_ABRE shift and go to state 51
     SUMA            shift and go to state 52
     RESTA           shift and go to state 53
-    CADENA_NO_COMILLAS shift and go to state 54
-    LLAVE_ABRE      shift and go to state 58
+    LLAVE_ABRE      shift and go to state 57
+    CADENA_NO_COMILLAS shift and go to state 58
     NEGACION        shift and go to state 59
 
     valor                          shift and go to state 102
-    ident                          shift and go to state 41
-    operacion                      shift and go to state 42
-    ajson_v                        shift and go to state 43
-    function_call                  shift and go to state 44
-    aritmetica                     shift and go to state 55
-    booleana                       shift and go to state 56
-    comparacion                    shift and go to state 57
+    operacion                      shift and go to state 41
+    ajson_v                        shift and go to state 42
+    function_call                  shift and go to state 43
+    ident                          shift and go to state 44
+    aritmetica                     shift and go to state 54
+    booleana                       shift and go to state 55
+    comparacion                    shift and go to state 56
 
 state 70
 
     (61) aritmetica -> valor MULTIPLICACION . valor
-    (26) valor -> . ident
-    (27) valor -> . operacion
-    (28) valor -> . ajson_v
-    (29) valor -> . function_call
+    (26) valor -> . operacion
+    (27) valor -> . ajson_v
+    (28) valor -> . function_call
+    (29) valor -> . ident
     (30) valor -> . ENTERO
     (31) valor -> . DECIMAL
     (32) valor -> . TR
@@ -1725,15 +1725,15 @@ state 70
     (36) valor -> . PARENTESIS_ABRE valor PARENTESIS_CIERRA
     (37) valor -> . SUMA valor
     (38) valor -> . RESTA valor
-    (14) ident -> . CADENA_NO_COMILLAS
-    (15) ident -> . CADENA_NO_COMILLAS PUNTO ident
-    (16) ident -> . CADENA_NO_COMILLAS CORCHETE_ABRE CADENA_COMILLAS CORCHETE_CIERRA
-    (17) ident -> . CADENA_NO_COMILLAS CORCHETE_ABRE CADENA_COMILLAS CORCHETE_CIERRA PUNTO ident
     (56) operacion -> . aritmetica
     (57) operacion -> . booleana
     (58) operacion -> . comparacion
     (49) ajson_v -> . LLAVE_ABRE lista_v LLAVE_CIERRA
     (85) function_call -> . CADENA_NO_COMILLAS PARENTESIS_ABRE arg PARENTESIS_CIERRA
+    (14) ident -> . CADENA_NO_COMILLAS
+    (15) ident -> . CADENA_NO_COMILLAS PUNTO ident
+    (16) ident -> . CADENA_NO_COMILLAS CORCHETE_ABRE CADENA_COMILLAS CORCHETE_CIERRA
+    (17) ident -> . CADENA_NO_COMILLAS CORCHETE_ABRE CADENA_COMILLAS CORCHETE_CIERRA PUNTO ident
     (59) aritmetica -> . valor SUMA valor
     (60) aritmetica -> . valor RESTA valor
     (61) aritmetica -> . valor MULTIPLICACION valor
@@ -1756,26 +1756,26 @@ state 70
     PARENTESIS_ABRE shift and go to state 51
     SUMA            shift and go to state 52
     RESTA           shift and go to state 53
-    CADENA_NO_COMILLAS shift and go to state 54
-    LLAVE_ABRE      shift and go to state 58
+    LLAVE_ABRE      shift and go to state 57
+    CADENA_NO_COMILLAS shift and go to state 58
     NEGACION        shift and go to state 59
 
     valor                          shift and go to state 103
-    ident                          shift and go to state 41
-    operacion                      shift and go to state 42
-    ajson_v                        shift and go to state 43
-    function_call                  shift and go to state 44
-    aritmetica                     shift and go to state 55
-    booleana                       shift and go to state 56
-    comparacion                    shift and go to state 57
+    operacion                      shift and go to state 41
+    ajson_v                        shift and go to state 42
+    function_call                  shift and go to state 43
+    ident                          shift and go to state 44
+    aritmetica                     shift and go to state 54
+    booleana                       shift and go to state 55
+    comparacion                    shift and go to state 56
 
 state 71
 
     (62) aritmetica -> valor DIVISION . valor
-    (26) valor -> . ident
-    (27) valor -> . operacion
-    (28) valor -> . ajson_v
-    (29) valor -> . function_call
+    (26) valor -> . operacion
+    (27) valor -> . ajson_v
+    (28) valor -> . function_call
+    (29) valor -> . ident
     (30) valor -> . ENTERO
     (31) valor -> . DECIMAL
     (32) valor -> . TR
@@ -1785,15 +1785,15 @@ state 71
     (36) valor -> . PARENTESIS_ABRE valor PARENTESIS_CIERRA
     (37) valor -> . SUMA valor
     (38) valor -> . RESTA valor
-    (14) ident -> . CADENA_NO_COMILLAS
-    (15) ident -> . CADENA_NO_COMILLAS PUNTO ident
-    (16) ident -> . CADENA_NO_COMILLAS CORCHETE_ABRE CADENA_COMILLAS CORCHETE_CIERRA
-    (17) ident -> . CADENA_NO_COMILLAS CORCHETE_ABRE CADENA_COMILLAS CORCHETE_CIERRA PUNTO ident
     (56) operacion -> . aritmetica
     (57) operacion -> . booleana
     (58) operacion -> . comparacion
     (49) ajson_v -> . LLAVE_ABRE lista_v LLAVE_CIERRA
     (85) function_call -> . CADENA_NO_COMILLAS PARENTESIS_ABRE arg PARENTESIS_CIERRA
+    (14) ident -> . CADENA_NO_COMILLAS
+    (15) ident -> . CADENA_NO_COMILLAS PUNTO ident
+    (16) ident -> . CADENA_NO_COMILLAS CORCHETE_ABRE CADENA_COMILLAS CORCHETE_CIERRA
+    (17) ident -> . CADENA_NO_COMILLAS CORCHETE_ABRE CADENA_COMILLAS CORCHETE_CIERRA PUNTO ident
     (59) aritmetica -> . valor SUMA valor
     (60) aritmetica -> . valor RESTA valor
     (61) aritmetica -> . valor MULTIPLICACION valor
@@ -1816,26 +1816,26 @@ state 71
     PARENTESIS_ABRE shift and go to state 51
     SUMA            shift and go to state 52
     RESTA           shift and go to state 53
-    CADENA_NO_COMILLAS shift and go to state 54
-    LLAVE_ABRE      shift and go to state 58
+    LLAVE_ABRE      shift and go to state 57
+    CADENA_NO_COMILLAS shift and go to state 58
     NEGACION        shift and go to state 59
 
     valor                          shift and go to state 104
-    ident                          shift and go to state 41
-    operacion                      shift and go to state 42
-    ajson_v                        shift and go to state 43
-    function_call                  shift and go to state 44
-    aritmetica                     shift and go to state 55
-    booleana                       shift and go to state 56
-    comparacion                    shift and go to state 57
+    operacion                      shift and go to state 41
+    ajson_v                        shift and go to state 42
+    function_call                  shift and go to state 43
+    ident                          shift and go to state 44
+    aritmetica                     shift and go to state 54
+    booleana                       shift and go to state 55
+    comparacion                    shift and go to state 56
 
 state 72
 
     (68) booleana -> valor CONJUNCION . valor
-    (26) valor -> . ident
-    (27) valor -> . operacion
-    (28) valor -> . ajson_v
-    (29) valor -> . function_call
+    (26) valor -> . operacion
+    (27) valor -> . ajson_v
+    (28) valor -> . function_call
+    (29) valor -> . ident
     (30) valor -> . ENTERO
     (31) valor -> . DECIMAL
     (32) valor -> . TR
@@ -1845,15 +1845,15 @@ state 72
     (36) valor -> . PARENTESIS_ABRE valor PARENTESIS_CIERRA
     (37) valor -> . SUMA valor
     (38) valor -> . RESTA valor
-    (14) ident -> . CADENA_NO_COMILLAS
-    (15) ident -> . CADENA_NO_COMILLAS PUNTO ident
-    (16) ident -> . CADENA_NO_COMILLAS CORCHETE_ABRE CADENA_COMILLAS CORCHETE_CIERRA
-    (17) ident -> . CADENA_NO_COMILLAS CORCHETE_ABRE CADENA_COMILLAS CORCHETE_CIERRA PUNTO ident
     (56) operacion -> . aritmetica
     (57) operacion -> . booleana
     (58) operacion -> . comparacion
     (49) ajson_v -> . LLAVE_ABRE lista_v LLAVE_CIERRA
     (85) function_call -> . CADENA_NO_COMILLAS PARENTESIS_ABRE arg PARENTESIS_CIERRA
+    (14) ident -> . CADENA_NO_COMILLAS
+    (15) ident -> . CADENA_NO_COMILLAS PUNTO ident
+    (16) ident -> . CADENA_NO_COMILLAS CORCHETE_ABRE CADENA_COMILLAS CORCHETE_CIERRA
+    (17) ident -> . CADENA_NO_COMILLAS CORCHETE_ABRE CADENA_COMILLAS CORCHETE_CIERRA PUNTO ident
     (59) aritmetica -> . valor SUMA valor
     (60) aritmetica -> . valor RESTA valor
     (61) aritmetica -> . valor MULTIPLICACION valor
@@ -1876,26 +1876,26 @@ state 72
     PARENTESIS_ABRE shift and go to state 51
     SUMA            shift and go to state 52
     RESTA           shift and go to state 53
-    CADENA_NO_COMILLAS shift and go to state 54
-    LLAVE_ABRE      shift and go to state 58
+    LLAVE_ABRE      shift and go to state 57
+    CADENA_NO_COMILLAS shift and go to state 58
     NEGACION        shift and go to state 59
 
     valor                          shift and go to state 105
-    ident                          shift and go to state 41
-    operacion                      shift and go to state 42
-    ajson_v                        shift and go to state 43
-    function_call                  shift and go to state 44
-    aritmetica                     shift and go to state 55
-    booleana                       shift and go to state 56
-    comparacion                    shift and go to state 57
+    operacion                      shift and go to state 41
+    ajson_v                        shift and go to state 42
+    function_call                  shift and go to state 43
+    ident                          shift and go to state 44
+    aritmetica                     shift and go to state 54
+    booleana                       shift and go to state 55
+    comparacion                    shift and go to state 56
 
 state 73
 
     (69) booleana -> valor DISYUNCION . valor
-    (26) valor -> . ident
-    (27) valor -> . operacion
-    (28) valor -> . ajson_v
-    (29) valor -> . function_call
+    (26) valor -> . operacion
+    (27) valor -> . ajson_v
+    (28) valor -> . function_call
+    (29) valor -> . ident
     (30) valor -> . ENTERO
     (31) valor -> . DECIMAL
     (32) valor -> . TR
@@ -1905,15 +1905,15 @@ state 73
     (36) valor -> . PARENTESIS_ABRE valor PARENTESIS_CIERRA
     (37) valor -> . SUMA valor
     (38) valor -> . RESTA valor
-    (14) ident -> . CADENA_NO_COMILLAS
-    (15) ident -> . CADENA_NO_COMILLAS PUNTO ident
-    (16) ident -> . CADENA_NO_COMILLAS CORCHETE_ABRE CADENA_COMILLAS CORCHETE_CIERRA
-    (17) ident -> . CADENA_NO_COMILLAS CORCHETE_ABRE CADENA_COMILLAS CORCHETE_CIERRA PUNTO ident
     (56) operacion -> . aritmetica
     (57) operacion -> . booleana
     (58) operacion -> . comparacion
     (49) ajson_v -> . LLAVE_ABRE lista_v LLAVE_CIERRA
     (85) function_call -> . CADENA_NO_COMILLAS PARENTESIS_ABRE arg PARENTESIS_CIERRA
+    (14) ident -> . CADENA_NO_COMILLAS
+    (15) ident -> . CADENA_NO_COMILLAS PUNTO ident
+    (16) ident -> . CADENA_NO_COMILLAS CORCHETE_ABRE CADENA_COMILLAS CORCHETE_CIERRA
+    (17) ident -> . CADENA_NO_COMILLAS CORCHETE_ABRE CADENA_COMILLAS CORCHETE_CIERRA PUNTO ident
     (59) aritmetica -> . valor SUMA valor
     (60) aritmetica -> . valor RESTA valor
     (61) aritmetica -> . valor MULTIPLICACION valor
@@ -1936,26 +1936,26 @@ state 73
     PARENTESIS_ABRE shift and go to state 51
     SUMA            shift and go to state 52
     RESTA           shift and go to state 53
-    CADENA_NO_COMILLAS shift and go to state 54
-    LLAVE_ABRE      shift and go to state 58
+    LLAVE_ABRE      shift and go to state 57
+    CADENA_NO_COMILLAS shift and go to state 58
     NEGACION        shift and go to state 59
 
     valor                          shift and go to state 106
-    ident                          shift and go to state 41
-    operacion                      shift and go to state 42
-    ajson_v                        shift and go to state 43
-    function_call                  shift and go to state 44
-    aritmetica                     shift and go to state 55
-    booleana                       shift and go to state 56
-    comparacion                    shift and go to state 57
+    operacion                      shift and go to state 41
+    ajson_v                        shift and go to state 42
+    function_call                  shift and go to state 43
+    ident                          shift and go to state 44
+    aritmetica                     shift and go to state 54
+    booleana                       shift and go to state 55
+    comparacion                    shift and go to state 56
 
 state 74
 
     (63) comparacion -> valor MAYOR . valor
-    (26) valor -> . ident
-    (27) valor -> . operacion
-    (28) valor -> . ajson_v
-    (29) valor -> . function_call
+    (26) valor -> . operacion
+    (27) valor -> . ajson_v
+    (28) valor -> . function_call
+    (29) valor -> . ident
     (30) valor -> . ENTERO
     (31) valor -> . DECIMAL
     (32) valor -> . TR
@@ -1965,15 +1965,15 @@ state 74
     (36) valor -> . PARENTESIS_ABRE valor PARENTESIS_CIERRA
     (37) valor -> . SUMA valor
     (38) valor -> . RESTA valor
-    (14) ident -> . CADENA_NO_COMILLAS
-    (15) ident -> . CADENA_NO_COMILLAS PUNTO ident
-    (16) ident -> . CADENA_NO_COMILLAS CORCHETE_ABRE CADENA_COMILLAS CORCHETE_CIERRA
-    (17) ident -> . CADENA_NO_COMILLAS CORCHETE_ABRE CADENA_COMILLAS CORCHETE_CIERRA PUNTO ident
     (56) operacion -> . aritmetica
     (57) operacion -> . booleana
     (58) operacion -> . comparacion
     (49) ajson_v -> . LLAVE_ABRE lista_v LLAVE_CIERRA
     (85) function_call -> . CADENA_NO_COMILLAS PARENTESIS_ABRE arg PARENTESIS_CIERRA
+    (14) ident -> . CADENA_NO_COMILLAS
+    (15) ident -> . CADENA_NO_COMILLAS PUNTO ident
+    (16) ident -> . CADENA_NO_COMILLAS CORCHETE_ABRE CADENA_COMILLAS CORCHETE_CIERRA
+    (17) ident -> . CADENA_NO_COMILLAS CORCHETE_ABRE CADENA_COMILLAS CORCHETE_CIERRA PUNTO ident
     (59) aritmetica -> . valor SUMA valor
     (60) aritmetica -> . valor RESTA valor
     (61) aritmetica -> . valor MULTIPLICACION valor
@@ -1996,26 +1996,26 @@ state 74
     PARENTESIS_ABRE shift and go to state 51
     SUMA            shift and go to state 52
     RESTA           shift and go to state 53
-    CADENA_NO_COMILLAS shift and go to state 54
-    LLAVE_ABRE      shift and go to state 58
+    LLAVE_ABRE      shift and go to state 57
+    CADENA_NO_COMILLAS shift and go to state 58
     NEGACION        shift and go to state 59
 
     valor                          shift and go to state 107
-    ident                          shift and go to state 41
-    operacion                      shift and go to state 42
-    ajson_v                        shift and go to state 43
-    function_call                  shift and go to state 44
-    aritmetica                     shift and go to state 55
-    booleana                       shift and go to state 56
-    comparacion                    shift and go to state 57
+    operacion                      shift and go to state 41
+    ajson_v                        shift and go to state 42
+    function_call                  shift and go to state 43
+    ident                          shift and go to state 44
+    aritmetica                     shift and go to state 54
+    booleana                       shift and go to state 55
+    comparacion                    shift and go to state 56
 
 state 75
 
     (64) comparacion -> valor MENOR . valor
-    (26) valor -> . ident
-    (27) valor -> . operacion
-    (28) valor -> . ajson_v
-    (29) valor -> . function_call
+    (26) valor -> . operacion
+    (27) valor -> . ajson_v
+    (28) valor -> . function_call
+    (29) valor -> . ident
     (30) valor -> . ENTERO
     (31) valor -> . DECIMAL
     (32) valor -> . TR
@@ -2025,15 +2025,15 @@ state 75
     (36) valor -> . PARENTESIS_ABRE valor PARENTESIS_CIERRA
     (37) valor -> . SUMA valor
     (38) valor -> . RESTA valor
-    (14) ident -> . CADENA_NO_COMILLAS
-    (15) ident -> . CADENA_NO_COMILLAS PUNTO ident
-    (16) ident -> . CADENA_NO_COMILLAS CORCHETE_ABRE CADENA_COMILLAS CORCHETE_CIERRA
-    (17) ident -> . CADENA_NO_COMILLAS CORCHETE_ABRE CADENA_COMILLAS CORCHETE_CIERRA PUNTO ident
     (56) operacion -> . aritmetica
     (57) operacion -> . booleana
     (58) operacion -> . comparacion
     (49) ajson_v -> . LLAVE_ABRE lista_v LLAVE_CIERRA
     (85) function_call -> . CADENA_NO_COMILLAS PARENTESIS_ABRE arg PARENTESIS_CIERRA
+    (14) ident -> . CADENA_NO_COMILLAS
+    (15) ident -> . CADENA_NO_COMILLAS PUNTO ident
+    (16) ident -> . CADENA_NO_COMILLAS CORCHETE_ABRE CADENA_COMILLAS CORCHETE_CIERRA
+    (17) ident -> . CADENA_NO_COMILLAS CORCHETE_ABRE CADENA_COMILLAS CORCHETE_CIERRA PUNTO ident
     (59) aritmetica -> . valor SUMA valor
     (60) aritmetica -> . valor RESTA valor
     (61) aritmetica -> . valor MULTIPLICACION valor
@@ -2056,26 +2056,26 @@ state 75
     PARENTESIS_ABRE shift and go to state 51
     SUMA            shift and go to state 52
     RESTA           shift and go to state 53
-    CADENA_NO_COMILLAS shift and go to state 54
-    LLAVE_ABRE      shift and go to state 58
+    LLAVE_ABRE      shift and go to state 57
+    CADENA_NO_COMILLAS shift and go to state 58
     NEGACION        shift and go to state 59
 
     valor                          shift and go to state 108
-    ident                          shift and go to state 41
-    operacion                      shift and go to state 42
-    ajson_v                        shift and go to state 43
-    function_call                  shift and go to state 44
-    aritmetica                     shift and go to state 55
-    booleana                       shift and go to state 56
-    comparacion                    shift and go to state 57
+    operacion                      shift and go to state 41
+    ajson_v                        shift and go to state 42
+    function_call                  shift and go to state 43
+    ident                          shift and go to state 44
+    aritmetica                     shift and go to state 54
+    booleana                       shift and go to state 55
+    comparacion                    shift and go to state 56
 
 state 76
 
     (65) comparacion -> valor MAYOR_IGUAL . valor
-    (26) valor -> . ident
-    (27) valor -> . operacion
-    (28) valor -> . ajson_v
-    (29) valor -> . function_call
+    (26) valor -> . operacion
+    (27) valor -> . ajson_v
+    (28) valor -> . function_call
+    (29) valor -> . ident
     (30) valor -> . ENTERO
     (31) valor -> . DECIMAL
     (32) valor -> . TR
@@ -2085,15 +2085,15 @@ state 76
     (36) valor -> . PARENTESIS_ABRE valor PARENTESIS_CIERRA
     (37) valor -> . SUMA valor
     (38) valor -> . RESTA valor
-    (14) ident -> . CADENA_NO_COMILLAS
-    (15) ident -> . CADENA_NO_COMILLAS PUNTO ident
-    (16) ident -> . CADENA_NO_COMILLAS CORCHETE_ABRE CADENA_COMILLAS CORCHETE_CIERRA
-    (17) ident -> . CADENA_NO_COMILLAS CORCHETE_ABRE CADENA_COMILLAS CORCHETE_CIERRA PUNTO ident
     (56) operacion -> . aritmetica
     (57) operacion -> . booleana
     (58) operacion -> . comparacion
     (49) ajson_v -> . LLAVE_ABRE lista_v LLAVE_CIERRA
     (85) function_call -> . CADENA_NO_COMILLAS PARENTESIS_ABRE arg PARENTESIS_CIERRA
+    (14) ident -> . CADENA_NO_COMILLAS
+    (15) ident -> . CADENA_NO_COMILLAS PUNTO ident
+    (16) ident -> . CADENA_NO_COMILLAS CORCHETE_ABRE CADENA_COMILLAS CORCHETE_CIERRA
+    (17) ident -> . CADENA_NO_COMILLAS CORCHETE_ABRE CADENA_COMILLAS CORCHETE_CIERRA PUNTO ident
     (59) aritmetica -> . valor SUMA valor
     (60) aritmetica -> . valor RESTA valor
     (61) aritmetica -> . valor MULTIPLICACION valor
@@ -2116,26 +2116,26 @@ state 76
     PARENTESIS_ABRE shift and go to state 51
     SUMA            shift and go to state 52
     RESTA           shift and go to state 53
-    CADENA_NO_COMILLAS shift and go to state 54
-    LLAVE_ABRE      shift and go to state 58
+    LLAVE_ABRE      shift and go to state 57
+    CADENA_NO_COMILLAS shift and go to state 58
     NEGACION        shift and go to state 59
 
     valor                          shift and go to state 109
-    ident                          shift and go to state 41
-    operacion                      shift and go to state 42
-    ajson_v                        shift and go to state 43
-    function_call                  shift and go to state 44
-    aritmetica                     shift and go to state 55
-    booleana                       shift and go to state 56
-    comparacion                    shift and go to state 57
+    operacion                      shift and go to state 41
+    ajson_v                        shift and go to state 42
+    function_call                  shift and go to state 43
+    ident                          shift and go to state 44
+    aritmetica                     shift and go to state 54
+    booleana                       shift and go to state 55
+    comparacion                    shift and go to state 56
 
 state 77
 
     (66) comparacion -> valor MENOR_IGUAL . valor
-    (26) valor -> . ident
-    (27) valor -> . operacion
-    (28) valor -> . ajson_v
-    (29) valor -> . function_call
+    (26) valor -> . operacion
+    (27) valor -> . ajson_v
+    (28) valor -> . function_call
+    (29) valor -> . ident
     (30) valor -> . ENTERO
     (31) valor -> . DECIMAL
     (32) valor -> . TR
@@ -2145,15 +2145,15 @@ state 77
     (36) valor -> . PARENTESIS_ABRE valor PARENTESIS_CIERRA
     (37) valor -> . SUMA valor
     (38) valor -> . RESTA valor
-    (14) ident -> . CADENA_NO_COMILLAS
-    (15) ident -> . CADENA_NO_COMILLAS PUNTO ident
-    (16) ident -> . CADENA_NO_COMILLAS CORCHETE_ABRE CADENA_COMILLAS CORCHETE_CIERRA
-    (17) ident -> . CADENA_NO_COMILLAS CORCHETE_ABRE CADENA_COMILLAS CORCHETE_CIERRA PUNTO ident
     (56) operacion -> . aritmetica
     (57) operacion -> . booleana
     (58) operacion -> . comparacion
     (49) ajson_v -> . LLAVE_ABRE lista_v LLAVE_CIERRA
     (85) function_call -> . CADENA_NO_COMILLAS PARENTESIS_ABRE arg PARENTESIS_CIERRA
+    (14) ident -> . CADENA_NO_COMILLAS
+    (15) ident -> . CADENA_NO_COMILLAS PUNTO ident
+    (16) ident -> . CADENA_NO_COMILLAS CORCHETE_ABRE CADENA_COMILLAS CORCHETE_CIERRA
+    (17) ident -> . CADENA_NO_COMILLAS CORCHETE_ABRE CADENA_COMILLAS CORCHETE_CIERRA PUNTO ident
     (59) aritmetica -> . valor SUMA valor
     (60) aritmetica -> . valor RESTA valor
     (61) aritmetica -> . valor MULTIPLICACION valor
@@ -2176,26 +2176,26 @@ state 77
     PARENTESIS_ABRE shift and go to state 51
     SUMA            shift and go to state 52
     RESTA           shift and go to state 53
-    CADENA_NO_COMILLAS shift and go to state 54
-    LLAVE_ABRE      shift and go to state 58
+    LLAVE_ABRE      shift and go to state 57
+    CADENA_NO_COMILLAS shift and go to state 58
     NEGACION        shift and go to state 59
 
     valor                          shift and go to state 110
-    ident                          shift and go to state 41
-    operacion                      shift and go to state 42
-    ajson_v                        shift and go to state 43
-    function_call                  shift and go to state 44
-    aritmetica                     shift and go to state 55
-    booleana                       shift and go to state 56
-    comparacion                    shift and go to state 57
+    operacion                      shift and go to state 41
+    ajson_v                        shift and go to state 42
+    function_call                  shift and go to state 43
+    ident                          shift and go to state 44
+    aritmetica                     shift and go to state 54
+    booleana                       shift and go to state 55
+    comparacion                    shift and go to state 56
 
 state 78
 
     (67) comparacion -> valor IGUAL . valor
-    (26) valor -> . ident
-    (27) valor -> . operacion
-    (28) valor -> . ajson_v
-    (29) valor -> . function_call
+    (26) valor -> . operacion
+    (27) valor -> . ajson_v
+    (28) valor -> . function_call
+    (29) valor -> . ident
     (30) valor -> . ENTERO
     (31) valor -> . DECIMAL
     (32) valor -> . TR
@@ -2205,15 +2205,15 @@ state 78
     (36) valor -> . PARENTESIS_ABRE valor PARENTESIS_CIERRA
     (37) valor -> . SUMA valor
     (38) valor -> . RESTA valor
-    (14) ident -> . CADENA_NO_COMILLAS
-    (15) ident -> . CADENA_NO_COMILLAS PUNTO ident
-    (16) ident -> . CADENA_NO_COMILLAS CORCHETE_ABRE CADENA_COMILLAS CORCHETE_CIERRA
-    (17) ident -> . CADENA_NO_COMILLAS CORCHETE_ABRE CADENA_COMILLAS CORCHETE_CIERRA PUNTO ident
     (56) operacion -> . aritmetica
     (57) operacion -> . booleana
     (58) operacion -> . comparacion
     (49) ajson_v -> . LLAVE_ABRE lista_v LLAVE_CIERRA
     (85) function_call -> . CADENA_NO_COMILLAS PARENTESIS_ABRE arg PARENTESIS_CIERRA
+    (14) ident -> . CADENA_NO_COMILLAS
+    (15) ident -> . CADENA_NO_COMILLAS PUNTO ident
+    (16) ident -> . CADENA_NO_COMILLAS CORCHETE_ABRE CADENA_COMILLAS CORCHETE_CIERRA
+    (17) ident -> . CADENA_NO_COMILLAS CORCHETE_ABRE CADENA_COMILLAS CORCHETE_CIERRA PUNTO ident
     (59) aritmetica -> . valor SUMA valor
     (60) aritmetica -> . valor RESTA valor
     (61) aritmetica -> . valor MULTIPLICACION valor
@@ -2236,18 +2236,18 @@ state 78
     PARENTESIS_ABRE shift and go to state 51
     SUMA            shift and go to state 52
     RESTA           shift and go to state 53
-    CADENA_NO_COMILLAS shift and go to state 54
-    LLAVE_ABRE      shift and go to state 58
+    LLAVE_ABRE      shift and go to state 57
+    CADENA_NO_COMILLAS shift and go to state 58
     NEGACION        shift and go to state 59
 
     valor                          shift and go to state 111
-    ident                          shift and go to state 41
-    operacion                      shift and go to state 42
-    ajson_v                        shift and go to state 43
-    function_call                  shift and go to state 44
-    aritmetica                     shift and go to state 55
-    booleana                       shift and go to state 56
-    comparacion                    shift and go to state 57
+    operacion                      shift and go to state 41
+    ajson_v                        shift and go to state 42
+    function_call                  shift and go to state 43
+    ident                          shift and go to state 44
+    aritmetica                     shift and go to state 54
+    booleana                       shift and go to state 55
+    comparacion                    shift and go to state 56
 
 state 79
 
@@ -2368,14 +2368,52 @@ state 81
 
 state 82
 
+    (49) ajson_v -> LLAVE_ABRE lista_v . LLAVE_CIERRA
+
+    LLAVE_CIERRA    shift and go to state 113
+
+
+state 83
+
+    (50) lista_v -> elemento_v .
+    (51) lista_v -> elemento_v . COMA
+    (52) lista_v -> elemento_v . COMA lista_v
+
+    LLAVE_CIERRA    reduce using rule 50 (lista_v -> elemento_v .)
+    COMA            shift and go to state 114
+
+
+state 84
+
+    (53) elemento_v -> clave_v . DOS_PUNTOS valor
+
+    DOS_PUNTOS      shift and go to state 115
+
+
+state 85
+
+    (54) clave_v -> CADENA_NO_COMILLAS .
+
+    DOS_PUNTOS      reduce using rule 54 (clave_v -> CADENA_NO_COMILLAS .)
+
+
+state 86
+
+    (55) clave_v -> CADENA_COMILLAS .
+
+    DOS_PUNTOS      reduce using rule 55 (clave_v -> CADENA_COMILLAS .)
+
+
+state 87
+
     (85) function_call -> CADENA_NO_COMILLAS PARENTESIS_ABRE . arg PARENTESIS_CIERRA
     (86) arg -> . valor
     (87) arg -> . valor COMA arg
     (88) arg -> . empty
-    (26) valor -> . ident
-    (27) valor -> . operacion
-    (28) valor -> . ajson_v
-    (29) valor -> . function_call
+    (26) valor -> . operacion
+    (27) valor -> . ajson_v
+    (28) valor -> . function_call
+    (29) valor -> . ident
     (30) valor -> . ENTERO
     (31) valor -> . DECIMAL
     (32) valor -> . TR
@@ -2386,15 +2424,15 @@ state 82
     (37) valor -> . SUMA valor
     (38) valor -> . RESTA valor
     (3) empty -> .
-    (14) ident -> . CADENA_NO_COMILLAS
-    (15) ident -> . CADENA_NO_COMILLAS PUNTO ident
-    (16) ident -> . CADENA_NO_COMILLAS CORCHETE_ABRE CADENA_COMILLAS CORCHETE_CIERRA
-    (17) ident -> . CADENA_NO_COMILLAS CORCHETE_ABRE CADENA_COMILLAS CORCHETE_CIERRA PUNTO ident
     (56) operacion -> . aritmetica
     (57) operacion -> . booleana
     (58) operacion -> . comparacion
     (49) ajson_v -> . LLAVE_ABRE lista_v LLAVE_CIERRA
     (85) function_call -> . CADENA_NO_COMILLAS PARENTESIS_ABRE arg PARENTESIS_CIERRA
+    (14) ident -> . CADENA_NO_COMILLAS
+    (15) ident -> . CADENA_NO_COMILLAS PUNTO ident
+    (16) ident -> . CADENA_NO_COMILLAS CORCHETE_ABRE CADENA_COMILLAS CORCHETE_CIERRA
+    (17) ident -> . CADENA_NO_COMILLAS CORCHETE_ABRE CADENA_COMILLAS CORCHETE_CIERRA PUNTO ident
     (59) aritmetica -> . valor SUMA valor
     (60) aritmetica -> . valor RESTA valor
     (61) aritmetica -> . valor MULTIPLICACION valor
@@ -2418,58 +2456,20 @@ state 82
     SUMA            shift and go to state 52
     RESTA           shift and go to state 53
     PARENTESIS_CIERRA reduce using rule 3 (empty -> .)
-    CADENA_NO_COMILLAS shift and go to state 54
-    LLAVE_ABRE      shift and go to state 58
+    LLAVE_ABRE      shift and go to state 57
+    CADENA_NO_COMILLAS shift and go to state 58
     NEGACION        shift and go to state 59
 
-    arg                            shift and go to state 113
-    valor                          shift and go to state 114
-    empty                          shift and go to state 115
-    ident                          shift and go to state 41
-    operacion                      shift and go to state 42
-    ajson_v                        shift and go to state 43
-    function_call                  shift and go to state 44
-    aritmetica                     shift and go to state 55
-    booleana                       shift and go to state 56
-    comparacion                    shift and go to state 57
-
-state 83
-
-    (49) ajson_v -> LLAVE_ABRE lista_v . LLAVE_CIERRA
-
-    LLAVE_CIERRA    shift and go to state 116
-
-
-state 84
-
-    (50) lista_v -> elemento_v .
-    (51) lista_v -> elemento_v . COMA
-    (52) lista_v -> elemento_v . COMA lista_v
-
-    LLAVE_CIERRA    reduce using rule 50 (lista_v -> elemento_v .)
-    COMA            shift and go to state 117
-
-
-state 85
-
-    (53) elemento_v -> clave_v . DOS_PUNTOS valor
-
-    DOS_PUNTOS      shift and go to state 118
-
-
-state 86
-
-    (54) clave_v -> CADENA_NO_COMILLAS .
-
-    DOS_PUNTOS      reduce using rule 54 (clave_v -> CADENA_NO_COMILLAS .)
-
-
-state 87
-
-    (55) clave_v -> CADENA_COMILLAS .
-
-    DOS_PUNTOS      reduce using rule 55 (clave_v -> CADENA_COMILLAS .)
-
+    arg                            shift and go to state 116
+    valor                          shift and go to state 117
+    empty                          shift and go to state 118
+    operacion                      shift and go to state 41
+    ajson_v                        shift and go to state 42
+    function_call                  shift and go to state 43
+    ident                          shift and go to state 44
+    aritmetica                     shift and go to state 54
+    booleana                       shift and go to state 55
+    comparacion                    shift and go to state 56
 
 state 88
 
@@ -3118,51 +3118,6 @@ state 112
 
 state 113
 
-    (85) function_call -> CADENA_NO_COMILLAS PARENTESIS_ABRE arg . PARENTESIS_CIERRA
-
-    PARENTESIS_CIERRA shift and go to state 128
-
-
-state 114
-
-    (86) arg -> valor .
-    (87) arg -> valor . COMA arg
-    (59) aritmetica -> valor . SUMA valor
-    (60) aritmetica -> valor . RESTA valor
-    (61) aritmetica -> valor . MULTIPLICACION valor
-    (62) aritmetica -> valor . DIVISION valor
-    (68) booleana -> valor . CONJUNCION valor
-    (69) booleana -> valor . DISYUNCION valor
-    (63) comparacion -> valor . MAYOR valor
-    (64) comparacion -> valor . MENOR valor
-    (65) comparacion -> valor . MAYOR_IGUAL valor
-    (66) comparacion -> valor . MENOR_IGUAL valor
-    (67) comparacion -> valor . IGUAL valor
-
-    PARENTESIS_CIERRA reduce using rule 86 (arg -> valor .)
-    COMA            shift and go to state 129
-    SUMA            shift and go to state 68
-    RESTA           shift and go to state 69
-    MULTIPLICACION  shift and go to state 70
-    DIVISION        shift and go to state 71
-    CONJUNCION      shift and go to state 72
-    DISYUNCION      shift and go to state 73
-    MAYOR           shift and go to state 74
-    MENOR           shift and go to state 75
-    MAYOR_IGUAL     shift and go to state 76
-    MENOR_IGUAL     shift and go to state 77
-    IGUAL           shift and go to state 78
-
-
-state 115
-
-    (88) arg -> empty .
-
-    PARENTESIS_CIERRA reduce using rule 88 (arg -> empty .)
-
-
-state 116
-
     (49) ajson_v -> LLAVE_ABRE lista_v LLAVE_CIERRA .
 
     SUMA            reduce using rule 49 (ajson_v -> LLAVE_ABRE lista_v LLAVE_CIERRA .)
@@ -3182,7 +3137,7 @@ state 116
     LLAVE_CIERRA    reduce using rule 49 (ajson_v -> LLAVE_ABRE lista_v LLAVE_CIERRA .)
 
 
-state 117
+state 114
 
     (51) lista_v -> elemento_v COMA .
     (52) lista_v -> elemento_v COMA . lista_v
@@ -3194,20 +3149,20 @@ state 117
     (55) clave_v -> . CADENA_COMILLAS
 
     LLAVE_CIERRA    reduce using rule 51 (lista_v -> elemento_v COMA .)
-    CADENA_NO_COMILLAS shift and go to state 86
-    CADENA_COMILLAS shift and go to state 87
+    CADENA_NO_COMILLAS shift and go to state 85
+    CADENA_COMILLAS shift and go to state 86
 
-    elemento_v                     shift and go to state 84
-    lista_v                        shift and go to state 130
-    clave_v                        shift and go to state 85
+    elemento_v                     shift and go to state 83
+    lista_v                        shift and go to state 128
+    clave_v                        shift and go to state 84
 
-state 118
+state 115
 
     (53) elemento_v -> clave_v DOS_PUNTOS . valor
-    (26) valor -> . ident
-    (27) valor -> . operacion
-    (28) valor -> . ajson_v
-    (29) valor -> . function_call
+    (26) valor -> . operacion
+    (27) valor -> . ajson_v
+    (28) valor -> . function_call
+    (29) valor -> . ident
     (30) valor -> . ENTERO
     (31) valor -> . DECIMAL
     (32) valor -> . TR
@@ -3217,15 +3172,15 @@ state 118
     (36) valor -> . PARENTESIS_ABRE valor PARENTESIS_CIERRA
     (37) valor -> . SUMA valor
     (38) valor -> . RESTA valor
-    (14) ident -> . CADENA_NO_COMILLAS
-    (15) ident -> . CADENA_NO_COMILLAS PUNTO ident
-    (16) ident -> . CADENA_NO_COMILLAS CORCHETE_ABRE CADENA_COMILLAS CORCHETE_CIERRA
-    (17) ident -> . CADENA_NO_COMILLAS CORCHETE_ABRE CADENA_COMILLAS CORCHETE_CIERRA PUNTO ident
     (56) operacion -> . aritmetica
     (57) operacion -> . booleana
     (58) operacion -> . comparacion
     (49) ajson_v -> . LLAVE_ABRE lista_v LLAVE_CIERRA
     (85) function_call -> . CADENA_NO_COMILLAS PARENTESIS_ABRE arg PARENTESIS_CIERRA
+    (14) ident -> . CADENA_NO_COMILLAS
+    (15) ident -> . CADENA_NO_COMILLAS PUNTO ident
+    (16) ident -> . CADENA_NO_COMILLAS CORCHETE_ABRE CADENA_COMILLAS CORCHETE_CIERRA
+    (17) ident -> . CADENA_NO_COMILLAS CORCHETE_ABRE CADENA_COMILLAS CORCHETE_CIERRA PUNTO ident
     (59) aritmetica -> . valor SUMA valor
     (60) aritmetica -> . valor RESTA valor
     (61) aritmetica -> . valor MULTIPLICACION valor
@@ -3248,18 +3203,63 @@ state 118
     PARENTESIS_ABRE shift and go to state 51
     SUMA            shift and go to state 52
     RESTA           shift and go to state 53
-    CADENA_NO_COMILLAS shift and go to state 54
-    LLAVE_ABRE      shift and go to state 58
+    LLAVE_ABRE      shift and go to state 57
+    CADENA_NO_COMILLAS shift and go to state 58
     NEGACION        shift and go to state 59
 
-    valor                          shift and go to state 131
-    ident                          shift and go to state 41
-    operacion                      shift and go to state 42
-    ajson_v                        shift and go to state 43
-    function_call                  shift and go to state 44
-    aritmetica                     shift and go to state 55
-    booleana                       shift and go to state 56
-    comparacion                    shift and go to state 57
+    valor                          shift and go to state 129
+    operacion                      shift and go to state 41
+    ajson_v                        shift and go to state 42
+    function_call                  shift and go to state 43
+    ident                          shift and go to state 44
+    aritmetica                     shift and go to state 54
+    booleana                       shift and go to state 55
+    comparacion                    shift and go to state 56
+
+state 116
+
+    (85) function_call -> CADENA_NO_COMILLAS PARENTESIS_ABRE arg . PARENTESIS_CIERRA
+
+    PARENTESIS_CIERRA shift and go to state 130
+
+
+state 117
+
+    (86) arg -> valor .
+    (87) arg -> valor . COMA arg
+    (59) aritmetica -> valor . SUMA valor
+    (60) aritmetica -> valor . RESTA valor
+    (61) aritmetica -> valor . MULTIPLICACION valor
+    (62) aritmetica -> valor . DIVISION valor
+    (68) booleana -> valor . CONJUNCION valor
+    (69) booleana -> valor . DISYUNCION valor
+    (63) comparacion -> valor . MAYOR valor
+    (64) comparacion -> valor . MENOR valor
+    (65) comparacion -> valor . MAYOR_IGUAL valor
+    (66) comparacion -> valor . MENOR_IGUAL valor
+    (67) comparacion -> valor . IGUAL valor
+
+    PARENTESIS_CIERRA reduce using rule 86 (arg -> valor .)
+    COMA            shift and go to state 131
+    SUMA            shift and go to state 68
+    RESTA           shift and go to state 69
+    MULTIPLICACION  shift and go to state 70
+    DIVISION        shift and go to state 71
+    CONJUNCION      shift and go to state 72
+    DISYUNCION      shift and go to state 73
+    MAYOR           shift and go to state 74
+    MENOR           shift and go to state 75
+    MAYOR_IGUAL     shift and go to state 76
+    MENOR_IGUAL     shift and go to state 77
+    IGUAL           shift and go to state 78
+
+
+state 118
+
+    (88) arg -> empty .
+
+    PARENTESIS_CIERRA reduce using rule 88 (arg -> empty .)
+
 
 state 119
 
@@ -3467,100 +3467,12 @@ state 127
 
 state 128
 
-    (85) function_call -> CADENA_NO_COMILLAS PARENTESIS_ABRE arg PARENTESIS_CIERRA .
-
-    SUMA            reduce using rule 85 (function_call -> CADENA_NO_COMILLAS PARENTESIS_ABRE arg PARENTESIS_CIERRA .)
-    RESTA           reduce using rule 85 (function_call -> CADENA_NO_COMILLAS PARENTESIS_ABRE arg PARENTESIS_CIERRA .)
-    MULTIPLICACION  reduce using rule 85 (function_call -> CADENA_NO_COMILLAS PARENTESIS_ABRE arg PARENTESIS_CIERRA .)
-    DIVISION        reduce using rule 85 (function_call -> CADENA_NO_COMILLAS PARENTESIS_ABRE arg PARENTESIS_CIERRA .)
-    CONJUNCION      reduce using rule 85 (function_call -> CADENA_NO_COMILLAS PARENTESIS_ABRE arg PARENTESIS_CIERRA .)
-    DISYUNCION      reduce using rule 85 (function_call -> CADENA_NO_COMILLAS PARENTESIS_ABRE arg PARENTESIS_CIERRA .)
-    MAYOR           reduce using rule 85 (function_call -> CADENA_NO_COMILLAS PARENTESIS_ABRE arg PARENTESIS_CIERRA .)
-    MENOR           reduce using rule 85 (function_call -> CADENA_NO_COMILLAS PARENTESIS_ABRE arg PARENTESIS_CIERRA .)
-    MAYOR_IGUAL     reduce using rule 85 (function_call -> CADENA_NO_COMILLAS PARENTESIS_ABRE arg PARENTESIS_CIERRA .)
-    MENOR_IGUAL     reduce using rule 85 (function_call -> CADENA_NO_COMILLAS PARENTESIS_ABRE arg PARENTESIS_CIERRA .)
-    IGUAL           reduce using rule 85 (function_call -> CADENA_NO_COMILLAS PARENTESIS_ABRE arg PARENTESIS_CIERRA .)
-    PUNTO_Y_COMA    reduce using rule 85 (function_call -> CADENA_NO_COMILLAS PARENTESIS_ABRE arg PARENTESIS_CIERRA .)
-    PARENTESIS_CIERRA reduce using rule 85 (function_call -> CADENA_NO_COMILLAS PARENTESIS_ABRE arg PARENTESIS_CIERRA .)
-    COMA            reduce using rule 85 (function_call -> CADENA_NO_COMILLAS PARENTESIS_ABRE arg PARENTESIS_CIERRA .)
-    LLAVE_CIERRA    reduce using rule 85 (function_call -> CADENA_NO_COMILLAS PARENTESIS_ABRE arg PARENTESIS_CIERRA .)
-
-
-state 129
-
-    (87) arg -> valor COMA . arg
-    (86) arg -> . valor
-    (87) arg -> . valor COMA arg
-    (88) arg -> . empty
-    (26) valor -> . ident
-    (27) valor -> . operacion
-    (28) valor -> . ajson_v
-    (29) valor -> . function_call
-    (30) valor -> . ENTERO
-    (31) valor -> . DECIMAL
-    (32) valor -> . TR
-    (33) valor -> . FL
-    (34) valor -> . NULL
-    (35) valor -> . CARACTER
-    (36) valor -> . PARENTESIS_ABRE valor PARENTESIS_CIERRA
-    (37) valor -> . SUMA valor
-    (38) valor -> . RESTA valor
-    (3) empty -> .
-    (14) ident -> . CADENA_NO_COMILLAS
-    (15) ident -> . CADENA_NO_COMILLAS PUNTO ident
-    (16) ident -> . CADENA_NO_COMILLAS CORCHETE_ABRE CADENA_COMILLAS CORCHETE_CIERRA
-    (17) ident -> . CADENA_NO_COMILLAS CORCHETE_ABRE CADENA_COMILLAS CORCHETE_CIERRA PUNTO ident
-    (56) operacion -> . aritmetica
-    (57) operacion -> . booleana
-    (58) operacion -> . comparacion
-    (49) ajson_v -> . LLAVE_ABRE lista_v LLAVE_CIERRA
-    (85) function_call -> . CADENA_NO_COMILLAS PARENTESIS_ABRE arg PARENTESIS_CIERRA
-    (59) aritmetica -> . valor SUMA valor
-    (60) aritmetica -> . valor RESTA valor
-    (61) aritmetica -> . valor MULTIPLICACION valor
-    (62) aritmetica -> . valor DIVISION valor
-    (68) booleana -> . valor CONJUNCION valor
-    (69) booleana -> . valor DISYUNCION valor
-    (70) booleana -> . NEGACION valor
-    (63) comparacion -> . valor MAYOR valor
-    (64) comparacion -> . valor MENOR valor
-    (65) comparacion -> . valor MAYOR_IGUAL valor
-    (66) comparacion -> . valor MENOR_IGUAL valor
-    (67) comparacion -> . valor IGUAL valor
-
-    ENTERO          shift and go to state 45
-    DECIMAL         shift and go to state 46
-    TR              shift and go to state 47
-    FL              shift and go to state 48
-    NULL            shift and go to state 49
-    CARACTER        shift and go to state 50
-    PARENTESIS_ABRE shift and go to state 51
-    SUMA            shift and go to state 52
-    RESTA           shift and go to state 53
-    PARENTESIS_CIERRA reduce using rule 3 (empty -> .)
-    CADENA_NO_COMILLAS shift and go to state 54
-    LLAVE_ABRE      shift and go to state 58
-    NEGACION        shift and go to state 59
-
-    valor                          shift and go to state 114
-    arg                            shift and go to state 146
-    empty                          shift and go to state 115
-    ident                          shift and go to state 41
-    operacion                      shift and go to state 42
-    ajson_v                        shift and go to state 43
-    function_call                  shift and go to state 44
-    aritmetica                     shift and go to state 55
-    booleana                       shift and go to state 56
-    comparacion                    shift and go to state 57
-
-state 130
-
     (52) lista_v -> elemento_v COMA lista_v .
 
     LLAVE_CIERRA    reduce using rule 52 (lista_v -> elemento_v COMA lista_v .)
 
 
-state 131
+state 129
 
     (53) elemento_v -> clave_v DOS_PUNTOS valor .
     (59) aritmetica -> valor . SUMA valor
@@ -3589,6 +3501,94 @@ state 131
     MENOR_IGUAL     shift and go to state 77
     IGUAL           shift and go to state 78
 
+
+state 130
+
+    (85) function_call -> CADENA_NO_COMILLAS PARENTESIS_ABRE arg PARENTESIS_CIERRA .
+
+    SUMA            reduce using rule 85 (function_call -> CADENA_NO_COMILLAS PARENTESIS_ABRE arg PARENTESIS_CIERRA .)
+    RESTA           reduce using rule 85 (function_call -> CADENA_NO_COMILLAS PARENTESIS_ABRE arg PARENTESIS_CIERRA .)
+    MULTIPLICACION  reduce using rule 85 (function_call -> CADENA_NO_COMILLAS PARENTESIS_ABRE arg PARENTESIS_CIERRA .)
+    DIVISION        reduce using rule 85 (function_call -> CADENA_NO_COMILLAS PARENTESIS_ABRE arg PARENTESIS_CIERRA .)
+    CONJUNCION      reduce using rule 85 (function_call -> CADENA_NO_COMILLAS PARENTESIS_ABRE arg PARENTESIS_CIERRA .)
+    DISYUNCION      reduce using rule 85 (function_call -> CADENA_NO_COMILLAS PARENTESIS_ABRE arg PARENTESIS_CIERRA .)
+    MAYOR           reduce using rule 85 (function_call -> CADENA_NO_COMILLAS PARENTESIS_ABRE arg PARENTESIS_CIERRA .)
+    MENOR           reduce using rule 85 (function_call -> CADENA_NO_COMILLAS PARENTESIS_ABRE arg PARENTESIS_CIERRA .)
+    MAYOR_IGUAL     reduce using rule 85 (function_call -> CADENA_NO_COMILLAS PARENTESIS_ABRE arg PARENTESIS_CIERRA .)
+    MENOR_IGUAL     reduce using rule 85 (function_call -> CADENA_NO_COMILLAS PARENTESIS_ABRE arg PARENTESIS_CIERRA .)
+    IGUAL           reduce using rule 85 (function_call -> CADENA_NO_COMILLAS PARENTESIS_ABRE arg PARENTESIS_CIERRA .)
+    PUNTO_Y_COMA    reduce using rule 85 (function_call -> CADENA_NO_COMILLAS PARENTESIS_ABRE arg PARENTESIS_CIERRA .)
+    PARENTESIS_CIERRA reduce using rule 85 (function_call -> CADENA_NO_COMILLAS PARENTESIS_ABRE arg PARENTESIS_CIERRA .)
+    COMA            reduce using rule 85 (function_call -> CADENA_NO_COMILLAS PARENTESIS_ABRE arg PARENTESIS_CIERRA .)
+    LLAVE_CIERRA    reduce using rule 85 (function_call -> CADENA_NO_COMILLAS PARENTESIS_ABRE arg PARENTESIS_CIERRA .)
+
+
+state 131
+
+    (87) arg -> valor COMA . arg
+    (86) arg -> . valor
+    (87) arg -> . valor COMA arg
+    (88) arg -> . empty
+    (26) valor -> . operacion
+    (27) valor -> . ajson_v
+    (28) valor -> . function_call
+    (29) valor -> . ident
+    (30) valor -> . ENTERO
+    (31) valor -> . DECIMAL
+    (32) valor -> . TR
+    (33) valor -> . FL
+    (34) valor -> . NULL
+    (35) valor -> . CARACTER
+    (36) valor -> . PARENTESIS_ABRE valor PARENTESIS_CIERRA
+    (37) valor -> . SUMA valor
+    (38) valor -> . RESTA valor
+    (3) empty -> .
+    (56) operacion -> . aritmetica
+    (57) operacion -> . booleana
+    (58) operacion -> . comparacion
+    (49) ajson_v -> . LLAVE_ABRE lista_v LLAVE_CIERRA
+    (85) function_call -> . CADENA_NO_COMILLAS PARENTESIS_ABRE arg PARENTESIS_CIERRA
+    (14) ident -> . CADENA_NO_COMILLAS
+    (15) ident -> . CADENA_NO_COMILLAS PUNTO ident
+    (16) ident -> . CADENA_NO_COMILLAS CORCHETE_ABRE CADENA_COMILLAS CORCHETE_CIERRA
+    (17) ident -> . CADENA_NO_COMILLAS CORCHETE_ABRE CADENA_COMILLAS CORCHETE_CIERRA PUNTO ident
+    (59) aritmetica -> . valor SUMA valor
+    (60) aritmetica -> . valor RESTA valor
+    (61) aritmetica -> . valor MULTIPLICACION valor
+    (62) aritmetica -> . valor DIVISION valor
+    (68) booleana -> . valor CONJUNCION valor
+    (69) booleana -> . valor DISYUNCION valor
+    (70) booleana -> . NEGACION valor
+    (63) comparacion -> . valor MAYOR valor
+    (64) comparacion -> . valor MENOR valor
+    (65) comparacion -> . valor MAYOR_IGUAL valor
+    (66) comparacion -> . valor MENOR_IGUAL valor
+    (67) comparacion -> . valor IGUAL valor
+
+    ENTERO          shift and go to state 45
+    DECIMAL         shift and go to state 46
+    TR              shift and go to state 47
+    FL              shift and go to state 48
+    NULL            shift and go to state 49
+    CARACTER        shift and go to state 50
+    PARENTESIS_ABRE shift and go to state 51
+    SUMA            shift and go to state 52
+    RESTA           shift and go to state 53
+    PARENTESIS_CIERRA reduce using rule 3 (empty -> .)
+    LLAVE_ABRE      shift and go to state 57
+    CADENA_NO_COMILLAS shift and go to state 58
+    NEGACION        shift and go to state 59
+
+    valor                          shift and go to state 117
+    arg                            shift and go to state 146
+    empty                          shift and go to state 118
+    operacion                      shift and go to state 41
+    ajson_v                        shift and go to state 42
+    function_call                  shift and go to state 43
+    ident                          shift and go to state 44
+    aritmetica                     shift and go to state 54
+    booleana                       shift and go to state 55
+    comparacion                    shift and go to state 56
 
 state 132
 
@@ -3873,10 +3873,10 @@ state 153
 state 154
 
     (84) function_def -> FUNCTION CADENA_NO_COMILLAS PARENTESIS_ABRE id_t PARENTESIS_CIERRA DOS_PUNTOS tipo LLAVE_ABRE RETURN . valor PUNTO_Y_COMA LLAVE_CIERRA
-    (26) valor -> . ident
-    (27) valor -> . operacion
-    (28) valor -> . ajson_v
-    (29) valor -> . function_call
+    (26) valor -> . operacion
+    (27) valor -> . ajson_v
+    (28) valor -> . function_call
+    (29) valor -> . ident
     (30) valor -> . ENTERO
     (31) valor -> . DECIMAL
     (32) valor -> . TR
@@ -3886,15 +3886,15 @@ state 154
     (36) valor -> . PARENTESIS_ABRE valor PARENTESIS_CIERRA
     (37) valor -> . SUMA valor
     (38) valor -> . RESTA valor
-    (14) ident -> . CADENA_NO_COMILLAS
-    (15) ident -> . CADENA_NO_COMILLAS PUNTO ident
-    (16) ident -> . CADENA_NO_COMILLAS CORCHETE_ABRE CADENA_COMILLAS CORCHETE_CIERRA
-    (17) ident -> . CADENA_NO_COMILLAS CORCHETE_ABRE CADENA_COMILLAS CORCHETE_CIERRA PUNTO ident
     (56) operacion -> . aritmetica
     (57) operacion -> . booleana
     (58) operacion -> . comparacion
     (49) ajson_v -> . LLAVE_ABRE lista_v LLAVE_CIERRA
     (85) function_call -> . CADENA_NO_COMILLAS PARENTESIS_ABRE arg PARENTESIS_CIERRA
+    (14) ident -> . CADENA_NO_COMILLAS
+    (15) ident -> . CADENA_NO_COMILLAS PUNTO ident
+    (16) ident -> . CADENA_NO_COMILLAS CORCHETE_ABRE CADENA_COMILLAS CORCHETE_CIERRA
+    (17) ident -> . CADENA_NO_COMILLAS CORCHETE_ABRE CADENA_COMILLAS CORCHETE_CIERRA PUNTO ident
     (59) aritmetica -> . valor SUMA valor
     (60) aritmetica -> . valor RESTA valor
     (61) aritmetica -> . valor MULTIPLICACION valor
@@ -3917,18 +3917,18 @@ state 154
     PARENTESIS_ABRE shift and go to state 51
     SUMA            shift and go to state 52
     RESTA           shift and go to state 53
-    CADENA_NO_COMILLAS shift and go to state 54
-    LLAVE_ABRE      shift and go to state 58
+    LLAVE_ABRE      shift and go to state 57
+    CADENA_NO_COMILLAS shift and go to state 58
     NEGACION        shift and go to state 59
 
     valor                          shift and go to state 157
-    ident                          shift and go to state 41
-    operacion                      shift and go to state 42
-    ajson_v                        shift and go to state 43
-    function_call                  shift and go to state 44
-    aritmetica                     shift and go to state 55
-    booleana                       shift and go to state 56
-    comparacion                    shift and go to state 57
+    operacion                      shift and go to state 41
+    ajson_v                        shift and go to state 42
+    function_call                  shift and go to state 43
+    ident                          shift and go to state 44
+    aritmetica                     shift and go to state 54
+    booleana                       shift and go to state 55
+    comparacion                    shift and go to state 56
 
 state 155
 
@@ -3940,10 +3940,10 @@ state 155
 state 156
 
     (83) function_def -> FUNCTION CADENA_NO_COMILLAS PARENTESIS_ABRE id_t PARENTESIS_CIERRA DOS_PUNTOS tipo LLAVE_ABRE statement RETURN . valor PUNTO_Y_COMA LLAVE_CIERRA
-    (26) valor -> . ident
-    (27) valor -> . operacion
-    (28) valor -> . ajson_v
-    (29) valor -> . function_call
+    (26) valor -> . operacion
+    (27) valor -> . ajson_v
+    (28) valor -> . function_call
+    (29) valor -> . ident
     (30) valor -> . ENTERO
     (31) valor -> . DECIMAL
     (32) valor -> . TR
@@ -3953,15 +3953,15 @@ state 156
     (36) valor -> . PARENTESIS_ABRE valor PARENTESIS_CIERRA
     (37) valor -> . SUMA valor
     (38) valor -> . RESTA valor
-    (14) ident -> . CADENA_NO_COMILLAS
-    (15) ident -> . CADENA_NO_COMILLAS PUNTO ident
-    (16) ident -> . CADENA_NO_COMILLAS CORCHETE_ABRE CADENA_COMILLAS CORCHETE_CIERRA
-    (17) ident -> . CADENA_NO_COMILLAS CORCHETE_ABRE CADENA_COMILLAS CORCHETE_CIERRA PUNTO ident
     (56) operacion -> . aritmetica
     (57) operacion -> . booleana
     (58) operacion -> . comparacion
     (49) ajson_v -> . LLAVE_ABRE lista_v LLAVE_CIERRA
     (85) function_call -> . CADENA_NO_COMILLAS PARENTESIS_ABRE arg PARENTESIS_CIERRA
+    (14) ident -> . CADENA_NO_COMILLAS
+    (15) ident -> . CADENA_NO_COMILLAS PUNTO ident
+    (16) ident -> . CADENA_NO_COMILLAS CORCHETE_ABRE CADENA_COMILLAS CORCHETE_CIERRA
+    (17) ident -> . CADENA_NO_COMILLAS CORCHETE_ABRE CADENA_COMILLAS CORCHETE_CIERRA PUNTO ident
     (59) aritmetica -> . valor SUMA valor
     (60) aritmetica -> . valor RESTA valor
     (61) aritmetica -> . valor MULTIPLICACION valor
@@ -3984,18 +3984,18 @@ state 156
     PARENTESIS_ABRE shift and go to state 51
     SUMA            shift and go to state 52
     RESTA           shift and go to state 53
-    CADENA_NO_COMILLAS shift and go to state 54
-    LLAVE_ABRE      shift and go to state 58
+    LLAVE_ABRE      shift and go to state 57
+    CADENA_NO_COMILLAS shift and go to state 58
     NEGACION        shift and go to state 59
 
     valor                          shift and go to state 159
-    ident                          shift and go to state 41
-    operacion                      shift and go to state 42
-    ajson_v                        shift and go to state 43
-    function_call                  shift and go to state 44
-    aritmetica                     shift and go to state 55
-    booleana                       shift and go to state 56
-    comparacion                    shift and go to state 57
+    operacion                      shift and go to state 41
+    ajson_v                        shift and go to state 42
+    function_call                  shift and go to state 43
+    ident                          shift and go to state 44
+    aritmetica                     shift and go to state 54
+    booleana                       shift and go to state 55
+    comparacion                    shift and go to state 56
 
 state 157
 

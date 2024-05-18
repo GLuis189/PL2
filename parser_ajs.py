@@ -91,6 +91,8 @@ def p_declare(p):
     #print('declare')
     lista_vars = p[2]
     tipo_a, value = p[3]
+    if isinstance(p[3], dict):
+        value = p[3]
     for var in lista_vars:
         tipo, name = var
         if name in symbols:
@@ -98,6 +100,9 @@ def p_declare(p):
         else:
             if tipo == None or tipo == tipo_a:
                 symbols[name] = (tipo_a, value)
+            else:
+                if tipo in objects:
+                   symbols[name] = (tipo, value)
     
 
 def p_asign_valor(p):
@@ -128,9 +133,12 @@ def p_variable(p):
     # print('variable')
     if len(p) == 2: p[0] = (None, p[1])
     else:
-        # Para ahcer, comprobar que el tipo (cadena no comillas) sea valido 
-        p[0] = (p[3], p[1])
-
+        # Para hacer, comprobar que el tipo (cadena no comillas) sea valido
+        if p[3] not in objects:
+            print('[ERROR][PARSER] Type %s not defined' % p[3])
+        else:
+            p[0] = (p[3], p[1])
+            
 ###################### ASIGNACIONES ######################
     
 def p_assign(p):
@@ -184,11 +192,17 @@ def p_assign(p):
 #     #print('valor')
 
 def p_valor(p):
-    '''valor : ident
-             | operacion
+    '''valor : operacion
              | ajson_v
              | function_call'''
     p[0] = p[1]
+
+def p_valor_ident(p):
+    '''valor : ident'''
+    #print('valor_ident')
+    ident = p[1]
+    if ident in symbols:
+        p[0] = symbols[ident]
 
 def p_valor_entero(p):
     '''valor : ENTERO'''
@@ -299,18 +313,19 @@ def p_lista_v(p):
                | elemento_v COMA 
                | elemento_v COMA lista_v'''
     #print('lista_v')
-    if len(p) == 2: p[0] = p[1]
+    if len(p) <= 3: p[0] = p[1]
     else: p[0] = p[1] | p[3]
 
 def p_elemento_v(p):
     '''elemento_v : clave_v DOS_PUNTOS valor'''
     #print('elemento')
-    print(p[1])
+    p[0] = {p[1]: p[3]}
 
 def p_clave_v(p):
     '''clave_v : CADENA_NO_COMILLAS
                | CADENA_COMILLAS'''
     #print('clave_v')
+    p[0] = p[1]
 
 def p_operacion(p):
     '''operacion : aritmetica
