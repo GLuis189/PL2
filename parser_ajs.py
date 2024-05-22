@@ -22,11 +22,15 @@ def cargar_symbolos():
         f.write('\n')
         f.write('Objects:\n')
         f.write(json.dumps(convert_keys_to_strings(objects), indent=4))
+        f.write('\n')
+        f.write('Functions:\n')
+        f.write(json.dumps(convert_keys_to_strings(functions), indent=4))
 
 tokens = Tokens.tokens + Tokens.reserved
 
 symbols = {}
 objects = {}
+functions = {}
 
 precedence = (
         ('left', 'CONJUNCION', 'DISYUNCION'),
@@ -172,6 +176,8 @@ def p_assign(p):
             #         symbols[ident] = (tipo_s, value.encode('utf-8'))
             #     else:
             #         print('[ERROR][PARSER] Type mismatch in variable %s' % ident)
+        elif ident in functions:
+            print('[ERROR][PARSER] Function %s cannot be assigned' % ident)
         else:
             print('[ERROR][PARSER] Variable %s not declared' % ident)
 
@@ -355,6 +361,8 @@ def p_aritmetica_suma_resta(p):
         elif t1 == 'int' and t2 == 'char':
             if op == '+': p[0] = ('char', chr(v1 + ord(v2)))
             else: p[0] = ('char', chr(v1 - ord(v2)))
+    else:
+        print('[ERROR][PARSER] Type mismatch in arithmetic operation')
             
 
 def p_aritmetica_mul_div(p):
@@ -375,6 +383,8 @@ def p_aritmetica_mul_div(p):
             elif op == '/':
                 if v2 != 0: p[0] = ('float', v1 / v2)
                 else: print('[ERROR][PARSER] Division by zero')
+    else:
+        print('[ERROR][PARSER] Type mismatch in arithmetic operation')
     
 
 def p_comparacion(p):
@@ -392,21 +402,49 @@ def p_comparacion(p):
             elif op == '<': p[0] = ('bool', v1 < v2)
             elif op == '>=': p[0] = ('bool', v1 >= v2)
             elif op == '<=': p[0] = ('bool', v1 <= v2)
-        
-
-        
-    
-    
+    else:
+        print('[ERROR][PARSER] Type mismatch in comparison')
 
 def p_comparacion_igual(p):
     '''comparacion : valor IGUAL valor %prec IGUAL'''
     #print('comparacion_igual')
+    t1, v1 = p[1]
+    t2, v2 = p[3]
+    if t1 in ['int', 'float', 'char', 'bool'] and t2 in ['int', 'float', 'char', 'bool']:
+        if t1 == t2:
+            p[0] = ('bool', v1 == v2)
+        elif t1 == 'int' and t2 == 'float' or t1 == 'float' and t2 == 'int':
+            p[0] = ('bool', v1 == v2)
+        elif t1 == 'char' and t2 == 'int':
+            p[0] = ('bool', v1 == v2)
+        elif t1 == 'int' and t2 == 'char':
+            p[0] = ('bool', v1 == v2)
+        elif t1 == 'bool' and t2 == 'bool':
+            p[0] = ('bool', v1 == v2)
+    else:
+        print('[ERROR][PARSER] Type mismatch in comparison')
 
 def p_booleana(p):
     '''booleana : valor CONJUNCION valor %prec CONJUNCION
-                | valor DISYUNCION valor %prec DISYUNCION
-                | NEGACION valor %prec NEGACION'''
+                | valor DISYUNCION valor %prec DISYUNCION'''
     #print('booleana')
+    t1, v1 = p[1]
+    t2, v2 = p[3]
+    op = p[2]
+    if t1 == 'bool' and t2 == 'bool':
+        if op == '&&': p[0] = ('bool', v1 and v2)
+        elif op == '||': p[0] = ('bool', v1 or v2)
+    else:
+        print('[ERROR][PARSER] Type mismatch in boolean operation')
+
+def p_booleana_negacion(p):
+    '''booleana : NEGACION valor %prec NEGACION'''
+    #print('booleana_negacion')
+    t, v = p[2]
+    if t == 'bool':
+        p[0] = ('bool', not v)
+    else:
+        print('[ERROR][PARSER] Type mismatch in negation')
 
 # def p_tipo(p):
 #     '''tipo : INT
@@ -463,10 +501,13 @@ def p_id_t(p):
             | variable_t COMA id_t
             | empty'''
     #print('id_t')
+    if len(p) == 2: p[0] = [p[1]]
+    elif len(p) == 4: p[0] = [p[1]] + p[3]
 
 def p_variable_t(p):
     '''variable_t : CADENA_NO_COMILLAS DOS_PUNTOS tipo
     '''
+    p[0] = (p[3], p[1])
 
     #print('variable_t')
 
@@ -476,18 +517,44 @@ def p_function_def(p):
                  | FUNCTION CADENA_NO_COMILLAS PARENTESIS_ABRE id_t PARENTESIS_CIERRA DOS_PUNTOS tipo LLAVE_ABRE RETURN valor PUNTO_Y_COMA LLAVE_CIERRA
     '''
     #print('function_def')
+    name = p[2]
+    tipo = p[7]
+    args = p[4]
+    arg_t = []
+    for arg in args:
+        arg_t.append(arg[0])
+    name = (name, tuple(arg_t))
+    if name in functions:
+        print('[ERROR][PARSER] Function %s already defined' % name)
+    else:
+        functions[name] = (tipo, args)
 
 def p_function_call(p):
     '''
     function_call : CADENA_NO_COMILLAS PARENTESIS_ABRE arg PARENTESIS_CIERRA
     '''
     #print('function_call')
+    name = p[1]
+    args = p[3]
+    aux = []
+    for arg in args:
+        aux.append(arg[0])
+    name = (name, tuple(aux))
+    if name in functions:
+        tipo, args = functions[name]
+        # Hay q hacer que devuelva el resultado????? ##########################################################################################
+        p[0] = (tipo, None)
+    else:
+        print('[ERROR][PARSER] Function %s not defined' % name)
 
 def p_arg(p):
     '''arg : valor
            | valor COMA arg
            | empty'''
     #print('arg')
+    if len(p) == 2: p[0] = [p[1]]
+    elif len(p) == 4: p[0] = [p[1]] + p[3]
+    else: p[0] = []
 
 def p_error(p):
     error = True

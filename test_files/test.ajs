@@ -1,3 +1,4 @@
+/*
 let a;
 a = 'A' + 2;
 let b;
@@ -6,3 +7,15 @@ let c;
 c = 2 + 'A';
 let d;
 d = -2 + 'C';
+*/
+
+function ejem(a: int, b: boolean): int{
+    return a;
+}
+
+function ejem(a: int, b:int, c: boolean): int{
+    return a;
+}
+let a = tr;
+let r;
+r = ejem(4, tr);

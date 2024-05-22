@@ -1,21 +1,46 @@
 Symbols:
 {
     "a": [
-        "char",
-        "C"
+        "bool",
+        true
     ],
-    "b": [
-        "char",
-        "A"
-    ],
-    "c": [
-        "char",
-        "C"
-    ],
-    "d": [
-        "char",
-        "A"
+    "r": [
+        "int",
+        null
     ]
 }
 Objects:
 {}
+Functions:
+{
+    "('ejem', ('int', 'bool'))": [
+        "int",
+        [
+            [
+                "int",
+                "a"
+            ],
+            [
+                "bool",
+                "b"
+            ]
+        ]
+    ],
+    "('ejem', ('int', 'int', 'bool'))": [
+        "int",
+        [
+            [
+                "int",
+                "a"
+            ],
+            [
+                "int",
+                "b"
+            ],
+            [
+                "bool",
+                "c"
+            ]
+        ]
+    ]
+}
