@@ -332,23 +332,75 @@ def p_operacion(p):
                  | booleana
                  | comparacion'''
     #print('operacion')
-    
+    p[0] = p[1]
 
-def p_aritmetica(p):
+def p_aritmetica_suma_resta(p):
     '''aritmetica : valor SUMA valor %prec SUMA
-                  | valor RESTA valor %prec RESTA
-                  | valor MULTIPLICACION valor %prec MULTIPLICACION
+                  | valor RESTA valor %prec RESTA'''
+    #print('aritmetica')
+    t1, v1 = p[1]
+    t2, v2 = p[3]
+    op = p[2]
+    if t1 in ['int', 'float', 'char'] and t2 in ['int', 'float', 'char']:
+        if t1 == t2:
+            if op == '+': p[0] = (t1, v1 + v2)
+            else: p[0] = (t1, v1 - v2)
+        elif t1 == 'int' and t2 == 'float' or t1 == 'float' and t2 == 'int':
+            if op == '+': p[0] = ('float', v1 + v2)
+            else: p[0] = ('float', v1 - v2)
+        elif t1 == 'char' and t2 == 'int':
+            if op == '+': p[0] = ('char', chr(ord(v1) + v2))
+            else: p[0] = p[0] = ('char', chr(ord(v1) - v2))
+        # ns como va esto en la practica
+        elif t1 == 'int' and t2 == 'char':
+            if op == '+': p[0] = ('char', chr(v1 + ord(v2)))
+            else: p[0] = ('char', chr(v1 - ord(v2)))
+            
+
+def p_aritmetica_mul_div(p):
+    '''aritmetica : valor MULTIPLICACION valor %prec MULTIPLICACION
                   | valor DIVISION valor %prec DIVISION'''
     #print('aritmetica')
+    t1, v1 = p[1]
+    t2, v2 = p[3]
+    op = p[2]
+    if t1 in ['int', 'float'] and t2 in ['int', 'float']:
+        if t1 == t2:
+            if op == '*': p[0] = (t1, v1 * v2)
+            else:
+                if v2 != 0: p[0] = (t1, v1 / v2)
+                else: print('[ERROR][PARSER] Division by zero')
+        elif t1 == 'int' and t2 == 'float' or t1 == 'float' and t2 == 'int':
+            if op == '*': p[0] = ('float', v1 * v2)
+            elif op == '/':
+                if v2 != 0: p[0] = ('float', v1 / v2)
+                else: print('[ERROR][PARSER] Division by zero')
     
 
 def p_comparacion(p):
     '''comparacion : valor MAYOR valor %prec MAYOR
                    | valor MENOR valor %prec MENOR
                    | valor MAYOR_IGUAL valor %prec MAYOR_IGUAL
-                   | valor MENOR_IGUAL valor %prec MENOR_IGUAL
-                   | valor IGUAL valor %prec IGUAL'''
+                   | valor MENOR_IGUAL valor %prec MENOR_IGUAL'''
     #print('comparacion')
+    t1, v1 = p[1]
+    t2, v2 = p[3]
+    op = p[2]
+    if t1 in ['int', 'float', 'char'] and t2 in ['int', 'float', 'char']:
+        if t1 == t2 or (t1 == 'int' and t2 == 'float' or t1 == 'float' and t2 == 'int'):
+            if op == '>': p[0] = ('bool', v1 > v2)
+            elif op == '<': p[0] = ('bool', v1 < v2)
+            elif op == '>=': p[0] = ('bool', v1 >= v2)
+            elif op == '<=': p[0] = ('bool', v1 <= v2)
+        
+
+        
+    
+    
+
+def p_comparacion_igual(p):
+    '''comparacion : valor IGUAL valor %prec IGUAL'''
+    #print('comparacion_igual')
 
 def p_booleana(p):
     '''booleana : valor CONJUNCION valor %prec CONJUNCION
