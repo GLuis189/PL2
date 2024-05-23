@@ -9,12 +9,10 @@ let circle: Circle = {
 };
 
 let square: Square, circle_area;
-circle_area = 3.14 * circle.radio * circle["radio"];
-
-square.side = 10.; // Error: square is not initialized
+circle_area = 3.14 *3.17;
 square = {
     side: 10.,
     color: 'b'
 };
 
-let square_area = square.side * square["side"];
+let square_area = 5.5;

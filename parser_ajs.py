@@ -95,9 +95,15 @@ def p_declare(p):
     '''
     #print('declare')
     lista_vars = p[2]
-    tipo_a, value = p[3]
     if isinstance(p[3], dict):
+        tipo_a = None
         value = p[3]
+    else:
+        if p[3] != None:
+            tipo_a, value = p[3]
+        else:
+            tipo_a = None
+            value = p[3]
     for var in lista_vars:
         tipo, name = var
         if name in symbols:
@@ -108,7 +114,6 @@ def p_declare(p):
             else:
                 if tipo in objects:
                    symbols[name] = (tipo, value)
-    
 
 def p_asign_valor(p):
     '''
@@ -164,9 +169,12 @@ def p_assign(p):
                 print('[ERROR][PARSER] Variable %s not declared' % i)
     else:
         if ident in symbols:
-            tipo, value = p[2]
-            tipo_s= symbols[ident][0]
-            symbols[ident] = (tipo, value)
+            if isinstance(p[2], dict):
+                    symbols[ident] = (symbols[ident][0],p[2])
+            else:
+                tipo, value = p[2]
+                tipo_s= symbols[ident][0]
+                symbols[ident] = (tipo, value)
             # Comprobaciones de tipo pero no se si es necesario #######################################################################################
             # if tipo == tipo_s or tipo_s == None:
             #     symbols[ident] = (tipo, value)
@@ -445,6 +453,7 @@ def p_booleana(p):
     else:
         if op == '&&': p[0] = ('bool', bool(v1 and v2))
         elif op == '||': p[0] = ('bool', bool(v1 or v2))
+
 def p_booleana_negacion(p):
     '''booleana : NEGACION valor %prec NEGACION'''
     #print('booleana_negacion')
