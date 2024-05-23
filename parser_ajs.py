@@ -33,7 +33,8 @@ objects = {}
 functions = {}
 
 precedence = (
-        ('left', 'CONJUNCION', 'DISYUNCION'),
+        ('left', 'DISYUNCION'),
+        ('left', 'CONJUNCION'),
         ('right', 'NEGACION'),
         ('nonassoc', 'IGUAL'),
         ('nonassoc', 'MENOR_IGUAL', 'MENOR', 'MAYOR_IGUAL', 'MAYOR'),
@@ -428,15 +429,22 @@ def p_booleana(p):
     '''booleana : valor CONJUNCION valor %prec CONJUNCION
                 | valor DISYUNCION valor %prec DISYUNCION'''
     #print('booleana')
-    t1, v1 = p[1]
-    t2, v2 = p[3]
+    v1 = p[1]
+    v2 = p[3]
     op = p[2]
-    if t1 == 'bool' and t2 == 'bool':
-        if op == '&&': p[0] = ('bool', v1 and v2)
-        elif op == '||': p[0] = ('bool', v1 or v2)
+    #comprobamos en funcion de si están delcaradas las variablesd
+    if (type(v1) and type(v2)) is tuple:
+        if op == '&&': p[0] = ('bool', bool(v1[1] and v2[1]))
+        elif op == '||': p[0] = ('bool', bool(v1[1] or v2[1]))
+    elif type(v1) is tuple:
+        if op == '&&': p[0] = ('bool', bool(v1[1] and v2))
+        elif op == '||': p[0] = ('bool', bool(v1[1] or v2))
+    elif type(v2) is tuple:
+        if op == '&&': p[0] = ('bool', bool(v1 and v2[1]))
+        elif op == '||': p[0] = ('bool', bool(v1 or v2[1]))
     else:
-        print('[ERROR][PARSER] Type mismatch in boolean operation')
-
+        if op == '&&': p[0] = ('bool', bool(v1 and v2))
+        elif op == '||': p[0] = ('bool', bool(v1 or v2))
 def p_booleana_negacion(p):
     '''booleana : NEGACION valor %prec NEGACION'''
     #print('booleana_negacion')
