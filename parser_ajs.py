@@ -20,6 +20,9 @@ def cargar_symbolos():
         f.write('Symbols:\n')
         f.write(json.dumps(convert_keys_to_strings(symbols), indent=4))
         f.write('\n')
+        f.write('Registros:\n')
+        f.write(json.dumps(convert_keys_to_strings(registros), indent=4))
+        f.write('\n')
         f.write('Objects:\n')
         f.write(json.dumps(convert_keys_to_strings(objects), indent=4))
         f.write('\n')
@@ -29,6 +32,7 @@ def cargar_symbolos():
 tokens = Tokens.tokens + Tokens.reserved
 
 symbols = {}
+registros = {}
 objects = {}
 functions = {}
 
@@ -109,11 +113,11 @@ def p_declare(p):
         if name in symbols:
             print('[ERROR][PARSER] Variable %s already declared' % name)
         else:
-            if tipo == None or tipo == tipo_a:
+            if tipo == tipo_a:
                 symbols[name] = (tipo_a, value)
             else:
                 if tipo in objects:
-                   symbols[name] = (tipo, value)
+                   registros[name] = (tipo, value)
 
 def p_asign_valor(p):
     '''
@@ -169,11 +173,11 @@ def p_assign(p):
                 print('[ERROR][PARSER] Variable %s not declared' % i)
     else:
         if ident in symbols:
-            if isinstance(p[2], dict):
+            if isinstance(p[2], dict) or not p[2]:
                     symbols[ident] = (symbols[ident][0],p[2])
             else:
                 tipo, value = p[2]
-                tipo_s= symbols[ident][0]
+                #tipo_s= symbols[ident][0]
                 symbols[ident] = (tipo, value)
             # Comprobaciones de tipo pero no se si es necesario #######################################################################################
             # if tipo == tipo_s or tipo_s == None:
@@ -185,6 +189,12 @@ def p_assign(p):
             #         symbols[ident] = (tipo_s, value.encode('utf-8'))
             #     else:
             #         print('[ERROR][PARSER] Type mismatch in variable %s' % ident)
+        elif ident in registros:
+            if isinstance(p[2], dict) or not p[2]:
+                    registros[ident] = (registros[ident][0],p[2])
+            else:
+                tipo, value = p[2]
+                registros[ident] = (tipo, value)
         elif ident in functions:
             print('[ERROR][PARSER] Function %s cannot be assigned' % ident)
         else:
@@ -218,6 +228,8 @@ def p_valor_ident(p):
     ident = p[1]
     if ident in symbols:
         p[0] = symbols[ident]
+    elif ident in registros:
+        p[0] = registros[ident]
 
 def p_valor_entero(p):
     '''valor : ENTERO'''
@@ -353,9 +365,14 @@ def p_aritmetica_suma_resta(p):
     '''aritmetica : valor SUMA valor %prec SUMA
                   | valor RESTA valor %prec RESTA'''
     #print('aritmetica')
-    t1, v1 = p[1]
-    t2, v2 = p[3]
-    op = p[2]
+    if p[1] and p[2]:
+        t1, v1 = p[1]
+        t2, v2 = p[3]
+        op = p[2]
+    else:
+        print('[ERROR][PARSER] Not declared variable')
+        t1= p[1]
+        t2 = p[3]
     if t1 in ['int', 'float', 'char'] and t2 in ['int', 'float', 'char']:
         if t1 == t2:
             if op == '+': p[0] = (t1, v1 + v2)
@@ -378,9 +395,14 @@ def p_aritmetica_mul_div(p):
     '''aritmetica : valor MULTIPLICACION valor %prec MULTIPLICACION
                   | valor DIVISION valor %prec DIVISION'''
     #print('aritmetica')
-    t1, v1 = p[1]
-    t2, v2 = p[3]
-    op = p[2]
+    if p[1] and p[2]:
+        t1, v1 = p[1]
+        t2, v2 = p[3]
+        op = p[2]
+    else:
+        print('[ERROR][PARSER] Not declared variable')
+        t1= p[1]
+        t2 = p[3]
     if t1 in ['int', 'float'] and t2 in ['int', 'float']:
         if t1 == t2:
             if op == '*': p[0] = (t1, v1 * v2)
@@ -440,8 +462,8 @@ def p_booleana(p):
     v1 = p[1]
     v2 = p[3]
     op = p[2]
-    #comprobamos en funcion de si están delcaradas las variablesd
-    if (type(v1) and type(v2)) is tuple:
+    #comprobamos en funcion de si están declaradas las variablesd
+    if ((type(v1) is tuple) and (type(v2) is tuple)):
         if op == '&&': p[0] = ('bool', bool(v1[1] and v2[1]))
         elif op == '||': p[0] = ('bool', bool(v1[1] or v2[1]))
     elif type(v1) is tuple:

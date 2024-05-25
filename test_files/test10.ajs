@@ -17,7 +17,7 @@ function gte(a: int, b: int): boolean {
  * we can access object properties using dot notation (sometimes) or,
  * we can also use the bracket notation (always)
  */
-if (gte(var1.nested["prop2], var2))) {
+if (gte(var1.nested["prop2], var2)) {
     var3 = 'A';
 } else {
     var3 = var3['error];
