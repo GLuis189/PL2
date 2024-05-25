@@ -111,15 +111,15 @@ def p_declare(p):
                 else:
                     tipo_a = None
                     value = p[2][i+1]
-                tipo, name = p[2][i]
-                if name in symbols:
-                    print('[ERROR][PARSER] Variable %s already declared' % name)
+            tipo, name = p[2][i]
+            if name in symbols:
+                print('[ERROR][PARSER] Variable %s already declared' % name)
+            else:
+                if tipo == tipo_a or tipo == None:
+                    symbols[name] = (tipo_a, value)
                 else:
-                    if tipo == tipo_a or tipo == None:
-                        symbols[name] = (tipo_a, value)
-                    else:
-                        if tipo in objects:
-                            registros[name] = (tipo, value)
+                    if tipo in objects:
+                        registros[name] = (tipo, value)
 
 def p_asign_valor(p):
     '''
@@ -133,6 +133,7 @@ def p_id(p):
     '''id : variable asign_valor'''
     #print('id')
     p[0] = [p[1], p[2]]
+    
 
 def p_id_varios(p):
     '''id : variable asign_valor COMA id'''
@@ -141,6 +142,7 @@ def p_id_varios(p):
     valor = p[2]
     resto = p[4]
     p[0] = [ultimo, valor] + resto
+    
     
     
 
@@ -240,6 +242,7 @@ def p_valor_entero(p):
     #print('valor_entero')
 
     p[0] = ('int', p[1])
+    
 
 def p_valor_decimal(p):
     '''valor : DECIMAL'''
@@ -261,6 +264,7 @@ def p_valor_caracter(p):
     '''valor : CARACTER'''
     #print('valor_caracter')
     p[0] = ('char', p[1])
+    
 
 def p_valor_parentesis(p):
     '''valor : PARENTESIS_ABRE valor PARENTESIS_CIERRA'''
