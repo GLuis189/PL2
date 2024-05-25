@@ -95,7 +95,8 @@ def p_ident(p):
 
 def p_declare(p):
     '''
-    declare : LET id 
+
+        declare : LET id 
     '''
     #print('declare')
     lista_vars = p[2]
@@ -380,19 +381,26 @@ def p_aritmetica_suma_resta(p):
         if t1 == t2:
             if op == '+': p[0] = (t1, v1 + v2)
             else: p[0] = (t1, v1 - v2)
+        #int -> float
         elif t1 == 'int' and t2 == 'float' or t1 == 'float' and t2 == 'int':
             if op == '+': p[0] = ('float', v1 + v2)
             else: p[0] = ('float', v1 - v2)
+        #char -> int
         elif t1 == 'char' and t2 == 'int':
-            if op == '+': p[0] = ('char', chr(ord(v1) + v2))
-            else: p[0] = p[0] = ('char', chr(ord(v1) - v2))
-        # ns como va esto en la practica
+            if op == '+': p[0] = ('int', ord(v1) + v2)
+            else: p[0] = p[0] = ('int', ord(v1) - v2)
         elif t1 == 'int' and t2 == 'char':
-            if op == '+': p[0] = ('char', chr(v1 + ord(v2)))
-            else: p[0] = ('char', chr(v1 - ord(v2)))
+            if op == '+': p[0] = ('int', v1 + ord(v2))
+            else: p[0] = ('int', v1 - ord(v2))
+        #char -> float
+        elif t1 == 'char' and t2 == 'float':
+            if op == '+': p[0] = ('float', ord(v1) + v2)
+            else: p[0] = p[0] = ('float', ord(v1) - v2)
+        elif t1 == 'float' and t2 == 'char':
+            if op == '+': p[0] = ('float', v1 + ord(v2))
+            else: p[0] = ('float', v1 - ord(v2))
     else:
         print('[ERROR][PARSER] Type mismatch in arithmetic operation')
-            
 
 def p_aritmetica_mul_div(p):
     '''aritmetica : valor MULTIPLICACION valor %prec MULTIPLICACION
