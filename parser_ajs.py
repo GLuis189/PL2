@@ -95,29 +95,30 @@ def p_ident(p):
 
 def p_declare(p):
     '''
-    declare : LET id asign_valor
+    declare : LET id 
     '''
     #print('declare')
     lista_vars = p[2]
-    if isinstance(p[3], dict):
-        tipo_a = None
-        value = p[3]
-    else:
-        if p[3] != None:
-            tipo_a, value = p[3]
-        else:
-            tipo_a = None
-            value = p[3]
-    for var in lista_vars:
-        tipo, name = var
-        if name in symbols:
-            print('[ERROR][PARSER] Variable %s already declared' % name)
-        else:
-            if tipo == tipo_a:
-                symbols[name] = (tipo_a, value)
+    for i in range(len(lista_vars)):
+        if i%2 == 0:
+            if isinstance(p[2][i+1], dict):
+                tipo_a = None
+                value = p[2][i+1]
             else:
-                if tipo in objects:
-                   registros[name] = (tipo, value)
+                if p[2][i+1] != None:
+                    tipo_a, value = p[2][i+1]
+                else:
+                    tipo_a = None
+                    value = p[2][i+1]
+                tipo, name = p[2][i]
+                if name in symbols:
+                    print('[ERROR][PARSER] Variable %s already declared' % name)
+                else:
+                    if tipo == tipo_a or tipo == None:
+                        symbols[name] = (tipo_a, value)
+                    else:
+                        if tipo in objects:
+                            registros[name] = (tipo, value)
 
 def p_asign_valor(p):
     '''
@@ -127,18 +128,19 @@ def p_asign_valor(p):
     #print('asign_valor')
     if len(p) > 2: p[0] = p[2]
     else: p[0] = (None, p[1])
-
 def p_id(p):
-    '''id : variable'''
+    '''id : variable asign_valor'''
     #print('id')
-    p[0] = [p[1]]
+    p[0] = [p[1], p[2]]
 
 def p_id_varios(p):
-    '''id : variable COMA id'''
+    '''id : variable asign_valor COMA id'''
     # print('id_varios')
     ultimo = p[1]
-    resto = p[3]
-    p[0] = [ultimo] + resto
+    valor = p[2]
+    resto = p[4]
+    p[0] = [ultimo, valor] + resto
+    
     
 
 def p_variable(p): 
@@ -161,6 +163,7 @@ def p_assign(p):
     '''
     # print('assign')
     ident = p[1]
+
     if isinstance(ident, list):
         for i in ident:
             if i in symbols:

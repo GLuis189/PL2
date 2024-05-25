@@ -1,4 +1,4 @@
-let a, b;
+let a = 4, b = 3, c;
 a = 10;
 b = a * a <= 200;
 c = '$';
@@ -13,7 +13,6 @@ let d, e = 0xFF / (0b101 * (0702 - 1e-10));
 let A;
 A = 4 + 2 - 4;
 
-let var1 : int, var2;
 
 var1 = 3;
-var2 = 0123;
+

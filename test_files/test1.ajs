@@ -1,10 +1,10 @@
 // asd asd asd qwe qwd asd asdq w
-Comentario1;
+let Comentario1;
 // asd asdasdwqe asd asd qw 
-Comentario2;
+let  Comentario2;
 /* comentario */
-Comentario3;
+let Comentario3;
 /*
 * comentario
 */
-Comentario4;
+let Comentario4;
