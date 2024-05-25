@@ -83,13 +83,22 @@ def p_no_semicolon(p):
     '''
     #print('no_semicolon')
 
-def p_ident(p):
+def p_ident_simple(p):
     '''ident : CADENA_NO_COMILLAS
-             | CADENA_NO_COMILLAS PUNTO ident
              | CADENA_NO_COMILLAS CORCHETE_ABRE CADENA_COMILLAS CORCHETE_CIERRA
-             | CADENA_NO_COMILLAS CORCHETE_ABRE CADENA_COMILLAS CORCHETE_CIERRA PUNTO ident
              '''
-    p[0] = p[1]
+    # p[0] = p[1]
+    if len(p) == 2: p[0] = [(p[1], 1)]
+    else : p[0] = [(p[1], 1), (p[3], 0)]
+    
+
+def p_ident_recurivo(p):
+    '''ident : CADENA_NO_COMILLAS PUNTO ident
+             | CADENA_NO_COMILLAS CORCHETE_ABRE CADENA_COMILLAS CORCHETE_CIERRA PUNTO ident
+    '''
+    # p[0] = p[1]
+    if len(p) == 4: p[0] = [(p[1], 1)] + p[3]
+    else: p[0] = [(p[1], 1), (p[3], 0)] + p[6]
 
 ###################### DECLARACIONES ######################
 
@@ -112,6 +121,7 @@ def p_declare(p):
                     tipo_a = None
                     value = p[2][i+1]
             tipo, name = p[2][i]
+            name = name[0]
             if name in symbols:
                 print('[ERROR][PARSER] Variable %s already declared' % name)
             else:
@@ -137,6 +147,7 @@ def p_asign_valor(p):
     #print('asign_valor')
     if len(p) > 2: p[0] = p[2]
     else: p[0] = (None, p[1])
+
 def p_id(p):
     '''id : variable asign_valor'''
     #print('id')
@@ -150,9 +161,6 @@ def p_id_varios(p):
     valor = p[2]
     resto = p[4]
     p[0] = [ultimo, valor] + resto
-    
-    
-    
 
 def p_variable(p): 
     '''variable : ident
@@ -174,7 +182,8 @@ def p_assign(p):
     '''
     # print('assign')
     ident = p[1]
-
+    if len(ident) == 1:
+        ident = ident[0]
     if isinstance(ident, list):
         for i in ident:
             if i in symbols:
@@ -239,11 +248,32 @@ def p_valor(p):
 def p_valor_ident(p):
     '''valor : ident'''
     #print('valor_ident')
-    ident = p[1]
-    if ident in symbols:
-        p[0] = symbols[ident]
-    elif ident in registros:
-        p[0] = registros[ident]
+    if len(p[1]) == 1:
+        ident = p[1][0]
+        if ident in symbols:
+            p[0] = symbols[ident]
+        elif ident in registros:
+            p[0] = registros[ident]
+    else:
+        aux = registros
+        for i in range(len(p[1])):
+            name = p[1][i]
+            if name in aux or name[0] in aux:
+                if name in aux:
+                    if i == len(p[1]) - 1:
+                        p[0] = aux[name]
+                    else:
+                        aux = aux[name][1]
+                else:
+                    if i == len(p[1]) - 1:
+                        p[0] = aux[name[0]]
+                    else:
+                        aux = aux[name[0]][1]
+            else:
+                print('[ERROR][PARSER] Variable %s not declared' % name)
+                break
+        
+
 
 def p_valor_entero(p):
     '''valor : ENTERO'''

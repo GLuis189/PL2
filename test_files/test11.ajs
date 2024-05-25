@@ -12,6 +12,7 @@ var4 = 2;
 // Error se quiere meter un float en un int
 // var3 = 0.3;
 
+
 type circulo = {
     a: int,
     "b": character,
@@ -24,3 +25,7 @@ let  v_circulo: circulo = {
     "b": 'a',
     c: tr,
 };
+
+let ej1, ej2;
+ej1 = v_circulo.a;
+ej2 = v_circulo["b"];

@@ -17,14 +17,14 @@ Rule 11    no_semicolon -> condition
 Rule 12    no_semicolon -> loop
 Rule 13    no_semicolon -> function_def
 Rule 14    ident -> CADENA_NO_COMILLAS
-Rule 15    ident -> CADENA_NO_COMILLAS PUNTO ident
-Rule 16    ident -> CADENA_NO_COMILLAS CORCHETE_ABRE CADENA_COMILLAS CORCHETE_CIERRA
+Rule 15    ident -> CADENA_NO_COMILLAS CORCHETE_ABRE CADENA_COMILLAS CORCHETE_CIERRA
+Rule 16    ident -> CADENA_NO_COMILLAS PUNTO ident
 Rule 17    ident -> CADENA_NO_COMILLAS CORCHETE_ABRE CADENA_COMILLAS CORCHETE_CIERRA PUNTO ident
-Rule 18    declare -> LET id asign_valor
+Rule 18    declare -> LET id
 Rule 19    asign_valor -> ASIGNACION valor
 Rule 20    asign_valor -> empty
-Rule 21    id -> variable
-Rule 22    id -> variable COMA id
+Rule 21    id -> variable asign_valor
+Rule 22    id -> variable asign_valor COMA id
 Rule 23    variable -> ident
 Rule 24    variable -> ident DOS_PUNTOS CADENA_NO_COMILLAS
 Rule 25    assign -> ident asign_valor
@@ -96,14 +96,14 @@ Terminals, with rules where they appear
 
 ASIGNACION           : 19 39
 BOOLEAN              : 74
-CADENA_COMILLAS      : 16 17 47 55
+CADENA_COMILLAS      : 15 17 47 55
 CADENA_NO_COMILLAS   : 14 15 16 17 24 39 48 54 75 82 83 84 85
 CARACTER             : 35
 CHARACTER            : 73
 COMA                 : 22 42 43 51 52 80 87
 CONJUNCION           : 68
-CORCHETE_ABRE        : 16 17
-CORCHETE_CIERRA      : 16 17
+CORCHETE_ABRE        : 15 17
+CORCHETE_CIERRA      : 15 17
 DECIMAL              : 31
 DISYUNCION           : 69
 DIVISION             : 62
@@ -128,7 +128,7 @@ NEGACION             : 70
 NULL                 : 34
 PARENTESIS_ABRE      : 36 76 77 78 83 84 85
 PARENTESIS_CIERRA    : 36 76 77 78 83 84 85
-PUNTO                : 15 17
+PUNTO                : 16 17
 PUNTO_Y_COMA         : 4 5 83 84
 RESTA                : 38 60
 RETURN               : 83 84
@@ -144,7 +144,7 @@ ajson                : 39 46
 ajson_v              : 27
 arg                  : 85 87
 aritmetica           : 56
-asign_valor          : 18 25
+asign_valor          : 21 22 25
 assign               : 10
 booleana             : 57
 clave                : 44
@@ -161,7 +161,7 @@ function_call        : 28
 function_def         : 13
 id                   : 18 22
 id_t                 : 80 83 84
-ident                : 15 17 23 24 25 29
+ident                : 16 17 23 24 25 29
 lista                : 40 43
 lista_v              : 49 52
 loop                 : 12
@@ -194,7 +194,7 @@ state 0
     (12) no_semicolon -> . loop
     (13) no_semicolon -> . function_def
     (39) define -> . TYPE CADENA_NO_COMILLAS ASIGNACION ajson
-    (18) declare -> . LET id asign_valor
+    (18) declare -> . LET id
     (25) assign -> . ident asign_valor
     (76) condition -> . IF PARENTESIS_ABRE valor PARENTESIS_CIERRA LLAVE_ABRE statement LLAVE_CIERRA
     (77) condition -> . IF PARENTESIS_ABRE valor PARENTESIS_CIERRA LLAVE_ABRE statement LLAVE_CIERRA ELSE LLAVE_ABRE statement LLAVE_CIERRA
@@ -202,8 +202,8 @@ state 0
     (83) function_def -> . FUNCTION CADENA_NO_COMILLAS PARENTESIS_ABRE id_t PARENTESIS_CIERRA DOS_PUNTOS tipo LLAVE_ABRE statement RETURN valor PUNTO_Y_COMA LLAVE_CIERRA
     (84) function_def -> . FUNCTION CADENA_NO_COMILLAS PARENTESIS_ABRE id_t PARENTESIS_CIERRA DOS_PUNTOS tipo LLAVE_ABRE RETURN valor PUNTO_Y_COMA LLAVE_CIERRA
     (14) ident -> . CADENA_NO_COMILLAS
-    (15) ident -> . CADENA_NO_COMILLAS PUNTO ident
-    (16) ident -> . CADENA_NO_COMILLAS CORCHETE_ABRE CADENA_COMILLAS CORCHETE_CIERRA
+    (15) ident -> . CADENA_NO_COMILLAS CORCHETE_ABRE CADENA_COMILLAS CORCHETE_CIERRA
+    (16) ident -> . CADENA_NO_COMILLAS PUNTO ident
     (17) ident -> . CADENA_NO_COMILLAS CORCHETE_ABRE CADENA_COMILLAS CORCHETE_CIERRA PUNTO ident
 
     $end            reduce using rule 3 (empty -> .)
@@ -270,7 +270,7 @@ state 5
     (12) no_semicolon -> . loop
     (13) no_semicolon -> . function_def
     (39) define -> . TYPE CADENA_NO_COMILLAS ASIGNACION ajson
-    (18) declare -> . LET id asign_valor
+    (18) declare -> . LET id
     (25) assign -> . ident asign_valor
     (76) condition -> . IF PARENTESIS_ABRE valor PARENTESIS_CIERRA LLAVE_ABRE statement LLAVE_CIERRA
     (77) condition -> . IF PARENTESIS_ABRE valor PARENTESIS_CIERRA LLAVE_ABRE statement LLAVE_CIERRA ELSE LLAVE_ABRE statement LLAVE_CIERRA
@@ -278,8 +278,8 @@ state 5
     (83) function_def -> . FUNCTION CADENA_NO_COMILLAS PARENTESIS_ABRE id_t PARENTESIS_CIERRA DOS_PUNTOS tipo LLAVE_ABRE statement RETURN valor PUNTO_Y_COMA LLAVE_CIERRA
     (84) function_def -> . FUNCTION CADENA_NO_COMILLAS PARENTESIS_ABRE id_t PARENTESIS_CIERRA DOS_PUNTOS tipo LLAVE_ABRE RETURN valor PUNTO_Y_COMA LLAVE_CIERRA
     (14) ident -> . CADENA_NO_COMILLAS
-    (15) ident -> . CADENA_NO_COMILLAS PUNTO ident
-    (16) ident -> . CADENA_NO_COMILLAS CORCHETE_ABRE CADENA_COMILLAS CORCHETE_CIERRA
+    (15) ident -> . CADENA_NO_COMILLAS CORCHETE_ABRE CADENA_COMILLAS CORCHETE_CIERRA
+    (16) ident -> . CADENA_NO_COMILLAS PUNTO ident
     (17) ident -> . CADENA_NO_COMILLAS CORCHETE_ABRE CADENA_COMILLAS CORCHETE_CIERRA PUNTO ident
 
     $end            reduce using rule 6 (statement -> no_semicolon .)
@@ -379,8 +379,8 @@ state 12
 state 13
 
     (14) ident -> CADENA_NO_COMILLAS .
-    (15) ident -> CADENA_NO_COMILLAS . PUNTO ident
-    (16) ident -> CADENA_NO_COMILLAS . CORCHETE_ABRE CADENA_COMILLAS CORCHETE_CIERRA
+    (15) ident -> CADENA_NO_COMILLAS . CORCHETE_ABRE CADENA_COMILLAS CORCHETE_CIERRA
+    (16) ident -> CADENA_NO_COMILLAS . PUNTO ident
     (17) ident -> CADENA_NO_COMILLAS . CORCHETE_ABRE CADENA_COMILLAS CORCHETE_CIERRA PUNTO ident
 
     ASIGNACION      reduce using rule 14 (ident -> CADENA_NO_COMILLAS .)
@@ -400,20 +400,20 @@ state 13
     IGUAL           reduce using rule 14 (ident -> CADENA_NO_COMILLAS .)
     PARENTESIS_CIERRA reduce using rule 14 (ident -> CADENA_NO_COMILLAS .)
     LLAVE_CIERRA    reduce using rule 14 (ident -> CADENA_NO_COMILLAS .)
-    PUNTO           shift and go to state 22
-    CORCHETE_ABRE   shift and go to state 23
+    CORCHETE_ABRE   shift and go to state 22
+    PUNTO           shift and go to state 23
 
 
 state 14
 
-    (18) declare -> LET . id asign_valor
-    (21) id -> . variable
-    (22) id -> . variable COMA id
+    (18) declare -> LET . id
+    (21) id -> . variable asign_valor
+    (22) id -> . variable asign_valor COMA id
     (23) variable -> . ident
     (24) variable -> . ident DOS_PUNTOS CADENA_NO_COMILLAS
     (14) ident -> . CADENA_NO_COMILLAS
-    (15) ident -> . CADENA_NO_COMILLAS PUNTO ident
-    (16) ident -> . CADENA_NO_COMILLAS CORCHETE_ABRE CADENA_COMILLAS CORCHETE_CIERRA
+    (15) ident -> . CADENA_NO_COMILLAS CORCHETE_ABRE CADENA_COMILLAS CORCHETE_CIERRA
+    (16) ident -> . CADENA_NO_COMILLAS PUNTO ident
     (17) ident -> . CADENA_NO_COMILLAS CORCHETE_ABRE CADENA_COMILLAS CORCHETE_CIERRA PUNTO ident
 
     CADENA_NO_COMILLAS shift and go to state 13
@@ -473,7 +473,7 @@ state 19
     (12) no_semicolon -> . loop
     (13) no_semicolon -> . function_def
     (39) define -> . TYPE CADENA_NO_COMILLAS ASIGNACION ajson
-    (18) declare -> . LET id asign_valor
+    (18) declare -> . LET id
     (25) assign -> . ident asign_valor
     (76) condition -> . IF PARENTESIS_ABRE valor PARENTESIS_CIERRA LLAVE_ABRE statement LLAVE_CIERRA
     (77) condition -> . IF PARENTESIS_ABRE valor PARENTESIS_CIERRA LLAVE_ABRE statement LLAVE_CIERRA ELSE LLAVE_ABRE statement LLAVE_CIERRA
@@ -481,8 +481,8 @@ state 19
     (83) function_def -> . FUNCTION CADENA_NO_COMILLAS PARENTESIS_ABRE id_t PARENTESIS_CIERRA DOS_PUNTOS tipo LLAVE_ABRE statement RETURN valor PUNTO_Y_COMA LLAVE_CIERRA
     (84) function_def -> . FUNCTION CADENA_NO_COMILLAS PARENTESIS_ABRE id_t PARENTESIS_CIERRA DOS_PUNTOS tipo LLAVE_ABRE RETURN valor PUNTO_Y_COMA LLAVE_CIERRA
     (14) ident -> . CADENA_NO_COMILLAS
-    (15) ident -> . CADENA_NO_COMILLAS PUNTO ident
-    (16) ident -> . CADENA_NO_COMILLAS CORCHETE_ABRE CADENA_COMILLAS CORCHETE_CIERRA
+    (15) ident -> . CADENA_NO_COMILLAS CORCHETE_ABRE CADENA_COMILLAS CORCHETE_CIERRA
+    (16) ident -> . CADENA_NO_COMILLAS PUNTO ident
     (17) ident -> . CADENA_NO_COMILLAS CORCHETE_ABRE CADENA_COMILLAS CORCHETE_CIERRA PUNTO ident
 
     $end            reduce using rule 4 (statement -> content PUNTO_Y_COMA .)
@@ -524,56 +524,55 @@ state 21
 
 state 22
 
-    (15) ident -> CADENA_NO_COMILLAS PUNTO . ident
+    (15) ident -> CADENA_NO_COMILLAS CORCHETE_ABRE . CADENA_COMILLAS CORCHETE_CIERRA
+    (17) ident -> CADENA_NO_COMILLAS CORCHETE_ABRE . CADENA_COMILLAS CORCHETE_CIERRA PUNTO ident
+
+    CADENA_COMILLAS shift and go to state 35
+
+
+state 23
+
+    (16) ident -> CADENA_NO_COMILLAS PUNTO . ident
     (14) ident -> . CADENA_NO_COMILLAS
-    (15) ident -> . CADENA_NO_COMILLAS PUNTO ident
-    (16) ident -> . CADENA_NO_COMILLAS CORCHETE_ABRE CADENA_COMILLAS CORCHETE_CIERRA
+    (15) ident -> . CADENA_NO_COMILLAS CORCHETE_ABRE CADENA_COMILLAS CORCHETE_CIERRA
+    (16) ident -> . CADENA_NO_COMILLAS PUNTO ident
     (17) ident -> . CADENA_NO_COMILLAS CORCHETE_ABRE CADENA_COMILLAS CORCHETE_CIERRA PUNTO ident
 
     CADENA_NO_COMILLAS shift and go to state 13
 
-    ident                          shift and go to state 35
-
-state 23
-
-    (16) ident -> CADENA_NO_COMILLAS CORCHETE_ABRE . CADENA_COMILLAS CORCHETE_CIERRA
-    (17) ident -> CADENA_NO_COMILLAS CORCHETE_ABRE . CADENA_COMILLAS CORCHETE_CIERRA PUNTO ident
-
-    CADENA_COMILLAS shift and go to state 36
-
+    ident                          shift and go to state 36
 
 state 24
 
-    (18) declare -> LET id . asign_valor
+    (18) declare -> LET id .
+
+    PUNTO_Y_COMA    reduce using rule 18 (declare -> LET id .)
+
+
+state 25
+
+    (21) id -> variable . asign_valor
+    (22) id -> variable . asign_valor COMA id
     (19) asign_valor -> . ASIGNACION valor
     (20) asign_valor -> . empty
     (3) empty -> .
 
     ASIGNACION      shift and go to state 28
+    COMA            reduce using rule 3 (empty -> .)
     PUNTO_Y_COMA    reduce using rule 3 (empty -> .)
 
     asign_valor                    shift and go to state 37
     empty                          shift and go to state 29
-
-state 25
-
-    (21) id -> variable .
-    (22) id -> variable . COMA id
-
-    ASIGNACION      reduce using rule 21 (id -> variable .)
-    PUNTO_Y_COMA    reduce using rule 21 (id -> variable .)
-    COMA            shift and go to state 38
-
 
 state 26
 
     (23) variable -> ident .
     (24) variable -> ident . DOS_PUNTOS CADENA_NO_COMILLAS
 
-    COMA            reduce using rule 23 (variable -> ident .)
     ASIGNACION      reduce using rule 23 (variable -> ident .)
+    COMA            reduce using rule 23 (variable -> ident .)
     PUNTO_Y_COMA    reduce using rule 23 (variable -> ident .)
-    DOS_PUNTOS      shift and go to state 39
+    DOS_PUNTOS      shift and go to state 38
 
 
 state 27
@@ -605,8 +604,8 @@ state 28
     (49) ajson_v -> . LLAVE_ABRE lista_v LLAVE_CIERRA
     (85) function_call -> . CADENA_NO_COMILLAS PARENTESIS_ABRE arg PARENTESIS_CIERRA
     (14) ident -> . CADENA_NO_COMILLAS
-    (15) ident -> . CADENA_NO_COMILLAS PUNTO ident
-    (16) ident -> . CADENA_NO_COMILLAS CORCHETE_ABRE CADENA_COMILLAS CORCHETE_CIERRA
+    (15) ident -> . CADENA_NO_COMILLAS CORCHETE_ABRE CADENA_COMILLAS CORCHETE_CIERRA
+    (16) ident -> . CADENA_NO_COMILLAS PUNTO ident
     (17) ident -> . CADENA_NO_COMILLAS CORCHETE_ABRE CADENA_COMILLAS CORCHETE_CIERRA PUNTO ident
     (59) aritmetica -> . valor SUMA valor
     (60) aritmetica -> . valor RESTA valor
@@ -621,33 +620,34 @@ state 28
     (66) comparacion -> . valor MENOR_IGUAL valor
     (67) comparacion -> . valor IGUAL valor
 
-    ENTERO          shift and go to state 45
-    DECIMAL         shift and go to state 46
-    TR              shift and go to state 47
-    FL              shift and go to state 48
-    NULL            shift and go to state 49
-    CARACTER        shift and go to state 50
-    PARENTESIS_ABRE shift and go to state 51
-    SUMA            shift and go to state 52
-    RESTA           shift and go to state 53
-    LLAVE_ABRE      shift and go to state 57
-    CADENA_NO_COMILLAS shift and go to state 58
-    NEGACION        shift and go to state 59
+    ENTERO          shift and go to state 44
+    DECIMAL         shift and go to state 45
+    TR              shift and go to state 46
+    FL              shift and go to state 47
+    NULL            shift and go to state 48
+    CARACTER        shift and go to state 49
+    PARENTESIS_ABRE shift and go to state 50
+    SUMA            shift and go to state 51
+    RESTA           shift and go to state 52
+    LLAVE_ABRE      shift and go to state 56
+    CADENA_NO_COMILLAS shift and go to state 57
+    NEGACION        shift and go to state 58
 
-    valor                          shift and go to state 40
-    operacion                      shift and go to state 41
-    ajson_v                        shift and go to state 42
-    function_call                  shift and go to state 43
-    ident                          shift and go to state 44
-    aritmetica                     shift and go to state 54
-    booleana                       shift and go to state 55
-    comparacion                    shift and go to state 56
+    valor                          shift and go to state 39
+    operacion                      shift and go to state 40
+    ajson_v                        shift and go to state 41
+    function_call                  shift and go to state 42
+    ident                          shift and go to state 43
+    aritmetica                     shift and go to state 53
+    booleana                       shift and go to state 54
+    comparacion                    shift and go to state 55
 
 state 29
 
     (20) asign_valor -> empty .
 
     PUNTO_Y_COMA    reduce using rule 20 (asign_valor -> empty .)
+    COMA            reduce using rule 20 (asign_valor -> empty .)
 
 
 state 30
@@ -673,8 +673,8 @@ state 30
     (49) ajson_v -> . LLAVE_ABRE lista_v LLAVE_CIERRA
     (85) function_call -> . CADENA_NO_COMILLAS PARENTESIS_ABRE arg PARENTESIS_CIERRA
     (14) ident -> . CADENA_NO_COMILLAS
-    (15) ident -> . CADENA_NO_COMILLAS PUNTO ident
-    (16) ident -> . CADENA_NO_COMILLAS CORCHETE_ABRE CADENA_COMILLAS CORCHETE_CIERRA
+    (15) ident -> . CADENA_NO_COMILLAS CORCHETE_ABRE CADENA_COMILLAS CORCHETE_CIERRA
+    (16) ident -> . CADENA_NO_COMILLAS PUNTO ident
     (17) ident -> . CADENA_NO_COMILLAS CORCHETE_ABRE CADENA_COMILLAS CORCHETE_CIERRA PUNTO ident
     (59) aritmetica -> . valor SUMA valor
     (60) aritmetica -> . valor RESTA valor
@@ -689,27 +689,27 @@ state 30
     (66) comparacion -> . valor MENOR_IGUAL valor
     (67) comparacion -> . valor IGUAL valor
 
-    ENTERO          shift and go to state 45
-    DECIMAL         shift and go to state 46
-    TR              shift and go to state 47
-    FL              shift and go to state 48
-    NULL            shift and go to state 49
-    CARACTER        shift and go to state 50
-    PARENTESIS_ABRE shift and go to state 51
-    SUMA            shift and go to state 52
-    RESTA           shift and go to state 53
-    LLAVE_ABRE      shift and go to state 57
-    CADENA_NO_COMILLAS shift and go to state 58
-    NEGACION        shift and go to state 59
+    ENTERO          shift and go to state 44
+    DECIMAL         shift and go to state 45
+    TR              shift and go to state 46
+    FL              shift and go to state 47
+    NULL            shift and go to state 48
+    CARACTER        shift and go to state 49
+    PARENTESIS_ABRE shift and go to state 50
+    SUMA            shift and go to state 51
+    RESTA           shift and go to state 52
+    LLAVE_ABRE      shift and go to state 56
+    CADENA_NO_COMILLAS shift and go to state 57
+    NEGACION        shift and go to state 58
 
-    valor                          shift and go to state 60
-    operacion                      shift and go to state 41
-    ajson_v                        shift and go to state 42
-    function_call                  shift and go to state 43
-    ident                          shift and go to state 44
-    aritmetica                     shift and go to state 54
-    booleana                       shift and go to state 55
-    comparacion                    shift and go to state 56
+    valor                          shift and go to state 59
+    operacion                      shift and go to state 40
+    ajson_v                        shift and go to state 41
+    function_call                  shift and go to state 42
+    ident                          shift and go to state 43
+    aritmetica                     shift and go to state 53
+    booleana                       shift and go to state 54
+    comparacion                    shift and go to state 55
 
 state 31
 
@@ -733,8 +733,8 @@ state 31
     (49) ajson_v -> . LLAVE_ABRE lista_v LLAVE_CIERRA
     (85) function_call -> . CADENA_NO_COMILLAS PARENTESIS_ABRE arg PARENTESIS_CIERRA
     (14) ident -> . CADENA_NO_COMILLAS
-    (15) ident -> . CADENA_NO_COMILLAS PUNTO ident
-    (16) ident -> . CADENA_NO_COMILLAS CORCHETE_ABRE CADENA_COMILLAS CORCHETE_CIERRA
+    (15) ident -> . CADENA_NO_COMILLAS CORCHETE_ABRE CADENA_COMILLAS CORCHETE_CIERRA
+    (16) ident -> . CADENA_NO_COMILLAS PUNTO ident
     (17) ident -> . CADENA_NO_COMILLAS CORCHETE_ABRE CADENA_COMILLAS CORCHETE_CIERRA PUNTO ident
     (59) aritmetica -> . valor SUMA valor
     (60) aritmetica -> . valor RESTA valor
@@ -749,34 +749,34 @@ state 31
     (66) comparacion -> . valor MENOR_IGUAL valor
     (67) comparacion -> . valor IGUAL valor
 
-    ENTERO          shift and go to state 45
-    DECIMAL         shift and go to state 46
-    TR              shift and go to state 47
-    FL              shift and go to state 48
-    NULL            shift and go to state 49
-    CARACTER        shift and go to state 50
-    PARENTESIS_ABRE shift and go to state 51
-    SUMA            shift and go to state 52
-    RESTA           shift and go to state 53
-    LLAVE_ABRE      shift and go to state 57
-    CADENA_NO_COMILLAS shift and go to state 58
-    NEGACION        shift and go to state 59
+    ENTERO          shift and go to state 44
+    DECIMAL         shift and go to state 45
+    TR              shift and go to state 46
+    FL              shift and go to state 47
+    NULL            shift and go to state 48
+    CARACTER        shift and go to state 49
+    PARENTESIS_ABRE shift and go to state 50
+    SUMA            shift and go to state 51
+    RESTA           shift and go to state 52
+    LLAVE_ABRE      shift and go to state 56
+    CADENA_NO_COMILLAS shift and go to state 57
+    NEGACION        shift and go to state 58
 
-    valor                          shift and go to state 61
-    operacion                      shift and go to state 41
-    ajson_v                        shift and go to state 42
-    function_call                  shift and go to state 43
-    ident                          shift and go to state 44
-    aritmetica                     shift and go to state 54
-    booleana                       shift and go to state 55
-    comparacion                    shift and go to state 56
+    valor                          shift and go to state 60
+    operacion                      shift and go to state 40
+    ajson_v                        shift and go to state 41
+    function_call                  shift and go to state 42
+    ident                          shift and go to state 43
+    aritmetica                     shift and go to state 53
+    booleana                       shift and go to state 54
+    comparacion                    shift and go to state 55
 
 state 32
 
     (83) function_def -> FUNCTION CADENA_NO_COMILLAS . PARENTESIS_ABRE id_t PARENTESIS_CIERRA DOS_PUNTOS tipo LLAVE_ABRE statement RETURN valor PUNTO_Y_COMA LLAVE_CIERRA
     (84) function_def -> FUNCTION CADENA_NO_COMILLAS . PARENTESIS_ABRE id_t PARENTESIS_CIERRA DOS_PUNTOS tipo LLAVE_ABRE RETURN valor PUNTO_Y_COMA LLAVE_CIERRA
 
-    PARENTESIS_ABRE shift and go to state 62
+    PARENTESIS_ABRE shift and go to state 61
 
 
 state 33
@@ -793,74 +793,58 @@ state 34
     (39) define -> TYPE CADENA_NO_COMILLAS ASIGNACION . ajson
     (40) ajson -> . LLAVE_ABRE lista LLAVE_CIERRA
 
-    LLAVE_ABRE      shift and go to state 64
+    LLAVE_ABRE      shift and go to state 63
 
-    ajson                          shift and go to state 63
+    ajson                          shift and go to state 62
 
 state 35
 
-    (15) ident -> CADENA_NO_COMILLAS PUNTO ident .
+    (15) ident -> CADENA_NO_COMILLAS CORCHETE_ABRE CADENA_COMILLAS . CORCHETE_CIERRA
+    (17) ident -> CADENA_NO_COMILLAS CORCHETE_ABRE CADENA_COMILLAS . CORCHETE_CIERRA PUNTO ident
 
-    ASIGNACION      reduce using rule 15 (ident -> CADENA_NO_COMILLAS PUNTO ident .)
-    PUNTO_Y_COMA    reduce using rule 15 (ident -> CADENA_NO_COMILLAS PUNTO ident .)
-    DOS_PUNTOS      reduce using rule 15 (ident -> CADENA_NO_COMILLAS PUNTO ident .)
-    COMA            reduce using rule 15 (ident -> CADENA_NO_COMILLAS PUNTO ident .)
-    SUMA            reduce using rule 15 (ident -> CADENA_NO_COMILLAS PUNTO ident .)
-    RESTA           reduce using rule 15 (ident -> CADENA_NO_COMILLAS PUNTO ident .)
-    MULTIPLICACION  reduce using rule 15 (ident -> CADENA_NO_COMILLAS PUNTO ident .)
-    DIVISION        reduce using rule 15 (ident -> CADENA_NO_COMILLAS PUNTO ident .)
-    CONJUNCION      reduce using rule 15 (ident -> CADENA_NO_COMILLAS PUNTO ident .)
-    DISYUNCION      reduce using rule 15 (ident -> CADENA_NO_COMILLAS PUNTO ident .)
-    MAYOR           reduce using rule 15 (ident -> CADENA_NO_COMILLAS PUNTO ident .)
-    MENOR           reduce using rule 15 (ident -> CADENA_NO_COMILLAS PUNTO ident .)
-    MAYOR_IGUAL     reduce using rule 15 (ident -> CADENA_NO_COMILLAS PUNTO ident .)
-    MENOR_IGUAL     reduce using rule 15 (ident -> CADENA_NO_COMILLAS PUNTO ident .)
-    IGUAL           reduce using rule 15 (ident -> CADENA_NO_COMILLAS PUNTO ident .)
-    PARENTESIS_CIERRA reduce using rule 15 (ident -> CADENA_NO_COMILLAS PUNTO ident .)
-    LLAVE_CIERRA    reduce using rule 15 (ident -> CADENA_NO_COMILLAS PUNTO ident .)
+    CORCHETE_CIERRA shift and go to state 64
 
 
 state 36
 
-    (16) ident -> CADENA_NO_COMILLAS CORCHETE_ABRE CADENA_COMILLAS . CORCHETE_CIERRA
-    (17) ident -> CADENA_NO_COMILLAS CORCHETE_ABRE CADENA_COMILLAS . CORCHETE_CIERRA PUNTO ident
+    (16) ident -> CADENA_NO_COMILLAS PUNTO ident .
 
-    CORCHETE_CIERRA shift and go to state 65
+    ASIGNACION      reduce using rule 16 (ident -> CADENA_NO_COMILLAS PUNTO ident .)
+    PUNTO_Y_COMA    reduce using rule 16 (ident -> CADENA_NO_COMILLAS PUNTO ident .)
+    DOS_PUNTOS      reduce using rule 16 (ident -> CADENA_NO_COMILLAS PUNTO ident .)
+    COMA            reduce using rule 16 (ident -> CADENA_NO_COMILLAS PUNTO ident .)
+    SUMA            reduce using rule 16 (ident -> CADENA_NO_COMILLAS PUNTO ident .)
+    RESTA           reduce using rule 16 (ident -> CADENA_NO_COMILLAS PUNTO ident .)
+    MULTIPLICACION  reduce using rule 16 (ident -> CADENA_NO_COMILLAS PUNTO ident .)
+    DIVISION        reduce using rule 16 (ident -> CADENA_NO_COMILLAS PUNTO ident .)
+    CONJUNCION      reduce using rule 16 (ident -> CADENA_NO_COMILLAS PUNTO ident .)
+    DISYUNCION      reduce using rule 16 (ident -> CADENA_NO_COMILLAS PUNTO ident .)
+    MAYOR           reduce using rule 16 (ident -> CADENA_NO_COMILLAS PUNTO ident .)
+    MENOR           reduce using rule 16 (ident -> CADENA_NO_COMILLAS PUNTO ident .)
+    MAYOR_IGUAL     reduce using rule 16 (ident -> CADENA_NO_COMILLAS PUNTO ident .)
+    MENOR_IGUAL     reduce using rule 16 (ident -> CADENA_NO_COMILLAS PUNTO ident .)
+    IGUAL           reduce using rule 16 (ident -> CADENA_NO_COMILLAS PUNTO ident .)
+    PARENTESIS_CIERRA reduce using rule 16 (ident -> CADENA_NO_COMILLAS PUNTO ident .)
+    LLAVE_CIERRA    reduce using rule 16 (ident -> CADENA_NO_COMILLAS PUNTO ident .)
 
 
 state 37
 
-    (18) declare -> LET id asign_valor .
+    (21) id -> variable asign_valor .
+    (22) id -> variable asign_valor . COMA id
 
-    PUNTO_Y_COMA    reduce using rule 18 (declare -> LET id asign_valor .)
+    PUNTO_Y_COMA    reduce using rule 21 (id -> variable asign_valor .)
+    COMA            shift and go to state 65
 
 
 state 38
 
-    (22) id -> variable COMA . id
-    (21) id -> . variable
-    (22) id -> . variable COMA id
-    (23) variable -> . ident
-    (24) variable -> . ident DOS_PUNTOS CADENA_NO_COMILLAS
-    (14) ident -> . CADENA_NO_COMILLAS
-    (15) ident -> . CADENA_NO_COMILLAS PUNTO ident
-    (16) ident -> . CADENA_NO_COMILLAS CORCHETE_ABRE CADENA_COMILLAS CORCHETE_CIERRA
-    (17) ident -> . CADENA_NO_COMILLAS CORCHETE_ABRE CADENA_COMILLAS CORCHETE_CIERRA PUNTO ident
-
-    CADENA_NO_COMILLAS shift and go to state 13
-
-    variable                       shift and go to state 25
-    id                             shift and go to state 66
-    ident                          shift and go to state 26
-
-state 39
-
     (24) variable -> ident DOS_PUNTOS . CADENA_NO_COMILLAS
 
-    CADENA_NO_COMILLAS shift and go to state 67
+    CADENA_NO_COMILLAS shift and go to state 66
 
 
-state 40
+state 39
 
     (19) asign_valor -> ASIGNACION valor .
     (59) aritmetica -> valor . SUMA valor
@@ -876,20 +860,21 @@ state 40
     (67) comparacion -> valor . IGUAL valor
 
     PUNTO_Y_COMA    reduce using rule 19 (asign_valor -> ASIGNACION valor .)
-    SUMA            shift and go to state 68
-    RESTA           shift and go to state 69
-    MULTIPLICACION  shift and go to state 70
-    DIVISION        shift and go to state 71
-    CONJUNCION      shift and go to state 72
-    DISYUNCION      shift and go to state 73
-    MAYOR           shift and go to state 74
-    MENOR           shift and go to state 75
-    MAYOR_IGUAL     shift and go to state 76
-    MENOR_IGUAL     shift and go to state 77
-    IGUAL           shift and go to state 78
+    COMA            reduce using rule 19 (asign_valor -> ASIGNACION valor .)
+    SUMA            shift and go to state 67
+    RESTA           shift and go to state 68
+    MULTIPLICACION  shift and go to state 69
+    DIVISION        shift and go to state 70
+    CONJUNCION      shift and go to state 71
+    DISYUNCION      shift and go to state 72
+    MAYOR           shift and go to state 73
+    MENOR           shift and go to state 74
+    MAYOR_IGUAL     shift and go to state 75
+    MENOR_IGUAL     shift and go to state 76
+    IGUAL           shift and go to state 77
 
 
-state 41
+state 40
 
     (26) valor -> operacion .
 
@@ -905,12 +890,12 @@ state 41
     MENOR_IGUAL     reduce using rule 26 (valor -> operacion .)
     IGUAL           reduce using rule 26 (valor -> operacion .)
     PUNTO_Y_COMA    reduce using rule 26 (valor -> operacion .)
-    PARENTESIS_CIERRA reduce using rule 26 (valor -> operacion .)
     COMA            reduce using rule 26 (valor -> operacion .)
+    PARENTESIS_CIERRA reduce using rule 26 (valor -> operacion .)
     LLAVE_CIERRA    reduce using rule 26 (valor -> operacion .)
 
 
-state 42
+state 41
 
     (27) valor -> ajson_v .
 
@@ -926,12 +911,12 @@ state 42
     MENOR_IGUAL     reduce using rule 27 (valor -> ajson_v .)
     IGUAL           reduce using rule 27 (valor -> ajson_v .)
     PUNTO_Y_COMA    reduce using rule 27 (valor -> ajson_v .)
-    PARENTESIS_CIERRA reduce using rule 27 (valor -> ajson_v .)
     COMA            reduce using rule 27 (valor -> ajson_v .)
+    PARENTESIS_CIERRA reduce using rule 27 (valor -> ajson_v .)
     LLAVE_CIERRA    reduce using rule 27 (valor -> ajson_v .)
 
 
-state 43
+state 42
 
     (28) valor -> function_call .
 
@@ -947,12 +932,12 @@ state 43
     MENOR_IGUAL     reduce using rule 28 (valor -> function_call .)
     IGUAL           reduce using rule 28 (valor -> function_call .)
     PUNTO_Y_COMA    reduce using rule 28 (valor -> function_call .)
-    PARENTESIS_CIERRA reduce using rule 28 (valor -> function_call .)
     COMA            reduce using rule 28 (valor -> function_call .)
+    PARENTESIS_CIERRA reduce using rule 28 (valor -> function_call .)
     LLAVE_CIERRA    reduce using rule 28 (valor -> function_call .)
 
 
-state 44
+state 43
 
     (29) valor -> ident .
 
@@ -968,12 +953,12 @@ state 44
     MENOR_IGUAL     reduce using rule 29 (valor -> ident .)
     IGUAL           reduce using rule 29 (valor -> ident .)
     PUNTO_Y_COMA    reduce using rule 29 (valor -> ident .)
-    PARENTESIS_CIERRA reduce using rule 29 (valor -> ident .)
     COMA            reduce using rule 29 (valor -> ident .)
+    PARENTESIS_CIERRA reduce using rule 29 (valor -> ident .)
     LLAVE_CIERRA    reduce using rule 29 (valor -> ident .)
 
 
-state 45
+state 44
 
     (30) valor -> ENTERO .
 
@@ -989,12 +974,12 @@ state 45
     MENOR_IGUAL     reduce using rule 30 (valor -> ENTERO .)
     IGUAL           reduce using rule 30 (valor -> ENTERO .)
     PUNTO_Y_COMA    reduce using rule 30 (valor -> ENTERO .)
-    PARENTESIS_CIERRA reduce using rule 30 (valor -> ENTERO .)
     COMA            reduce using rule 30 (valor -> ENTERO .)
+    PARENTESIS_CIERRA reduce using rule 30 (valor -> ENTERO .)
     LLAVE_CIERRA    reduce using rule 30 (valor -> ENTERO .)
 
 
-state 46
+state 45
 
     (31) valor -> DECIMAL .
 
@@ -1010,12 +995,12 @@ state 46
     MENOR_IGUAL     reduce using rule 31 (valor -> DECIMAL .)
     IGUAL           reduce using rule 31 (valor -> DECIMAL .)
     PUNTO_Y_COMA    reduce using rule 31 (valor -> DECIMAL .)
-    PARENTESIS_CIERRA reduce using rule 31 (valor -> DECIMAL .)
     COMA            reduce using rule 31 (valor -> DECIMAL .)
+    PARENTESIS_CIERRA reduce using rule 31 (valor -> DECIMAL .)
     LLAVE_CIERRA    reduce using rule 31 (valor -> DECIMAL .)
 
 
-state 47
+state 46
 
     (32) valor -> TR .
 
@@ -1031,12 +1016,12 @@ state 47
     MENOR_IGUAL     reduce using rule 32 (valor -> TR .)
     IGUAL           reduce using rule 32 (valor -> TR .)
     PUNTO_Y_COMA    reduce using rule 32 (valor -> TR .)
-    PARENTESIS_CIERRA reduce using rule 32 (valor -> TR .)
     COMA            reduce using rule 32 (valor -> TR .)
+    PARENTESIS_CIERRA reduce using rule 32 (valor -> TR .)
     LLAVE_CIERRA    reduce using rule 32 (valor -> TR .)
 
 
-state 48
+state 47
 
     (33) valor -> FL .
 
@@ -1052,12 +1037,12 @@ state 48
     MENOR_IGUAL     reduce using rule 33 (valor -> FL .)
     IGUAL           reduce using rule 33 (valor -> FL .)
     PUNTO_Y_COMA    reduce using rule 33 (valor -> FL .)
-    PARENTESIS_CIERRA reduce using rule 33 (valor -> FL .)
     COMA            reduce using rule 33 (valor -> FL .)
+    PARENTESIS_CIERRA reduce using rule 33 (valor -> FL .)
     LLAVE_CIERRA    reduce using rule 33 (valor -> FL .)
 
 
-state 49
+state 48
 
     (34) valor -> NULL .
 
@@ -1073,12 +1058,12 @@ state 49
     MENOR_IGUAL     reduce using rule 34 (valor -> NULL .)
     IGUAL           reduce using rule 34 (valor -> NULL .)
     PUNTO_Y_COMA    reduce using rule 34 (valor -> NULL .)
-    PARENTESIS_CIERRA reduce using rule 34 (valor -> NULL .)
     COMA            reduce using rule 34 (valor -> NULL .)
+    PARENTESIS_CIERRA reduce using rule 34 (valor -> NULL .)
     LLAVE_CIERRA    reduce using rule 34 (valor -> NULL .)
 
 
-state 50
+state 49
 
     (35) valor -> CARACTER .
 
@@ -1094,12 +1079,12 @@ state 50
     MENOR_IGUAL     reduce using rule 35 (valor -> CARACTER .)
     IGUAL           reduce using rule 35 (valor -> CARACTER .)
     PUNTO_Y_COMA    reduce using rule 35 (valor -> CARACTER .)
-    PARENTESIS_CIERRA reduce using rule 35 (valor -> CARACTER .)
     COMA            reduce using rule 35 (valor -> CARACTER .)
+    PARENTESIS_CIERRA reduce using rule 35 (valor -> CARACTER .)
     LLAVE_CIERRA    reduce using rule 35 (valor -> CARACTER .)
 
 
-state 51
+state 50
 
     (36) valor -> PARENTESIS_ABRE . valor PARENTESIS_CIERRA
     (26) valor -> . operacion
@@ -1121,8 +1106,8 @@ state 51
     (49) ajson_v -> . LLAVE_ABRE lista_v LLAVE_CIERRA
     (85) function_call -> . CADENA_NO_COMILLAS PARENTESIS_ABRE arg PARENTESIS_CIERRA
     (14) ident -> . CADENA_NO_COMILLAS
-    (15) ident -> . CADENA_NO_COMILLAS PUNTO ident
-    (16) ident -> . CADENA_NO_COMILLAS CORCHETE_ABRE CADENA_COMILLAS CORCHETE_CIERRA
+    (15) ident -> . CADENA_NO_COMILLAS CORCHETE_ABRE CADENA_COMILLAS CORCHETE_CIERRA
+    (16) ident -> . CADENA_NO_COMILLAS PUNTO ident
     (17) ident -> . CADENA_NO_COMILLAS CORCHETE_ABRE CADENA_COMILLAS CORCHETE_CIERRA PUNTO ident
     (59) aritmetica -> . valor SUMA valor
     (60) aritmetica -> . valor RESTA valor
@@ -1137,29 +1122,29 @@ state 51
     (66) comparacion -> . valor MENOR_IGUAL valor
     (67) comparacion -> . valor IGUAL valor
 
-    ENTERO          shift and go to state 45
-    DECIMAL         shift and go to state 46
-    TR              shift and go to state 47
-    FL              shift and go to state 48
-    NULL            shift and go to state 49
-    CARACTER        shift and go to state 50
-    PARENTESIS_ABRE shift and go to state 51
-    SUMA            shift and go to state 52
-    RESTA           shift and go to state 53
-    LLAVE_ABRE      shift and go to state 57
-    CADENA_NO_COMILLAS shift and go to state 58
-    NEGACION        shift and go to state 59
+    ENTERO          shift and go to state 44
+    DECIMAL         shift and go to state 45
+    TR              shift and go to state 46
+    FL              shift and go to state 47
+    NULL            shift and go to state 48
+    CARACTER        shift and go to state 49
+    PARENTESIS_ABRE shift and go to state 50
+    SUMA            shift and go to state 51
+    RESTA           shift and go to state 52
+    LLAVE_ABRE      shift and go to state 56
+    CADENA_NO_COMILLAS shift and go to state 57
+    NEGACION        shift and go to state 58
 
-    valor                          shift and go to state 79
-    operacion                      shift and go to state 41
-    ajson_v                        shift and go to state 42
-    function_call                  shift and go to state 43
-    ident                          shift and go to state 44
-    aritmetica                     shift and go to state 54
-    booleana                       shift and go to state 55
-    comparacion                    shift and go to state 56
+    valor                          shift and go to state 78
+    operacion                      shift and go to state 40
+    ajson_v                        shift and go to state 41
+    function_call                  shift and go to state 42
+    ident                          shift and go to state 43
+    aritmetica                     shift and go to state 53
+    booleana                       shift and go to state 54
+    comparacion                    shift and go to state 55
 
-state 52
+state 51
 
     (37) valor -> SUMA . valor
     (26) valor -> . operacion
@@ -1181,8 +1166,8 @@ state 52
     (49) ajson_v -> . LLAVE_ABRE lista_v LLAVE_CIERRA
     (85) function_call -> . CADENA_NO_COMILLAS PARENTESIS_ABRE arg PARENTESIS_CIERRA
     (14) ident -> . CADENA_NO_COMILLAS
-    (15) ident -> . CADENA_NO_COMILLAS PUNTO ident
-    (16) ident -> . CADENA_NO_COMILLAS CORCHETE_ABRE CADENA_COMILLAS CORCHETE_CIERRA
+    (15) ident -> . CADENA_NO_COMILLAS CORCHETE_ABRE CADENA_COMILLAS CORCHETE_CIERRA
+    (16) ident -> . CADENA_NO_COMILLAS PUNTO ident
     (17) ident -> . CADENA_NO_COMILLAS CORCHETE_ABRE CADENA_COMILLAS CORCHETE_CIERRA PUNTO ident
     (59) aritmetica -> . valor SUMA valor
     (60) aritmetica -> . valor RESTA valor
@@ -1197,29 +1182,29 @@ state 52
     (66) comparacion -> . valor MENOR_IGUAL valor
     (67) comparacion -> . valor IGUAL valor
 
-    ENTERO          shift and go to state 45
-    DECIMAL         shift and go to state 46
-    TR              shift and go to state 47
-    FL              shift and go to state 48
-    NULL            shift and go to state 49
-    CARACTER        shift and go to state 50
-    PARENTESIS_ABRE shift and go to state 51
-    SUMA            shift and go to state 52
-    RESTA           shift and go to state 53
-    LLAVE_ABRE      shift and go to state 57
-    CADENA_NO_COMILLAS shift and go to state 58
-    NEGACION        shift and go to state 59
+    ENTERO          shift and go to state 44
+    DECIMAL         shift and go to state 45
+    TR              shift and go to state 46
+    FL              shift and go to state 47
+    NULL            shift and go to state 48
+    CARACTER        shift and go to state 49
+    PARENTESIS_ABRE shift and go to state 50
+    SUMA            shift and go to state 51
+    RESTA           shift and go to state 52
+    LLAVE_ABRE      shift and go to state 56
+    CADENA_NO_COMILLAS shift and go to state 57
+    NEGACION        shift and go to state 58
 
-    valor                          shift and go to state 80
-    operacion                      shift and go to state 41
-    ajson_v                        shift and go to state 42
-    function_call                  shift and go to state 43
-    ident                          shift and go to state 44
-    aritmetica                     shift and go to state 54
-    booleana                       shift and go to state 55
-    comparacion                    shift and go to state 56
+    valor                          shift and go to state 79
+    operacion                      shift and go to state 40
+    ajson_v                        shift and go to state 41
+    function_call                  shift and go to state 42
+    ident                          shift and go to state 43
+    aritmetica                     shift and go to state 53
+    booleana                       shift and go to state 54
+    comparacion                    shift and go to state 55
 
-state 53
+state 52
 
     (38) valor -> RESTA . valor
     (26) valor -> . operacion
@@ -1241,8 +1226,8 @@ state 53
     (49) ajson_v -> . LLAVE_ABRE lista_v LLAVE_CIERRA
     (85) function_call -> . CADENA_NO_COMILLAS PARENTESIS_ABRE arg PARENTESIS_CIERRA
     (14) ident -> . CADENA_NO_COMILLAS
-    (15) ident -> . CADENA_NO_COMILLAS PUNTO ident
-    (16) ident -> . CADENA_NO_COMILLAS CORCHETE_ABRE CADENA_COMILLAS CORCHETE_CIERRA
+    (15) ident -> . CADENA_NO_COMILLAS CORCHETE_ABRE CADENA_COMILLAS CORCHETE_CIERRA
+    (16) ident -> . CADENA_NO_COMILLAS PUNTO ident
     (17) ident -> . CADENA_NO_COMILLAS CORCHETE_ABRE CADENA_COMILLAS CORCHETE_CIERRA PUNTO ident
     (59) aritmetica -> . valor SUMA valor
     (60) aritmetica -> . valor RESTA valor
@@ -1257,29 +1242,29 @@ state 53
     (66) comparacion -> . valor MENOR_IGUAL valor
     (67) comparacion -> . valor IGUAL valor
 
-    ENTERO          shift and go to state 45
-    DECIMAL         shift and go to state 46
-    TR              shift and go to state 47
-    FL              shift and go to state 48
-    NULL            shift and go to state 49
-    CARACTER        shift and go to state 50
-    PARENTESIS_ABRE shift and go to state 51
-    SUMA            shift and go to state 52
-    RESTA           shift and go to state 53
-    LLAVE_ABRE      shift and go to state 57
-    CADENA_NO_COMILLAS shift and go to state 58
-    NEGACION        shift and go to state 59
+    ENTERO          shift and go to state 44
+    DECIMAL         shift and go to state 45
+    TR              shift and go to state 46
+    FL              shift and go to state 47
+    NULL            shift and go to state 48
+    CARACTER        shift and go to state 49
+    PARENTESIS_ABRE shift and go to state 50
+    SUMA            shift and go to state 51
+    RESTA           shift and go to state 52
+    LLAVE_ABRE      shift and go to state 56
+    CADENA_NO_COMILLAS shift and go to state 57
+    NEGACION        shift and go to state 58
 
-    valor                          shift and go to state 81
-    operacion                      shift and go to state 41
-    ajson_v                        shift and go to state 42
-    function_call                  shift and go to state 43
-    ident                          shift and go to state 44
-    aritmetica                     shift and go to state 54
-    booleana                       shift and go to state 55
-    comparacion                    shift and go to state 56
+    valor                          shift and go to state 80
+    operacion                      shift and go to state 40
+    ajson_v                        shift and go to state 41
+    function_call                  shift and go to state 42
+    ident                          shift and go to state 43
+    aritmetica                     shift and go to state 53
+    booleana                       shift and go to state 54
+    comparacion                    shift and go to state 55
 
-state 54
+state 53
 
     (56) operacion -> aritmetica .
 
@@ -1295,12 +1280,12 @@ state 54
     MENOR_IGUAL     reduce using rule 56 (operacion -> aritmetica .)
     IGUAL           reduce using rule 56 (operacion -> aritmetica .)
     PUNTO_Y_COMA    reduce using rule 56 (operacion -> aritmetica .)
-    PARENTESIS_CIERRA reduce using rule 56 (operacion -> aritmetica .)
     COMA            reduce using rule 56 (operacion -> aritmetica .)
+    PARENTESIS_CIERRA reduce using rule 56 (operacion -> aritmetica .)
     LLAVE_CIERRA    reduce using rule 56 (operacion -> aritmetica .)
 
 
-state 55
+state 54
 
     (57) operacion -> booleana .
 
@@ -1316,12 +1301,12 @@ state 55
     MENOR_IGUAL     reduce using rule 57 (operacion -> booleana .)
     IGUAL           reduce using rule 57 (operacion -> booleana .)
     PUNTO_Y_COMA    reduce using rule 57 (operacion -> booleana .)
-    PARENTESIS_CIERRA reduce using rule 57 (operacion -> booleana .)
     COMA            reduce using rule 57 (operacion -> booleana .)
+    PARENTESIS_CIERRA reduce using rule 57 (operacion -> booleana .)
     LLAVE_CIERRA    reduce using rule 57 (operacion -> booleana .)
 
 
-state 56
+state 55
 
     (58) operacion -> comparacion .
 
@@ -1337,12 +1322,12 @@ state 56
     MENOR_IGUAL     reduce using rule 58 (operacion -> comparacion .)
     IGUAL           reduce using rule 58 (operacion -> comparacion .)
     PUNTO_Y_COMA    reduce using rule 58 (operacion -> comparacion .)
-    PARENTESIS_CIERRA reduce using rule 58 (operacion -> comparacion .)
     COMA            reduce using rule 58 (operacion -> comparacion .)
+    PARENTESIS_CIERRA reduce using rule 58 (operacion -> comparacion .)
     LLAVE_CIERRA    reduce using rule 58 (operacion -> comparacion .)
 
 
-state 57
+state 56
 
     (49) ajson_v -> LLAVE_ABRE . lista_v LLAVE_CIERRA
     (50) lista_v -> . elemento_v
@@ -1352,22 +1337,22 @@ state 57
     (54) clave_v -> . CADENA_NO_COMILLAS
     (55) clave_v -> . CADENA_COMILLAS
 
-    CADENA_NO_COMILLAS shift and go to state 85
-    CADENA_COMILLAS shift and go to state 86
+    CADENA_NO_COMILLAS shift and go to state 84
+    CADENA_COMILLAS shift and go to state 85
 
-    lista_v                        shift and go to state 82
-    elemento_v                     shift and go to state 83
-    clave_v                        shift and go to state 84
+    lista_v                        shift and go to state 81
+    elemento_v                     shift and go to state 82
+    clave_v                        shift and go to state 83
 
-state 58
+state 57
 
     (85) function_call -> CADENA_NO_COMILLAS . PARENTESIS_ABRE arg PARENTESIS_CIERRA
     (14) ident -> CADENA_NO_COMILLAS .
-    (15) ident -> CADENA_NO_COMILLAS . PUNTO ident
-    (16) ident -> CADENA_NO_COMILLAS . CORCHETE_ABRE CADENA_COMILLAS CORCHETE_CIERRA
+    (15) ident -> CADENA_NO_COMILLAS . CORCHETE_ABRE CADENA_COMILLAS CORCHETE_CIERRA
+    (16) ident -> CADENA_NO_COMILLAS . PUNTO ident
     (17) ident -> CADENA_NO_COMILLAS . CORCHETE_ABRE CADENA_COMILLAS CORCHETE_CIERRA PUNTO ident
 
-    PARENTESIS_ABRE shift and go to state 87
+    PARENTESIS_ABRE shift and go to state 86
     SUMA            reduce using rule 14 (ident -> CADENA_NO_COMILLAS .)
     RESTA           reduce using rule 14 (ident -> CADENA_NO_COMILLAS .)
     MULTIPLICACION  reduce using rule 14 (ident -> CADENA_NO_COMILLAS .)
@@ -1380,14 +1365,14 @@ state 58
     MENOR_IGUAL     reduce using rule 14 (ident -> CADENA_NO_COMILLAS .)
     IGUAL           reduce using rule 14 (ident -> CADENA_NO_COMILLAS .)
     PUNTO_Y_COMA    reduce using rule 14 (ident -> CADENA_NO_COMILLAS .)
-    PARENTESIS_CIERRA reduce using rule 14 (ident -> CADENA_NO_COMILLAS .)
     COMA            reduce using rule 14 (ident -> CADENA_NO_COMILLAS .)
+    PARENTESIS_CIERRA reduce using rule 14 (ident -> CADENA_NO_COMILLAS .)
     LLAVE_CIERRA    reduce using rule 14 (ident -> CADENA_NO_COMILLAS .)
-    PUNTO           shift and go to state 22
-    CORCHETE_ABRE   shift and go to state 23
+    CORCHETE_ABRE   shift and go to state 22
+    PUNTO           shift and go to state 23
 
 
-state 59
+state 58
 
     (70) booleana -> NEGACION . valor
     (26) valor -> . operacion
@@ -1409,8 +1394,8 @@ state 59
     (49) ajson_v -> . LLAVE_ABRE lista_v LLAVE_CIERRA
     (85) function_call -> . CADENA_NO_COMILLAS PARENTESIS_ABRE arg PARENTESIS_CIERRA
     (14) ident -> . CADENA_NO_COMILLAS
-    (15) ident -> . CADENA_NO_COMILLAS PUNTO ident
-    (16) ident -> . CADENA_NO_COMILLAS CORCHETE_ABRE CADENA_COMILLAS CORCHETE_CIERRA
+    (15) ident -> . CADENA_NO_COMILLAS CORCHETE_ABRE CADENA_COMILLAS CORCHETE_CIERRA
+    (16) ident -> . CADENA_NO_COMILLAS PUNTO ident
     (17) ident -> . CADENA_NO_COMILLAS CORCHETE_ABRE CADENA_COMILLAS CORCHETE_CIERRA PUNTO ident
     (59) aritmetica -> . valor SUMA valor
     (60) aritmetica -> . valor RESTA valor
@@ -1425,29 +1410,29 @@ state 59
     (66) comparacion -> . valor MENOR_IGUAL valor
     (67) comparacion -> . valor IGUAL valor
 
-    ENTERO          shift and go to state 45
-    DECIMAL         shift and go to state 46
-    TR              shift and go to state 47
-    FL              shift and go to state 48
-    NULL            shift and go to state 49
-    CARACTER        shift and go to state 50
-    PARENTESIS_ABRE shift and go to state 51
-    SUMA            shift and go to state 52
-    RESTA           shift and go to state 53
-    LLAVE_ABRE      shift and go to state 57
-    CADENA_NO_COMILLAS shift and go to state 58
-    NEGACION        shift and go to state 59
+    ENTERO          shift and go to state 44
+    DECIMAL         shift and go to state 45
+    TR              shift and go to state 46
+    FL              shift and go to state 47
+    NULL            shift and go to state 48
+    CARACTER        shift and go to state 49
+    PARENTESIS_ABRE shift and go to state 50
+    SUMA            shift and go to state 51
+    RESTA           shift and go to state 52
+    LLAVE_ABRE      shift and go to state 56
+    CADENA_NO_COMILLAS shift and go to state 57
+    NEGACION        shift and go to state 58
 
-    valor                          shift and go to state 88
-    operacion                      shift and go to state 41
-    ajson_v                        shift and go to state 42
-    function_call                  shift and go to state 43
-    ident                          shift and go to state 44
-    aritmetica                     shift and go to state 54
-    booleana                       shift and go to state 55
-    comparacion                    shift and go to state 56
+    valor                          shift and go to state 87
+    operacion                      shift and go to state 40
+    ajson_v                        shift and go to state 41
+    function_call                  shift and go to state 42
+    ident                          shift and go to state 43
+    aritmetica                     shift and go to state 53
+    booleana                       shift and go to state 54
+    comparacion                    shift and go to state 55
 
-state 60
+state 59
 
     (76) condition -> IF PARENTESIS_ABRE valor . PARENTESIS_CIERRA LLAVE_ABRE statement LLAVE_CIERRA
     (77) condition -> IF PARENTESIS_ABRE valor . PARENTESIS_CIERRA LLAVE_ABRE statement LLAVE_CIERRA ELSE LLAVE_ABRE statement LLAVE_CIERRA
@@ -1463,21 +1448,21 @@ state 60
     (66) comparacion -> valor . MENOR_IGUAL valor
     (67) comparacion -> valor . IGUAL valor
 
-    PARENTESIS_CIERRA shift and go to state 89
-    SUMA            shift and go to state 68
-    RESTA           shift and go to state 69
-    MULTIPLICACION  shift and go to state 70
-    DIVISION        shift and go to state 71
-    CONJUNCION      shift and go to state 72
-    DISYUNCION      shift and go to state 73
-    MAYOR           shift and go to state 74
-    MENOR           shift and go to state 75
-    MAYOR_IGUAL     shift and go to state 76
-    MENOR_IGUAL     shift and go to state 77
-    IGUAL           shift and go to state 78
+    PARENTESIS_CIERRA shift and go to state 88
+    SUMA            shift and go to state 67
+    RESTA           shift and go to state 68
+    MULTIPLICACION  shift and go to state 69
+    DIVISION        shift and go to state 70
+    CONJUNCION      shift and go to state 71
+    DISYUNCION      shift and go to state 72
+    MAYOR           shift and go to state 73
+    MENOR           shift and go to state 74
+    MAYOR_IGUAL     shift and go to state 75
+    MENOR_IGUAL     shift and go to state 76
+    IGUAL           shift and go to state 77
 
 
-state 61
+state 60
 
     (78) loop -> WHILE PARENTESIS_ABRE valor . PARENTESIS_CIERRA LLAVE_ABRE statement LLAVE_CIERRA
     (59) aritmetica -> valor . SUMA valor
@@ -1492,21 +1477,21 @@ state 61
     (66) comparacion -> valor . MENOR_IGUAL valor
     (67) comparacion -> valor . IGUAL valor
 
-    PARENTESIS_CIERRA shift and go to state 90
-    SUMA            shift and go to state 68
-    RESTA           shift and go to state 69
-    MULTIPLICACION  shift and go to state 70
-    DIVISION        shift and go to state 71
-    CONJUNCION      shift and go to state 72
-    DISYUNCION      shift and go to state 73
-    MAYOR           shift and go to state 74
-    MENOR           shift and go to state 75
-    MAYOR_IGUAL     shift and go to state 76
-    MENOR_IGUAL     shift and go to state 77
-    IGUAL           shift and go to state 78
+    PARENTESIS_CIERRA shift and go to state 89
+    SUMA            shift and go to state 67
+    RESTA           shift and go to state 68
+    MULTIPLICACION  shift and go to state 69
+    DIVISION        shift and go to state 70
+    CONJUNCION      shift and go to state 71
+    DISYUNCION      shift and go to state 72
+    MAYOR           shift and go to state 73
+    MENOR           shift and go to state 74
+    MAYOR_IGUAL     shift and go to state 75
+    MENOR_IGUAL     shift and go to state 76
+    IGUAL           shift and go to state 77
 
 
-state 62
+state 61
 
     (83) function_def -> FUNCTION CADENA_NO_COMILLAS PARENTESIS_ABRE . id_t PARENTESIS_CIERRA DOS_PUNTOS tipo LLAVE_ABRE statement RETURN valor PUNTO_Y_COMA LLAVE_CIERRA
     (84) function_def -> FUNCTION CADENA_NO_COMILLAS PARENTESIS_ABRE . id_t PARENTESIS_CIERRA DOS_PUNTOS tipo LLAVE_ABRE RETURN valor PUNTO_Y_COMA LLAVE_CIERRA
@@ -1516,21 +1501,21 @@ state 62
     (82) variable_t -> . CADENA_NO_COMILLAS DOS_PUNTOS tipo
     (3) empty -> .
 
-    CADENA_NO_COMILLAS shift and go to state 91
+    CADENA_NO_COMILLAS shift and go to state 90
     PARENTESIS_CIERRA reduce using rule 3 (empty -> .)
 
-    id_t                           shift and go to state 92
-    variable_t                     shift and go to state 93
-    empty                          shift and go to state 94
+    id_t                           shift and go to state 91
+    variable_t                     shift and go to state 92
+    empty                          shift and go to state 93
 
-state 63
+state 62
 
     (39) define -> TYPE CADENA_NO_COMILLAS ASIGNACION ajson .
 
     PUNTO_Y_COMA    reduce using rule 39 (define -> TYPE CADENA_NO_COMILLAS ASIGNACION ajson .)
 
 
-state 64
+state 63
 
     (40) ajson -> LLAVE_ABRE . lista LLAVE_CIERRA
     (41) lista -> . elemento
@@ -1540,56 +1525,66 @@ state 64
     (47) clave -> . CADENA_COMILLAS
     (48) clave -> . CADENA_NO_COMILLAS
 
-    CADENA_COMILLAS shift and go to state 98
-    CADENA_NO_COMILLAS shift and go to state 99
+    CADENA_COMILLAS shift and go to state 97
+    CADENA_NO_COMILLAS shift and go to state 98
 
-    lista                          shift and go to state 95
-    elemento                       shift and go to state 96
-    clave                          shift and go to state 97
+    lista                          shift and go to state 94
+    elemento                       shift and go to state 95
+    clave                          shift and go to state 96
+
+state 64
+
+    (15) ident -> CADENA_NO_COMILLAS CORCHETE_ABRE CADENA_COMILLAS CORCHETE_CIERRA .
+    (17) ident -> CADENA_NO_COMILLAS CORCHETE_ABRE CADENA_COMILLAS CORCHETE_CIERRA . PUNTO ident
+
+    ASIGNACION      reduce using rule 15 (ident -> CADENA_NO_COMILLAS CORCHETE_ABRE CADENA_COMILLAS CORCHETE_CIERRA .)
+    PUNTO_Y_COMA    reduce using rule 15 (ident -> CADENA_NO_COMILLAS CORCHETE_ABRE CADENA_COMILLAS CORCHETE_CIERRA .)
+    DOS_PUNTOS      reduce using rule 15 (ident -> CADENA_NO_COMILLAS CORCHETE_ABRE CADENA_COMILLAS CORCHETE_CIERRA .)
+    COMA            reduce using rule 15 (ident -> CADENA_NO_COMILLAS CORCHETE_ABRE CADENA_COMILLAS CORCHETE_CIERRA .)
+    SUMA            reduce using rule 15 (ident -> CADENA_NO_COMILLAS CORCHETE_ABRE CADENA_COMILLAS CORCHETE_CIERRA .)
+    RESTA           reduce using rule 15 (ident -> CADENA_NO_COMILLAS CORCHETE_ABRE CADENA_COMILLAS CORCHETE_CIERRA .)
+    MULTIPLICACION  reduce using rule 15 (ident -> CADENA_NO_COMILLAS CORCHETE_ABRE CADENA_COMILLAS CORCHETE_CIERRA .)
+    DIVISION        reduce using rule 15 (ident -> CADENA_NO_COMILLAS CORCHETE_ABRE CADENA_COMILLAS CORCHETE_CIERRA .)
+    CONJUNCION      reduce using rule 15 (ident -> CADENA_NO_COMILLAS CORCHETE_ABRE CADENA_COMILLAS CORCHETE_CIERRA .)
+    DISYUNCION      reduce using rule 15 (ident -> CADENA_NO_COMILLAS CORCHETE_ABRE CADENA_COMILLAS CORCHETE_CIERRA .)
+    MAYOR           reduce using rule 15 (ident -> CADENA_NO_COMILLAS CORCHETE_ABRE CADENA_COMILLAS CORCHETE_CIERRA .)
+    MENOR           reduce using rule 15 (ident -> CADENA_NO_COMILLAS CORCHETE_ABRE CADENA_COMILLAS CORCHETE_CIERRA .)
+    MAYOR_IGUAL     reduce using rule 15 (ident -> CADENA_NO_COMILLAS CORCHETE_ABRE CADENA_COMILLAS CORCHETE_CIERRA .)
+    MENOR_IGUAL     reduce using rule 15 (ident -> CADENA_NO_COMILLAS CORCHETE_ABRE CADENA_COMILLAS CORCHETE_CIERRA .)
+    IGUAL           reduce using rule 15 (ident -> CADENA_NO_COMILLAS CORCHETE_ABRE CADENA_COMILLAS CORCHETE_CIERRA .)
+    PARENTESIS_CIERRA reduce using rule 15 (ident -> CADENA_NO_COMILLAS CORCHETE_ABRE CADENA_COMILLAS CORCHETE_CIERRA .)
+    LLAVE_CIERRA    reduce using rule 15 (ident -> CADENA_NO_COMILLAS CORCHETE_ABRE CADENA_COMILLAS CORCHETE_CIERRA .)
+    PUNTO           shift and go to state 99
+
 
 state 65
 
-    (16) ident -> CADENA_NO_COMILLAS CORCHETE_ABRE CADENA_COMILLAS CORCHETE_CIERRA .
-    (17) ident -> CADENA_NO_COMILLAS CORCHETE_ABRE CADENA_COMILLAS CORCHETE_CIERRA . PUNTO ident
+    (22) id -> variable asign_valor COMA . id
+    (21) id -> . variable asign_valor
+    (22) id -> . variable asign_valor COMA id
+    (23) variable -> . ident
+    (24) variable -> . ident DOS_PUNTOS CADENA_NO_COMILLAS
+    (14) ident -> . CADENA_NO_COMILLAS
+    (15) ident -> . CADENA_NO_COMILLAS CORCHETE_ABRE CADENA_COMILLAS CORCHETE_CIERRA
+    (16) ident -> . CADENA_NO_COMILLAS PUNTO ident
+    (17) ident -> . CADENA_NO_COMILLAS CORCHETE_ABRE CADENA_COMILLAS CORCHETE_CIERRA PUNTO ident
 
-    ASIGNACION      reduce using rule 16 (ident -> CADENA_NO_COMILLAS CORCHETE_ABRE CADENA_COMILLAS CORCHETE_CIERRA .)
-    PUNTO_Y_COMA    reduce using rule 16 (ident -> CADENA_NO_COMILLAS CORCHETE_ABRE CADENA_COMILLAS CORCHETE_CIERRA .)
-    DOS_PUNTOS      reduce using rule 16 (ident -> CADENA_NO_COMILLAS CORCHETE_ABRE CADENA_COMILLAS CORCHETE_CIERRA .)
-    COMA            reduce using rule 16 (ident -> CADENA_NO_COMILLAS CORCHETE_ABRE CADENA_COMILLAS CORCHETE_CIERRA .)
-    SUMA            reduce using rule 16 (ident -> CADENA_NO_COMILLAS CORCHETE_ABRE CADENA_COMILLAS CORCHETE_CIERRA .)
-    RESTA           reduce using rule 16 (ident -> CADENA_NO_COMILLAS CORCHETE_ABRE CADENA_COMILLAS CORCHETE_CIERRA .)
-    MULTIPLICACION  reduce using rule 16 (ident -> CADENA_NO_COMILLAS CORCHETE_ABRE CADENA_COMILLAS CORCHETE_CIERRA .)
-    DIVISION        reduce using rule 16 (ident -> CADENA_NO_COMILLAS CORCHETE_ABRE CADENA_COMILLAS CORCHETE_CIERRA .)
-    CONJUNCION      reduce using rule 16 (ident -> CADENA_NO_COMILLAS CORCHETE_ABRE CADENA_COMILLAS CORCHETE_CIERRA .)
-    DISYUNCION      reduce using rule 16 (ident -> CADENA_NO_COMILLAS CORCHETE_ABRE CADENA_COMILLAS CORCHETE_CIERRA .)
-    MAYOR           reduce using rule 16 (ident -> CADENA_NO_COMILLAS CORCHETE_ABRE CADENA_COMILLAS CORCHETE_CIERRA .)
-    MENOR           reduce using rule 16 (ident -> CADENA_NO_COMILLAS CORCHETE_ABRE CADENA_COMILLAS CORCHETE_CIERRA .)
-    MAYOR_IGUAL     reduce using rule 16 (ident -> CADENA_NO_COMILLAS CORCHETE_ABRE CADENA_COMILLAS CORCHETE_CIERRA .)
-    MENOR_IGUAL     reduce using rule 16 (ident -> CADENA_NO_COMILLAS CORCHETE_ABRE CADENA_COMILLAS CORCHETE_CIERRA .)
-    IGUAL           reduce using rule 16 (ident -> CADENA_NO_COMILLAS CORCHETE_ABRE CADENA_COMILLAS CORCHETE_CIERRA .)
-    PARENTESIS_CIERRA reduce using rule 16 (ident -> CADENA_NO_COMILLAS CORCHETE_ABRE CADENA_COMILLAS CORCHETE_CIERRA .)
-    LLAVE_CIERRA    reduce using rule 16 (ident -> CADENA_NO_COMILLAS CORCHETE_ABRE CADENA_COMILLAS CORCHETE_CIERRA .)
-    PUNTO           shift and go to state 100
+    CADENA_NO_COMILLAS shift and go to state 13
 
+    variable                       shift and go to state 25
+    id                             shift and go to state 100
+    ident                          shift and go to state 26
 
 state 66
 
-    (22) id -> variable COMA id .
-
-    ASIGNACION      reduce using rule 22 (id -> variable COMA id .)
-    PUNTO_Y_COMA    reduce using rule 22 (id -> variable COMA id .)
-
-
-state 67
-
     (24) variable -> ident DOS_PUNTOS CADENA_NO_COMILLAS .
 
-    COMA            reduce using rule 24 (variable -> ident DOS_PUNTOS CADENA_NO_COMILLAS .)
     ASIGNACION      reduce using rule 24 (variable -> ident DOS_PUNTOS CADENA_NO_COMILLAS .)
+    COMA            reduce using rule 24 (variable -> ident DOS_PUNTOS CADENA_NO_COMILLAS .)
     PUNTO_Y_COMA    reduce using rule 24 (variable -> ident DOS_PUNTOS CADENA_NO_COMILLAS .)
 
 
-state 68
+state 67
 
     (59) aritmetica -> valor SUMA . valor
     (26) valor -> . operacion
@@ -1611,8 +1606,8 @@ state 68
     (49) ajson_v -> . LLAVE_ABRE lista_v LLAVE_CIERRA
     (85) function_call -> . CADENA_NO_COMILLAS PARENTESIS_ABRE arg PARENTESIS_CIERRA
     (14) ident -> . CADENA_NO_COMILLAS
-    (15) ident -> . CADENA_NO_COMILLAS PUNTO ident
-    (16) ident -> . CADENA_NO_COMILLAS CORCHETE_ABRE CADENA_COMILLAS CORCHETE_CIERRA
+    (15) ident -> . CADENA_NO_COMILLAS CORCHETE_ABRE CADENA_COMILLAS CORCHETE_CIERRA
+    (16) ident -> . CADENA_NO_COMILLAS PUNTO ident
     (17) ident -> . CADENA_NO_COMILLAS CORCHETE_ABRE CADENA_COMILLAS CORCHETE_CIERRA PUNTO ident
     (59) aritmetica -> . valor SUMA valor
     (60) aritmetica -> . valor RESTA valor
@@ -1627,29 +1622,29 @@ state 68
     (66) comparacion -> . valor MENOR_IGUAL valor
     (67) comparacion -> . valor IGUAL valor
 
-    ENTERO          shift and go to state 45
-    DECIMAL         shift and go to state 46
-    TR              shift and go to state 47
-    FL              shift and go to state 48
-    NULL            shift and go to state 49
-    CARACTER        shift and go to state 50
-    PARENTESIS_ABRE shift and go to state 51
-    SUMA            shift and go to state 52
-    RESTA           shift and go to state 53
-    LLAVE_ABRE      shift and go to state 57
-    CADENA_NO_COMILLAS shift and go to state 58
-    NEGACION        shift and go to state 59
+    ENTERO          shift and go to state 44
+    DECIMAL         shift and go to state 45
+    TR              shift and go to state 46
+    FL              shift and go to state 47
+    NULL            shift and go to state 48
+    CARACTER        shift and go to state 49
+    PARENTESIS_ABRE shift and go to state 50
+    SUMA            shift and go to state 51
+    RESTA           shift and go to state 52
+    LLAVE_ABRE      shift and go to state 56
+    CADENA_NO_COMILLAS shift and go to state 57
+    NEGACION        shift and go to state 58
 
     valor                          shift and go to state 101
-    operacion                      shift and go to state 41
-    ajson_v                        shift and go to state 42
-    function_call                  shift and go to state 43
-    ident                          shift and go to state 44
-    aritmetica                     shift and go to state 54
-    booleana                       shift and go to state 55
-    comparacion                    shift and go to state 56
+    operacion                      shift and go to state 40
+    ajson_v                        shift and go to state 41
+    function_call                  shift and go to state 42
+    ident                          shift and go to state 43
+    aritmetica                     shift and go to state 53
+    booleana                       shift and go to state 54
+    comparacion                    shift and go to state 55
 
-state 69
+state 68
 
     (60) aritmetica -> valor RESTA . valor
     (26) valor -> . operacion
@@ -1671,8 +1666,8 @@ state 69
     (49) ajson_v -> . LLAVE_ABRE lista_v LLAVE_CIERRA
     (85) function_call -> . CADENA_NO_COMILLAS PARENTESIS_ABRE arg PARENTESIS_CIERRA
     (14) ident -> . CADENA_NO_COMILLAS
-    (15) ident -> . CADENA_NO_COMILLAS PUNTO ident
-    (16) ident -> . CADENA_NO_COMILLAS CORCHETE_ABRE CADENA_COMILLAS CORCHETE_CIERRA
+    (15) ident -> . CADENA_NO_COMILLAS CORCHETE_ABRE CADENA_COMILLAS CORCHETE_CIERRA
+    (16) ident -> . CADENA_NO_COMILLAS PUNTO ident
     (17) ident -> . CADENA_NO_COMILLAS CORCHETE_ABRE CADENA_COMILLAS CORCHETE_CIERRA PUNTO ident
     (59) aritmetica -> . valor SUMA valor
     (60) aritmetica -> . valor RESTA valor
@@ -1687,29 +1682,29 @@ state 69
     (66) comparacion -> . valor MENOR_IGUAL valor
     (67) comparacion -> . valor IGUAL valor
 
-    ENTERO          shift and go to state 45
-    DECIMAL         shift and go to state 46
-    TR              shift and go to state 47
-    FL              shift and go to state 48
-    NULL            shift and go to state 49
-    CARACTER        shift and go to state 50
-    PARENTESIS_ABRE shift and go to state 51
-    SUMA            shift and go to state 52
-    RESTA           shift and go to state 53
-    LLAVE_ABRE      shift and go to state 57
-    CADENA_NO_COMILLAS shift and go to state 58
-    NEGACION        shift and go to state 59
+    ENTERO          shift and go to state 44
+    DECIMAL         shift and go to state 45
+    TR              shift and go to state 46
+    FL              shift and go to state 47
+    NULL            shift and go to state 48
+    CARACTER        shift and go to state 49
+    PARENTESIS_ABRE shift and go to state 50
+    SUMA            shift and go to state 51
+    RESTA           shift and go to state 52
+    LLAVE_ABRE      shift and go to state 56
+    CADENA_NO_COMILLAS shift and go to state 57
+    NEGACION        shift and go to state 58
 
     valor                          shift and go to state 102
-    operacion                      shift and go to state 41
-    ajson_v                        shift and go to state 42
-    function_call                  shift and go to state 43
-    ident                          shift and go to state 44
-    aritmetica                     shift and go to state 54
-    booleana                       shift and go to state 55
-    comparacion                    shift and go to state 56
+    operacion                      shift and go to state 40
+    ajson_v                        shift and go to state 41
+    function_call                  shift and go to state 42
+    ident                          shift and go to state 43
+    aritmetica                     shift and go to state 53
+    booleana                       shift and go to state 54
+    comparacion                    shift and go to state 55
 
-state 70
+state 69
 
     (61) aritmetica -> valor MULTIPLICACION . valor
     (26) valor -> . operacion
@@ -1731,8 +1726,8 @@ state 70
     (49) ajson_v -> . LLAVE_ABRE lista_v LLAVE_CIERRA
     (85) function_call -> . CADENA_NO_COMILLAS PARENTESIS_ABRE arg PARENTESIS_CIERRA
     (14) ident -> . CADENA_NO_COMILLAS
-    (15) ident -> . CADENA_NO_COMILLAS PUNTO ident
-    (16) ident -> . CADENA_NO_COMILLAS CORCHETE_ABRE CADENA_COMILLAS CORCHETE_CIERRA
+    (15) ident -> . CADENA_NO_COMILLAS CORCHETE_ABRE CADENA_COMILLAS CORCHETE_CIERRA
+    (16) ident -> . CADENA_NO_COMILLAS PUNTO ident
     (17) ident -> . CADENA_NO_COMILLAS CORCHETE_ABRE CADENA_COMILLAS CORCHETE_CIERRA PUNTO ident
     (59) aritmetica -> . valor SUMA valor
     (60) aritmetica -> . valor RESTA valor
@@ -1747,29 +1742,29 @@ state 70
     (66) comparacion -> . valor MENOR_IGUAL valor
     (67) comparacion -> . valor IGUAL valor
 
-    ENTERO          shift and go to state 45
-    DECIMAL         shift and go to state 46
-    TR              shift and go to state 47
-    FL              shift and go to state 48
-    NULL            shift and go to state 49
-    CARACTER        shift and go to state 50
-    PARENTESIS_ABRE shift and go to state 51
-    SUMA            shift and go to state 52
-    RESTA           shift and go to state 53
-    LLAVE_ABRE      shift and go to state 57
-    CADENA_NO_COMILLAS shift and go to state 58
-    NEGACION        shift and go to state 59
+    ENTERO          shift and go to state 44
+    DECIMAL         shift and go to state 45
+    TR              shift and go to state 46
+    FL              shift and go to state 47
+    NULL            shift and go to state 48
+    CARACTER        shift and go to state 49
+    PARENTESIS_ABRE shift and go to state 50
+    SUMA            shift and go to state 51
+    RESTA           shift and go to state 52
+    LLAVE_ABRE      shift and go to state 56
+    CADENA_NO_COMILLAS shift and go to state 57
+    NEGACION        shift and go to state 58
 
     valor                          shift and go to state 103
-    operacion                      shift and go to state 41
-    ajson_v                        shift and go to state 42
-    function_call                  shift and go to state 43
-    ident                          shift and go to state 44
-    aritmetica                     shift and go to state 54
-    booleana                       shift and go to state 55
-    comparacion                    shift and go to state 56
+    operacion                      shift and go to state 40
+    ajson_v                        shift and go to state 41
+    function_call                  shift and go to state 42
+    ident                          shift and go to state 43
+    aritmetica                     shift and go to state 53
+    booleana                       shift and go to state 54
+    comparacion                    shift and go to state 55
 
-state 71
+state 70
 
     (62) aritmetica -> valor DIVISION . valor
     (26) valor -> . operacion
@@ -1791,8 +1786,8 @@ state 71
     (49) ajson_v -> . LLAVE_ABRE lista_v LLAVE_CIERRA
     (85) function_call -> . CADENA_NO_COMILLAS PARENTESIS_ABRE arg PARENTESIS_CIERRA
     (14) ident -> . CADENA_NO_COMILLAS
-    (15) ident -> . CADENA_NO_COMILLAS PUNTO ident
-    (16) ident -> . CADENA_NO_COMILLAS CORCHETE_ABRE CADENA_COMILLAS CORCHETE_CIERRA
+    (15) ident -> . CADENA_NO_COMILLAS CORCHETE_ABRE CADENA_COMILLAS CORCHETE_CIERRA
+    (16) ident -> . CADENA_NO_COMILLAS PUNTO ident
     (17) ident -> . CADENA_NO_COMILLAS CORCHETE_ABRE CADENA_COMILLAS CORCHETE_CIERRA PUNTO ident
     (59) aritmetica -> . valor SUMA valor
     (60) aritmetica -> . valor RESTA valor
@@ -1807,29 +1802,29 @@ state 71
     (66) comparacion -> . valor MENOR_IGUAL valor
     (67) comparacion -> . valor IGUAL valor
 
-    ENTERO          shift and go to state 45
-    DECIMAL         shift and go to state 46
-    TR              shift and go to state 47
-    FL              shift and go to state 48
-    NULL            shift and go to state 49
-    CARACTER        shift and go to state 50
-    PARENTESIS_ABRE shift and go to state 51
-    SUMA            shift and go to state 52
-    RESTA           shift and go to state 53
-    LLAVE_ABRE      shift and go to state 57
-    CADENA_NO_COMILLAS shift and go to state 58
-    NEGACION        shift and go to state 59
+    ENTERO          shift and go to state 44
+    DECIMAL         shift and go to state 45
+    TR              shift and go to state 46
+    FL              shift and go to state 47
+    NULL            shift and go to state 48
+    CARACTER        shift and go to state 49
+    PARENTESIS_ABRE shift and go to state 50
+    SUMA            shift and go to state 51
+    RESTA           shift and go to state 52
+    LLAVE_ABRE      shift and go to state 56
+    CADENA_NO_COMILLAS shift and go to state 57
+    NEGACION        shift and go to state 58
 
     valor                          shift and go to state 104
-    operacion                      shift and go to state 41
-    ajson_v                        shift and go to state 42
-    function_call                  shift and go to state 43
-    ident                          shift and go to state 44
-    aritmetica                     shift and go to state 54
-    booleana                       shift and go to state 55
-    comparacion                    shift and go to state 56
+    operacion                      shift and go to state 40
+    ajson_v                        shift and go to state 41
+    function_call                  shift and go to state 42
+    ident                          shift and go to state 43
+    aritmetica                     shift and go to state 53
+    booleana                       shift and go to state 54
+    comparacion                    shift and go to state 55
 
-state 72
+state 71
 
     (68) booleana -> valor CONJUNCION . valor
     (26) valor -> . operacion
@@ -1851,8 +1846,8 @@ state 72
     (49) ajson_v -> . LLAVE_ABRE lista_v LLAVE_CIERRA
     (85) function_call -> . CADENA_NO_COMILLAS PARENTESIS_ABRE arg PARENTESIS_CIERRA
     (14) ident -> . CADENA_NO_COMILLAS
-    (15) ident -> . CADENA_NO_COMILLAS PUNTO ident
-    (16) ident -> . CADENA_NO_COMILLAS CORCHETE_ABRE CADENA_COMILLAS CORCHETE_CIERRA
+    (15) ident -> . CADENA_NO_COMILLAS CORCHETE_ABRE CADENA_COMILLAS CORCHETE_CIERRA
+    (16) ident -> . CADENA_NO_COMILLAS PUNTO ident
     (17) ident -> . CADENA_NO_COMILLAS CORCHETE_ABRE CADENA_COMILLAS CORCHETE_CIERRA PUNTO ident
     (59) aritmetica -> . valor SUMA valor
     (60) aritmetica -> . valor RESTA valor
@@ -1867,29 +1862,29 @@ state 72
     (66) comparacion -> . valor MENOR_IGUAL valor
     (67) comparacion -> . valor IGUAL valor
 
-    ENTERO          shift and go to state 45
-    DECIMAL         shift and go to state 46
-    TR              shift and go to state 47
-    FL              shift and go to state 48
-    NULL            shift and go to state 49
-    CARACTER        shift and go to state 50
-    PARENTESIS_ABRE shift and go to state 51
-    SUMA            shift and go to state 52
-    RESTA           shift and go to state 53
-    LLAVE_ABRE      shift and go to state 57
-    CADENA_NO_COMILLAS shift and go to state 58
-    NEGACION        shift and go to state 59
+    ENTERO          shift and go to state 44
+    DECIMAL         shift and go to state 45
+    TR              shift and go to state 46
+    FL              shift and go to state 47
+    NULL            shift and go to state 48
+    CARACTER        shift and go to state 49
+    PARENTESIS_ABRE shift and go to state 50
+    SUMA            shift and go to state 51
+    RESTA           shift and go to state 52
+    LLAVE_ABRE      shift and go to state 56
+    CADENA_NO_COMILLAS shift and go to state 57
+    NEGACION        shift and go to state 58
 
     valor                          shift and go to state 105
-    operacion                      shift and go to state 41
-    ajson_v                        shift and go to state 42
-    function_call                  shift and go to state 43
-    ident                          shift and go to state 44
-    aritmetica                     shift and go to state 54
-    booleana                       shift and go to state 55
-    comparacion                    shift and go to state 56
+    operacion                      shift and go to state 40
+    ajson_v                        shift and go to state 41
+    function_call                  shift and go to state 42
+    ident                          shift and go to state 43
+    aritmetica                     shift and go to state 53
+    booleana                       shift and go to state 54
+    comparacion                    shift and go to state 55
 
-state 73
+state 72
 
     (69) booleana -> valor DISYUNCION . valor
     (26) valor -> . operacion
@@ -1911,8 +1906,8 @@ state 73
     (49) ajson_v -> . LLAVE_ABRE lista_v LLAVE_CIERRA
     (85) function_call -> . CADENA_NO_COMILLAS PARENTESIS_ABRE arg PARENTESIS_CIERRA
     (14) ident -> . CADENA_NO_COMILLAS
-    (15) ident -> . CADENA_NO_COMILLAS PUNTO ident
-    (16) ident -> . CADENA_NO_COMILLAS CORCHETE_ABRE CADENA_COMILLAS CORCHETE_CIERRA
+    (15) ident -> . CADENA_NO_COMILLAS CORCHETE_ABRE CADENA_COMILLAS CORCHETE_CIERRA
+    (16) ident -> . CADENA_NO_COMILLAS PUNTO ident
     (17) ident -> . CADENA_NO_COMILLAS CORCHETE_ABRE CADENA_COMILLAS CORCHETE_CIERRA PUNTO ident
     (59) aritmetica -> . valor SUMA valor
     (60) aritmetica -> . valor RESTA valor
@@ -1927,29 +1922,29 @@ state 73
     (66) comparacion -> . valor MENOR_IGUAL valor
     (67) comparacion -> . valor IGUAL valor
 
-    ENTERO          shift and go to state 45
-    DECIMAL         shift and go to state 46
-    TR              shift and go to state 47
-    FL              shift and go to state 48
-    NULL            shift and go to state 49
-    CARACTER        shift and go to state 50
-    PARENTESIS_ABRE shift and go to state 51
-    SUMA            shift and go to state 52
-    RESTA           shift and go to state 53
-    LLAVE_ABRE      shift and go to state 57
-    CADENA_NO_COMILLAS shift and go to state 58
-    NEGACION        shift and go to state 59
+    ENTERO          shift and go to state 44
+    DECIMAL         shift and go to state 45
+    TR              shift and go to state 46
+    FL              shift and go to state 47
+    NULL            shift and go to state 48
+    CARACTER        shift and go to state 49
+    PARENTESIS_ABRE shift and go to state 50
+    SUMA            shift and go to state 51
+    RESTA           shift and go to state 52
+    LLAVE_ABRE      shift and go to state 56
+    CADENA_NO_COMILLAS shift and go to state 57
+    NEGACION        shift and go to state 58
 
     valor                          shift and go to state 106
-    operacion                      shift and go to state 41
-    ajson_v                        shift and go to state 42
-    function_call                  shift and go to state 43
-    ident                          shift and go to state 44
-    aritmetica                     shift and go to state 54
-    booleana                       shift and go to state 55
-    comparacion                    shift and go to state 56
+    operacion                      shift and go to state 40
+    ajson_v                        shift and go to state 41
+    function_call                  shift and go to state 42
+    ident                          shift and go to state 43
+    aritmetica                     shift and go to state 53
+    booleana                       shift and go to state 54
+    comparacion                    shift and go to state 55
 
-state 74
+state 73
 
     (63) comparacion -> valor MAYOR . valor
     (26) valor -> . operacion
@@ -1971,8 +1966,8 @@ state 74
     (49) ajson_v -> . LLAVE_ABRE lista_v LLAVE_CIERRA
     (85) function_call -> . CADENA_NO_COMILLAS PARENTESIS_ABRE arg PARENTESIS_CIERRA
     (14) ident -> . CADENA_NO_COMILLAS
-    (15) ident -> . CADENA_NO_COMILLAS PUNTO ident
-    (16) ident -> . CADENA_NO_COMILLAS CORCHETE_ABRE CADENA_COMILLAS CORCHETE_CIERRA
+    (15) ident -> . CADENA_NO_COMILLAS CORCHETE_ABRE CADENA_COMILLAS CORCHETE_CIERRA
+    (16) ident -> . CADENA_NO_COMILLAS PUNTO ident
     (17) ident -> . CADENA_NO_COMILLAS CORCHETE_ABRE CADENA_COMILLAS CORCHETE_CIERRA PUNTO ident
     (59) aritmetica -> . valor SUMA valor
     (60) aritmetica -> . valor RESTA valor
@@ -1987,29 +1982,29 @@ state 74
     (66) comparacion -> . valor MENOR_IGUAL valor
     (67) comparacion -> . valor IGUAL valor
 
-    ENTERO          shift and go to state 45
-    DECIMAL         shift and go to state 46
-    TR              shift and go to state 47
-    FL              shift and go to state 48
-    NULL            shift and go to state 49
-    CARACTER        shift and go to state 50
-    PARENTESIS_ABRE shift and go to state 51
-    SUMA            shift and go to state 52
-    RESTA           shift and go to state 53
-    LLAVE_ABRE      shift and go to state 57
-    CADENA_NO_COMILLAS shift and go to state 58
-    NEGACION        shift and go to state 59
+    ENTERO          shift and go to state 44
+    DECIMAL         shift and go to state 45
+    TR              shift and go to state 46
+    FL              shift and go to state 47
+    NULL            shift and go to state 48
+    CARACTER        shift and go to state 49
+    PARENTESIS_ABRE shift and go to state 50
+    SUMA            shift and go to state 51
+    RESTA           shift and go to state 52
+    LLAVE_ABRE      shift and go to state 56
+    CADENA_NO_COMILLAS shift and go to state 57
+    NEGACION        shift and go to state 58
 
     valor                          shift and go to state 107
-    operacion                      shift and go to state 41
-    ajson_v                        shift and go to state 42
-    function_call                  shift and go to state 43
-    ident                          shift and go to state 44
-    aritmetica                     shift and go to state 54
-    booleana                       shift and go to state 55
-    comparacion                    shift and go to state 56
+    operacion                      shift and go to state 40
+    ajson_v                        shift and go to state 41
+    function_call                  shift and go to state 42
+    ident                          shift and go to state 43
+    aritmetica                     shift and go to state 53
+    booleana                       shift and go to state 54
+    comparacion                    shift and go to state 55
 
-state 75
+state 74
 
     (64) comparacion -> valor MENOR . valor
     (26) valor -> . operacion
@@ -2031,8 +2026,8 @@ state 75
     (49) ajson_v -> . LLAVE_ABRE lista_v LLAVE_CIERRA
     (85) function_call -> . CADENA_NO_COMILLAS PARENTESIS_ABRE arg PARENTESIS_CIERRA
     (14) ident -> . CADENA_NO_COMILLAS
-    (15) ident -> . CADENA_NO_COMILLAS PUNTO ident
-    (16) ident -> . CADENA_NO_COMILLAS CORCHETE_ABRE CADENA_COMILLAS CORCHETE_CIERRA
+    (15) ident -> . CADENA_NO_COMILLAS CORCHETE_ABRE CADENA_COMILLAS CORCHETE_CIERRA
+    (16) ident -> . CADENA_NO_COMILLAS PUNTO ident
     (17) ident -> . CADENA_NO_COMILLAS CORCHETE_ABRE CADENA_COMILLAS CORCHETE_CIERRA PUNTO ident
     (59) aritmetica -> . valor SUMA valor
     (60) aritmetica -> . valor RESTA valor
@@ -2047,29 +2042,29 @@ state 75
     (66) comparacion -> . valor MENOR_IGUAL valor
     (67) comparacion -> . valor IGUAL valor
 
-    ENTERO          shift and go to state 45
-    DECIMAL         shift and go to state 46
-    TR              shift and go to state 47
-    FL              shift and go to state 48
-    NULL            shift and go to state 49
-    CARACTER        shift and go to state 50
-    PARENTESIS_ABRE shift and go to state 51
-    SUMA            shift and go to state 52
-    RESTA           shift and go to state 53
-    LLAVE_ABRE      shift and go to state 57
-    CADENA_NO_COMILLAS shift and go to state 58
-    NEGACION        shift and go to state 59
+    ENTERO          shift and go to state 44
+    DECIMAL         shift and go to state 45
+    TR              shift and go to state 46
+    FL              shift and go to state 47
+    NULL            shift and go to state 48
+    CARACTER        shift and go to state 49
+    PARENTESIS_ABRE shift and go to state 50
+    SUMA            shift and go to state 51
+    RESTA           shift and go to state 52
+    LLAVE_ABRE      shift and go to state 56
+    CADENA_NO_COMILLAS shift and go to state 57
+    NEGACION        shift and go to state 58
 
     valor                          shift and go to state 108
-    operacion                      shift and go to state 41
-    ajson_v                        shift and go to state 42
-    function_call                  shift and go to state 43
-    ident                          shift and go to state 44
-    aritmetica                     shift and go to state 54
-    booleana                       shift and go to state 55
-    comparacion                    shift and go to state 56
+    operacion                      shift and go to state 40
+    ajson_v                        shift and go to state 41
+    function_call                  shift and go to state 42
+    ident                          shift and go to state 43
+    aritmetica                     shift and go to state 53
+    booleana                       shift and go to state 54
+    comparacion                    shift and go to state 55
 
-state 76
+state 75
 
     (65) comparacion -> valor MAYOR_IGUAL . valor
     (26) valor -> . operacion
@@ -2091,8 +2086,8 @@ state 76
     (49) ajson_v -> . LLAVE_ABRE lista_v LLAVE_CIERRA
     (85) function_call -> . CADENA_NO_COMILLAS PARENTESIS_ABRE arg PARENTESIS_CIERRA
     (14) ident -> . CADENA_NO_COMILLAS
-    (15) ident -> . CADENA_NO_COMILLAS PUNTO ident
-    (16) ident -> . CADENA_NO_COMILLAS CORCHETE_ABRE CADENA_COMILLAS CORCHETE_CIERRA
+    (15) ident -> . CADENA_NO_COMILLAS CORCHETE_ABRE CADENA_COMILLAS CORCHETE_CIERRA
+    (16) ident -> . CADENA_NO_COMILLAS PUNTO ident
     (17) ident -> . CADENA_NO_COMILLAS CORCHETE_ABRE CADENA_COMILLAS CORCHETE_CIERRA PUNTO ident
     (59) aritmetica -> . valor SUMA valor
     (60) aritmetica -> . valor RESTA valor
@@ -2107,29 +2102,29 @@ state 76
     (66) comparacion -> . valor MENOR_IGUAL valor
     (67) comparacion -> . valor IGUAL valor
 
-    ENTERO          shift and go to state 45
-    DECIMAL         shift and go to state 46
-    TR              shift and go to state 47
-    FL              shift and go to state 48
-    NULL            shift and go to state 49
-    CARACTER        shift and go to state 50
-    PARENTESIS_ABRE shift and go to state 51
-    SUMA            shift and go to state 52
-    RESTA           shift and go to state 53
-    LLAVE_ABRE      shift and go to state 57
-    CADENA_NO_COMILLAS shift and go to state 58
-    NEGACION        shift and go to state 59
+    ENTERO          shift and go to state 44
+    DECIMAL         shift and go to state 45
+    TR              shift and go to state 46
+    FL              shift and go to state 47
+    NULL            shift and go to state 48
+    CARACTER        shift and go to state 49
+    PARENTESIS_ABRE shift and go to state 50
+    SUMA            shift and go to state 51
+    RESTA           shift and go to state 52
+    LLAVE_ABRE      shift and go to state 56
+    CADENA_NO_COMILLAS shift and go to state 57
+    NEGACION        shift and go to state 58
 
     valor                          shift and go to state 109
-    operacion                      shift and go to state 41
-    ajson_v                        shift and go to state 42
-    function_call                  shift and go to state 43
-    ident                          shift and go to state 44
-    aritmetica                     shift and go to state 54
-    booleana                       shift and go to state 55
-    comparacion                    shift and go to state 56
+    operacion                      shift and go to state 40
+    ajson_v                        shift and go to state 41
+    function_call                  shift and go to state 42
+    ident                          shift and go to state 43
+    aritmetica                     shift and go to state 53
+    booleana                       shift and go to state 54
+    comparacion                    shift and go to state 55
 
-state 77
+state 76
 
     (66) comparacion -> valor MENOR_IGUAL . valor
     (26) valor -> . operacion
@@ -2151,8 +2146,8 @@ state 77
     (49) ajson_v -> . LLAVE_ABRE lista_v LLAVE_CIERRA
     (85) function_call -> . CADENA_NO_COMILLAS PARENTESIS_ABRE arg PARENTESIS_CIERRA
     (14) ident -> . CADENA_NO_COMILLAS
-    (15) ident -> . CADENA_NO_COMILLAS PUNTO ident
-    (16) ident -> . CADENA_NO_COMILLAS CORCHETE_ABRE CADENA_COMILLAS CORCHETE_CIERRA
+    (15) ident -> . CADENA_NO_COMILLAS CORCHETE_ABRE CADENA_COMILLAS CORCHETE_CIERRA
+    (16) ident -> . CADENA_NO_COMILLAS PUNTO ident
     (17) ident -> . CADENA_NO_COMILLAS CORCHETE_ABRE CADENA_COMILLAS CORCHETE_CIERRA PUNTO ident
     (59) aritmetica -> . valor SUMA valor
     (60) aritmetica -> . valor RESTA valor
@@ -2167,29 +2162,29 @@ state 77
     (66) comparacion -> . valor MENOR_IGUAL valor
     (67) comparacion -> . valor IGUAL valor
 
-    ENTERO          shift and go to state 45
-    DECIMAL         shift and go to state 46
-    TR              shift and go to state 47
-    FL              shift and go to state 48
-    NULL            shift and go to state 49
-    CARACTER        shift and go to state 50
-    PARENTESIS_ABRE shift and go to state 51
-    SUMA            shift and go to state 52
-    RESTA           shift and go to state 53
-    LLAVE_ABRE      shift and go to state 57
-    CADENA_NO_COMILLAS shift and go to state 58
-    NEGACION        shift and go to state 59
+    ENTERO          shift and go to state 44
+    DECIMAL         shift and go to state 45
+    TR              shift and go to state 46
+    FL              shift and go to state 47
+    NULL            shift and go to state 48
+    CARACTER        shift and go to state 49
+    PARENTESIS_ABRE shift and go to state 50
+    SUMA            shift and go to state 51
+    RESTA           shift and go to state 52
+    LLAVE_ABRE      shift and go to state 56
+    CADENA_NO_COMILLAS shift and go to state 57
+    NEGACION        shift and go to state 58
 
     valor                          shift and go to state 110
-    operacion                      shift and go to state 41
-    ajson_v                        shift and go to state 42
-    function_call                  shift and go to state 43
-    ident                          shift and go to state 44
-    aritmetica                     shift and go to state 54
-    booleana                       shift and go to state 55
-    comparacion                    shift and go to state 56
+    operacion                      shift and go to state 40
+    ajson_v                        shift and go to state 41
+    function_call                  shift and go to state 42
+    ident                          shift and go to state 43
+    aritmetica                     shift and go to state 53
+    booleana                       shift and go to state 54
+    comparacion                    shift and go to state 55
 
-state 78
+state 77
 
     (67) comparacion -> valor IGUAL . valor
     (26) valor -> . operacion
@@ -2211,8 +2206,8 @@ state 78
     (49) ajson_v -> . LLAVE_ABRE lista_v LLAVE_CIERRA
     (85) function_call -> . CADENA_NO_COMILLAS PARENTESIS_ABRE arg PARENTESIS_CIERRA
     (14) ident -> . CADENA_NO_COMILLAS
-    (15) ident -> . CADENA_NO_COMILLAS PUNTO ident
-    (16) ident -> . CADENA_NO_COMILLAS CORCHETE_ABRE CADENA_COMILLAS CORCHETE_CIERRA
+    (15) ident -> . CADENA_NO_COMILLAS CORCHETE_ABRE CADENA_COMILLAS CORCHETE_CIERRA
+    (16) ident -> . CADENA_NO_COMILLAS PUNTO ident
     (17) ident -> . CADENA_NO_COMILLAS CORCHETE_ABRE CADENA_COMILLAS CORCHETE_CIERRA PUNTO ident
     (59) aritmetica -> . valor SUMA valor
     (60) aritmetica -> . valor RESTA valor
@@ -2227,29 +2222,29 @@ state 78
     (66) comparacion -> . valor MENOR_IGUAL valor
     (67) comparacion -> . valor IGUAL valor
 
-    ENTERO          shift and go to state 45
-    DECIMAL         shift and go to state 46
-    TR              shift and go to state 47
-    FL              shift and go to state 48
-    NULL            shift and go to state 49
-    CARACTER        shift and go to state 50
-    PARENTESIS_ABRE shift and go to state 51
-    SUMA            shift and go to state 52
-    RESTA           shift and go to state 53
-    LLAVE_ABRE      shift and go to state 57
-    CADENA_NO_COMILLAS shift and go to state 58
-    NEGACION        shift and go to state 59
+    ENTERO          shift and go to state 44
+    DECIMAL         shift and go to state 45
+    TR              shift and go to state 46
+    FL              shift and go to state 47
+    NULL            shift and go to state 48
+    CARACTER        shift and go to state 49
+    PARENTESIS_ABRE shift and go to state 50
+    SUMA            shift and go to state 51
+    RESTA           shift and go to state 52
+    LLAVE_ABRE      shift and go to state 56
+    CADENA_NO_COMILLAS shift and go to state 57
+    NEGACION        shift and go to state 58
 
     valor                          shift and go to state 111
-    operacion                      shift and go to state 41
-    ajson_v                        shift and go to state 42
-    function_call                  shift and go to state 43
-    ident                          shift and go to state 44
-    aritmetica                     shift and go to state 54
-    booleana                       shift and go to state 55
-    comparacion                    shift and go to state 56
+    operacion                      shift and go to state 40
+    ajson_v                        shift and go to state 41
+    function_call                  shift and go to state 42
+    ident                          shift and go to state 43
+    aritmetica                     shift and go to state 53
+    booleana                       shift and go to state 54
+    comparacion                    shift and go to state 55
 
-state 79
+state 78
 
     (36) valor -> PARENTESIS_ABRE valor . PARENTESIS_CIERRA
     (59) aritmetica -> valor . SUMA valor
@@ -2265,20 +2260,20 @@ state 79
     (67) comparacion -> valor . IGUAL valor
 
     PARENTESIS_CIERRA shift and go to state 112
-    SUMA            shift and go to state 68
-    RESTA           shift and go to state 69
-    MULTIPLICACION  shift and go to state 70
-    DIVISION        shift and go to state 71
-    CONJUNCION      shift and go to state 72
-    DISYUNCION      shift and go to state 73
-    MAYOR           shift and go to state 74
-    MENOR           shift and go to state 75
-    MAYOR_IGUAL     shift and go to state 76
-    MENOR_IGUAL     shift and go to state 77
-    IGUAL           shift and go to state 78
+    SUMA            shift and go to state 67
+    RESTA           shift and go to state 68
+    MULTIPLICACION  shift and go to state 69
+    DIVISION        shift and go to state 70
+    CONJUNCION      shift and go to state 71
+    DISYUNCION      shift and go to state 72
+    MAYOR           shift and go to state 73
+    MENOR           shift and go to state 74
+    MAYOR_IGUAL     shift and go to state 75
+    MENOR_IGUAL     shift and go to state 76
+    IGUAL           shift and go to state 77
 
 
-state 80
+state 79
 
     (37) valor -> SUMA valor .
     (59) aritmetica -> valor . SUMA valor
@@ -2305,24 +2300,24 @@ state 80
     MENOR_IGUAL     reduce using rule 37 (valor -> SUMA valor .)
     IGUAL           reduce using rule 37 (valor -> SUMA valor .)
     PUNTO_Y_COMA    reduce using rule 37 (valor -> SUMA valor .)
-    PARENTESIS_CIERRA reduce using rule 37 (valor -> SUMA valor .)
     COMA            reduce using rule 37 (valor -> SUMA valor .)
+    PARENTESIS_CIERRA reduce using rule 37 (valor -> SUMA valor .)
     LLAVE_CIERRA    reduce using rule 37 (valor -> SUMA valor .)
 
-  ! SUMA            [ shift and go to state 68 ]
-  ! RESTA           [ shift and go to state 69 ]
-  ! MULTIPLICACION  [ shift and go to state 70 ]
-  ! DIVISION        [ shift and go to state 71 ]
-  ! CONJUNCION      [ shift and go to state 72 ]
-  ! DISYUNCION      [ shift and go to state 73 ]
-  ! MAYOR           [ shift and go to state 74 ]
-  ! MENOR           [ shift and go to state 75 ]
-  ! MAYOR_IGUAL     [ shift and go to state 76 ]
-  ! MENOR_IGUAL     [ shift and go to state 77 ]
-  ! IGUAL           [ shift and go to state 78 ]
+  ! SUMA            [ shift and go to state 67 ]
+  ! RESTA           [ shift and go to state 68 ]
+  ! MULTIPLICACION  [ shift and go to state 69 ]
+  ! DIVISION        [ shift and go to state 70 ]
+  ! CONJUNCION      [ shift and go to state 71 ]
+  ! DISYUNCION      [ shift and go to state 72 ]
+  ! MAYOR           [ shift and go to state 73 ]
+  ! MENOR           [ shift and go to state 74 ]
+  ! MAYOR_IGUAL     [ shift and go to state 75 ]
+  ! MENOR_IGUAL     [ shift and go to state 76 ]
+  ! IGUAL           [ shift and go to state 77 ]
 
 
-state 81
+state 80
 
     (38) valor -> RESTA valor .
     (59) aritmetica -> valor . SUMA valor
@@ -2349,31 +2344,31 @@ state 81
     MENOR_IGUAL     reduce using rule 38 (valor -> RESTA valor .)
     IGUAL           reduce using rule 38 (valor -> RESTA valor .)
     PUNTO_Y_COMA    reduce using rule 38 (valor -> RESTA valor .)
-    PARENTESIS_CIERRA reduce using rule 38 (valor -> RESTA valor .)
     COMA            reduce using rule 38 (valor -> RESTA valor .)
+    PARENTESIS_CIERRA reduce using rule 38 (valor -> RESTA valor .)
     LLAVE_CIERRA    reduce using rule 38 (valor -> RESTA valor .)
 
-  ! SUMA            [ shift and go to state 68 ]
-  ! RESTA           [ shift and go to state 69 ]
-  ! MULTIPLICACION  [ shift and go to state 70 ]
-  ! DIVISION        [ shift and go to state 71 ]
-  ! CONJUNCION      [ shift and go to state 72 ]
-  ! DISYUNCION      [ shift and go to state 73 ]
-  ! MAYOR           [ shift and go to state 74 ]
-  ! MENOR           [ shift and go to state 75 ]
-  ! MAYOR_IGUAL     [ shift and go to state 76 ]
-  ! MENOR_IGUAL     [ shift and go to state 77 ]
-  ! IGUAL           [ shift and go to state 78 ]
+  ! SUMA            [ shift and go to state 67 ]
+  ! RESTA           [ shift and go to state 68 ]
+  ! MULTIPLICACION  [ shift and go to state 69 ]
+  ! DIVISION        [ shift and go to state 70 ]
+  ! CONJUNCION      [ shift and go to state 71 ]
+  ! DISYUNCION      [ shift and go to state 72 ]
+  ! MAYOR           [ shift and go to state 73 ]
+  ! MENOR           [ shift and go to state 74 ]
+  ! MAYOR_IGUAL     [ shift and go to state 75 ]
+  ! MENOR_IGUAL     [ shift and go to state 76 ]
+  ! IGUAL           [ shift and go to state 77 ]
 
 
-state 82
+state 81
 
     (49) ajson_v -> LLAVE_ABRE lista_v . LLAVE_CIERRA
 
     LLAVE_CIERRA    shift and go to state 113
 
 
-state 83
+state 82
 
     (50) lista_v -> elemento_v .
     (51) lista_v -> elemento_v . COMA
@@ -2383,28 +2378,28 @@ state 83
     COMA            shift and go to state 114
 
 
-state 84
+state 83
 
     (53) elemento_v -> clave_v . DOS_PUNTOS valor
 
     DOS_PUNTOS      shift and go to state 115
 
 
-state 85
+state 84
 
     (54) clave_v -> CADENA_NO_COMILLAS .
 
     DOS_PUNTOS      reduce using rule 54 (clave_v -> CADENA_NO_COMILLAS .)
 
 
-state 86
+state 85
 
     (55) clave_v -> CADENA_COMILLAS .
 
     DOS_PUNTOS      reduce using rule 55 (clave_v -> CADENA_COMILLAS .)
 
 
-state 87
+state 86
 
     (85) function_call -> CADENA_NO_COMILLAS PARENTESIS_ABRE . arg PARENTESIS_CIERRA
     (86) arg -> . valor
@@ -2430,8 +2425,8 @@ state 87
     (49) ajson_v -> . LLAVE_ABRE lista_v LLAVE_CIERRA
     (85) function_call -> . CADENA_NO_COMILLAS PARENTESIS_ABRE arg PARENTESIS_CIERRA
     (14) ident -> . CADENA_NO_COMILLAS
-    (15) ident -> . CADENA_NO_COMILLAS PUNTO ident
-    (16) ident -> . CADENA_NO_COMILLAS CORCHETE_ABRE CADENA_COMILLAS CORCHETE_CIERRA
+    (15) ident -> . CADENA_NO_COMILLAS CORCHETE_ABRE CADENA_COMILLAS CORCHETE_CIERRA
+    (16) ident -> . CADENA_NO_COMILLAS PUNTO ident
     (17) ident -> . CADENA_NO_COMILLAS CORCHETE_ABRE CADENA_COMILLAS CORCHETE_CIERRA PUNTO ident
     (59) aritmetica -> . valor SUMA valor
     (60) aritmetica -> . valor RESTA valor
@@ -2446,32 +2441,32 @@ state 87
     (66) comparacion -> . valor MENOR_IGUAL valor
     (67) comparacion -> . valor IGUAL valor
 
-    ENTERO          shift and go to state 45
-    DECIMAL         shift and go to state 46
-    TR              shift and go to state 47
-    FL              shift and go to state 48
-    NULL            shift and go to state 49
-    CARACTER        shift and go to state 50
-    PARENTESIS_ABRE shift and go to state 51
-    SUMA            shift and go to state 52
-    RESTA           shift and go to state 53
+    ENTERO          shift and go to state 44
+    DECIMAL         shift and go to state 45
+    TR              shift and go to state 46
+    FL              shift and go to state 47
+    NULL            shift and go to state 48
+    CARACTER        shift and go to state 49
+    PARENTESIS_ABRE shift and go to state 50
+    SUMA            shift and go to state 51
+    RESTA           shift and go to state 52
     PARENTESIS_CIERRA reduce using rule 3 (empty -> .)
-    LLAVE_ABRE      shift and go to state 57
-    CADENA_NO_COMILLAS shift and go to state 58
-    NEGACION        shift and go to state 59
+    LLAVE_ABRE      shift and go to state 56
+    CADENA_NO_COMILLAS shift and go to state 57
+    NEGACION        shift and go to state 58
 
     arg                            shift and go to state 116
     valor                          shift and go to state 117
     empty                          shift and go to state 118
-    operacion                      shift and go to state 41
-    ajson_v                        shift and go to state 42
-    function_call                  shift and go to state 43
-    ident                          shift and go to state 44
-    aritmetica                     shift and go to state 54
-    booleana                       shift and go to state 55
-    comparacion                    shift and go to state 56
+    operacion                      shift and go to state 40
+    ajson_v                        shift and go to state 41
+    function_call                  shift and go to state 42
+    ident                          shift and go to state 43
+    aritmetica                     shift and go to state 53
+    booleana                       shift and go to state 54
+    comparacion                    shift and go to state 55
 
-state 88
+state 87
 
     (70) booleana -> NEGACION valor .
     (59) aritmetica -> valor . SUMA valor
@@ -2489,18 +2484,18 @@ state 88
     CONJUNCION      reduce using rule 70 (booleana -> NEGACION valor .)
     DISYUNCION      reduce using rule 70 (booleana -> NEGACION valor .)
     PUNTO_Y_COMA    reduce using rule 70 (booleana -> NEGACION valor .)
-    PARENTESIS_CIERRA reduce using rule 70 (booleana -> NEGACION valor .)
     COMA            reduce using rule 70 (booleana -> NEGACION valor .)
+    PARENTESIS_CIERRA reduce using rule 70 (booleana -> NEGACION valor .)
     LLAVE_CIERRA    reduce using rule 70 (booleana -> NEGACION valor .)
-    SUMA            shift and go to state 68
-    RESTA           shift and go to state 69
-    MULTIPLICACION  shift and go to state 70
-    DIVISION        shift and go to state 71
-    MAYOR           shift and go to state 74
-    MENOR           shift and go to state 75
-    MAYOR_IGUAL     shift and go to state 76
-    MENOR_IGUAL     shift and go to state 77
-    IGUAL           shift and go to state 78
+    SUMA            shift and go to state 67
+    RESTA           shift and go to state 68
+    MULTIPLICACION  shift and go to state 69
+    DIVISION        shift and go to state 70
+    MAYOR           shift and go to state 73
+    MENOR           shift and go to state 74
+    MAYOR_IGUAL     shift and go to state 75
+    MENOR_IGUAL     shift and go to state 76
+    IGUAL           shift and go to state 77
 
   ! SUMA            [ reduce using rule 70 (booleana -> NEGACION valor .) ]
   ! RESTA           [ reduce using rule 70 (booleana -> NEGACION valor .) ]
@@ -2511,11 +2506,11 @@ state 88
   ! MAYOR_IGUAL     [ reduce using rule 70 (booleana -> NEGACION valor .) ]
   ! MENOR_IGUAL     [ reduce using rule 70 (booleana -> NEGACION valor .) ]
   ! IGUAL           [ reduce using rule 70 (booleana -> NEGACION valor .) ]
-  ! CONJUNCION      [ shift and go to state 72 ]
-  ! DISYUNCION      [ shift and go to state 73 ]
+  ! CONJUNCION      [ shift and go to state 71 ]
+  ! DISYUNCION      [ shift and go to state 72 ]
 
 
-state 89
+state 88
 
     (76) condition -> IF PARENTESIS_ABRE valor PARENTESIS_CIERRA . LLAVE_ABRE statement LLAVE_CIERRA
     (77) condition -> IF PARENTESIS_ABRE valor PARENTESIS_CIERRA . LLAVE_ABRE statement LLAVE_CIERRA ELSE LLAVE_ABRE statement LLAVE_CIERRA
@@ -2523,21 +2518,21 @@ state 89
     LLAVE_ABRE      shift and go to state 119
 
 
-state 90
+state 89
 
     (78) loop -> WHILE PARENTESIS_ABRE valor PARENTESIS_CIERRA . LLAVE_ABRE statement LLAVE_CIERRA
 
     LLAVE_ABRE      shift and go to state 120
 
 
-state 91
+state 90
 
     (82) variable_t -> CADENA_NO_COMILLAS . DOS_PUNTOS tipo
 
     DOS_PUNTOS      shift and go to state 121
 
 
-state 92
+state 91
 
     (83) function_def -> FUNCTION CADENA_NO_COMILLAS PARENTESIS_ABRE id_t . PARENTESIS_CIERRA DOS_PUNTOS tipo LLAVE_ABRE statement RETURN valor PUNTO_Y_COMA LLAVE_CIERRA
     (84) function_def -> FUNCTION CADENA_NO_COMILLAS PARENTESIS_ABRE id_t . PARENTESIS_CIERRA DOS_PUNTOS tipo LLAVE_ABRE RETURN valor PUNTO_Y_COMA LLAVE_CIERRA
@@ -2545,7 +2540,7 @@ state 92
     PARENTESIS_CIERRA shift and go to state 122
 
 
-state 93
+state 92
 
     (79) id_t -> variable_t .
     (80) id_t -> variable_t . COMA id_t
@@ -2554,21 +2549,21 @@ state 93
     COMA            shift and go to state 123
 
 
-state 94
+state 93
 
     (81) id_t -> empty .
 
     PARENTESIS_CIERRA reduce using rule 81 (id_t -> empty .)
 
 
-state 95
+state 94
 
     (40) ajson -> LLAVE_ABRE lista . LLAVE_CIERRA
 
     LLAVE_CIERRA    shift and go to state 124
 
 
-state 96
+state 95
 
     (41) lista -> elemento .
     (42) lista -> elemento . COMA
@@ -2578,38 +2573,45 @@ state 96
     COMA            shift and go to state 125
 
 
-state 97
+state 96
 
     (44) elemento -> clave . DOS_PUNTOS valor_t
 
     DOS_PUNTOS      shift and go to state 126
 
 
-state 98
+state 97
 
     (47) clave -> CADENA_COMILLAS .
 
     DOS_PUNTOS      reduce using rule 47 (clave -> CADENA_COMILLAS .)
 
 
-state 99
+state 98
 
     (48) clave -> CADENA_NO_COMILLAS .
 
     DOS_PUNTOS      reduce using rule 48 (clave -> CADENA_NO_COMILLAS .)
 
 
-state 100
+state 99
 
     (17) ident -> CADENA_NO_COMILLAS CORCHETE_ABRE CADENA_COMILLAS CORCHETE_CIERRA PUNTO . ident
     (14) ident -> . CADENA_NO_COMILLAS
-    (15) ident -> . CADENA_NO_COMILLAS PUNTO ident
-    (16) ident -> . CADENA_NO_COMILLAS CORCHETE_ABRE CADENA_COMILLAS CORCHETE_CIERRA
+    (15) ident -> . CADENA_NO_COMILLAS CORCHETE_ABRE CADENA_COMILLAS CORCHETE_CIERRA
+    (16) ident -> . CADENA_NO_COMILLAS PUNTO ident
     (17) ident -> . CADENA_NO_COMILLAS CORCHETE_ABRE CADENA_COMILLAS CORCHETE_CIERRA PUNTO ident
 
     CADENA_NO_COMILLAS shift and go to state 13
 
     ident                          shift and go to state 127
+
+state 100
+
+    (22) id -> variable asign_valor COMA id .
+
+    PUNTO_Y_COMA    reduce using rule 22 (id -> variable asign_valor COMA id .)
+
 
 state 101
 
@@ -2636,23 +2638,23 @@ state 101
     MENOR_IGUAL     reduce using rule 59 (aritmetica -> valor SUMA valor .)
     IGUAL           reduce using rule 59 (aritmetica -> valor SUMA valor .)
     PUNTO_Y_COMA    reduce using rule 59 (aritmetica -> valor SUMA valor .)
-    PARENTESIS_CIERRA reduce using rule 59 (aritmetica -> valor SUMA valor .)
     COMA            reduce using rule 59 (aritmetica -> valor SUMA valor .)
+    PARENTESIS_CIERRA reduce using rule 59 (aritmetica -> valor SUMA valor .)
     LLAVE_CIERRA    reduce using rule 59 (aritmetica -> valor SUMA valor .)
-    MULTIPLICACION  shift and go to state 70
-    DIVISION        shift and go to state 71
+    MULTIPLICACION  shift and go to state 69
+    DIVISION        shift and go to state 70
 
   ! MULTIPLICACION  [ reduce using rule 59 (aritmetica -> valor SUMA valor .) ]
   ! DIVISION        [ reduce using rule 59 (aritmetica -> valor SUMA valor .) ]
-  ! SUMA            [ shift and go to state 68 ]
-  ! RESTA           [ shift and go to state 69 ]
-  ! CONJUNCION      [ shift and go to state 72 ]
-  ! DISYUNCION      [ shift and go to state 73 ]
-  ! MAYOR           [ shift and go to state 74 ]
-  ! MENOR           [ shift and go to state 75 ]
-  ! MAYOR_IGUAL     [ shift and go to state 76 ]
-  ! MENOR_IGUAL     [ shift and go to state 77 ]
-  ! IGUAL           [ shift and go to state 78 ]
+  ! SUMA            [ shift and go to state 67 ]
+  ! RESTA           [ shift and go to state 68 ]
+  ! CONJUNCION      [ shift and go to state 71 ]
+  ! DISYUNCION      [ shift and go to state 72 ]
+  ! MAYOR           [ shift and go to state 73 ]
+  ! MENOR           [ shift and go to state 74 ]
+  ! MAYOR_IGUAL     [ shift and go to state 75 ]
+  ! MENOR_IGUAL     [ shift and go to state 76 ]
+  ! IGUAL           [ shift and go to state 77 ]
 
 
 state 102
@@ -2680,23 +2682,23 @@ state 102
     MENOR_IGUAL     reduce using rule 60 (aritmetica -> valor RESTA valor .)
     IGUAL           reduce using rule 60 (aritmetica -> valor RESTA valor .)
     PUNTO_Y_COMA    reduce using rule 60 (aritmetica -> valor RESTA valor .)
-    PARENTESIS_CIERRA reduce using rule 60 (aritmetica -> valor RESTA valor .)
     COMA            reduce using rule 60 (aritmetica -> valor RESTA valor .)
+    PARENTESIS_CIERRA reduce using rule 60 (aritmetica -> valor RESTA valor .)
     LLAVE_CIERRA    reduce using rule 60 (aritmetica -> valor RESTA valor .)
-    MULTIPLICACION  shift and go to state 70
-    DIVISION        shift and go to state 71
+    MULTIPLICACION  shift and go to state 69
+    DIVISION        shift and go to state 70
 
   ! MULTIPLICACION  [ reduce using rule 60 (aritmetica -> valor RESTA valor .) ]
   ! DIVISION        [ reduce using rule 60 (aritmetica -> valor RESTA valor .) ]
-  ! SUMA            [ shift and go to state 68 ]
-  ! RESTA           [ shift and go to state 69 ]
-  ! CONJUNCION      [ shift and go to state 72 ]
-  ! DISYUNCION      [ shift and go to state 73 ]
-  ! MAYOR           [ shift and go to state 74 ]
-  ! MENOR           [ shift and go to state 75 ]
-  ! MAYOR_IGUAL     [ shift and go to state 76 ]
-  ! MENOR_IGUAL     [ shift and go to state 77 ]
-  ! IGUAL           [ shift and go to state 78 ]
+  ! SUMA            [ shift and go to state 67 ]
+  ! RESTA           [ shift and go to state 68 ]
+  ! CONJUNCION      [ shift and go to state 71 ]
+  ! DISYUNCION      [ shift and go to state 72 ]
+  ! MAYOR           [ shift and go to state 73 ]
+  ! MENOR           [ shift and go to state 74 ]
+  ! MAYOR_IGUAL     [ shift and go to state 75 ]
+  ! MENOR_IGUAL     [ shift and go to state 76 ]
+  ! IGUAL           [ shift and go to state 77 ]
 
 
 state 103
@@ -2726,21 +2728,21 @@ state 103
     MENOR_IGUAL     reduce using rule 61 (aritmetica -> valor MULTIPLICACION valor .)
     IGUAL           reduce using rule 61 (aritmetica -> valor MULTIPLICACION valor .)
     PUNTO_Y_COMA    reduce using rule 61 (aritmetica -> valor MULTIPLICACION valor .)
-    PARENTESIS_CIERRA reduce using rule 61 (aritmetica -> valor MULTIPLICACION valor .)
     COMA            reduce using rule 61 (aritmetica -> valor MULTIPLICACION valor .)
+    PARENTESIS_CIERRA reduce using rule 61 (aritmetica -> valor MULTIPLICACION valor .)
     LLAVE_CIERRA    reduce using rule 61 (aritmetica -> valor MULTIPLICACION valor .)
 
-  ! SUMA            [ shift and go to state 68 ]
-  ! RESTA           [ shift and go to state 69 ]
-  ! MULTIPLICACION  [ shift and go to state 70 ]
-  ! DIVISION        [ shift and go to state 71 ]
-  ! CONJUNCION      [ shift and go to state 72 ]
-  ! DISYUNCION      [ shift and go to state 73 ]
-  ! MAYOR           [ shift and go to state 74 ]
-  ! MENOR           [ shift and go to state 75 ]
-  ! MAYOR_IGUAL     [ shift and go to state 76 ]
-  ! MENOR_IGUAL     [ shift and go to state 77 ]
-  ! IGUAL           [ shift and go to state 78 ]
+  ! SUMA            [ shift and go to state 67 ]
+  ! RESTA           [ shift and go to state 68 ]
+  ! MULTIPLICACION  [ shift and go to state 69 ]
+  ! DIVISION        [ shift and go to state 70 ]
+  ! CONJUNCION      [ shift and go to state 71 ]
+  ! DISYUNCION      [ shift and go to state 72 ]
+  ! MAYOR           [ shift and go to state 73 ]
+  ! MENOR           [ shift and go to state 74 ]
+  ! MAYOR_IGUAL     [ shift and go to state 75 ]
+  ! MENOR_IGUAL     [ shift and go to state 76 ]
+  ! IGUAL           [ shift and go to state 77 ]
 
 
 state 104
@@ -2770,21 +2772,21 @@ state 104
     MENOR_IGUAL     reduce using rule 62 (aritmetica -> valor DIVISION valor .)
     IGUAL           reduce using rule 62 (aritmetica -> valor DIVISION valor .)
     PUNTO_Y_COMA    reduce using rule 62 (aritmetica -> valor DIVISION valor .)
-    PARENTESIS_CIERRA reduce using rule 62 (aritmetica -> valor DIVISION valor .)
     COMA            reduce using rule 62 (aritmetica -> valor DIVISION valor .)
+    PARENTESIS_CIERRA reduce using rule 62 (aritmetica -> valor DIVISION valor .)
     LLAVE_CIERRA    reduce using rule 62 (aritmetica -> valor DIVISION valor .)
 
-  ! SUMA            [ shift and go to state 68 ]
-  ! RESTA           [ shift and go to state 69 ]
-  ! MULTIPLICACION  [ shift and go to state 70 ]
-  ! DIVISION        [ shift and go to state 71 ]
-  ! CONJUNCION      [ shift and go to state 72 ]
-  ! DISYUNCION      [ shift and go to state 73 ]
-  ! MAYOR           [ shift and go to state 74 ]
-  ! MENOR           [ shift and go to state 75 ]
-  ! MAYOR_IGUAL     [ shift and go to state 76 ]
-  ! MENOR_IGUAL     [ shift and go to state 77 ]
-  ! IGUAL           [ shift and go to state 78 ]
+  ! SUMA            [ shift and go to state 67 ]
+  ! RESTA           [ shift and go to state 68 ]
+  ! MULTIPLICACION  [ shift and go to state 69 ]
+  ! DIVISION        [ shift and go to state 70 ]
+  ! CONJUNCION      [ shift and go to state 71 ]
+  ! DISYUNCION      [ shift and go to state 72 ]
+  ! MAYOR           [ shift and go to state 73 ]
+  ! MENOR           [ shift and go to state 74 ]
+  ! MAYOR_IGUAL     [ shift and go to state 75 ]
+  ! MENOR_IGUAL     [ shift and go to state 76 ]
+  ! IGUAL           [ shift and go to state 77 ]
 
 
 state 105
@@ -2805,18 +2807,18 @@ state 105
     CONJUNCION      reduce using rule 68 (booleana -> valor CONJUNCION valor .)
     DISYUNCION      reduce using rule 68 (booleana -> valor CONJUNCION valor .)
     PUNTO_Y_COMA    reduce using rule 68 (booleana -> valor CONJUNCION valor .)
-    PARENTESIS_CIERRA reduce using rule 68 (booleana -> valor CONJUNCION valor .)
     COMA            reduce using rule 68 (booleana -> valor CONJUNCION valor .)
+    PARENTESIS_CIERRA reduce using rule 68 (booleana -> valor CONJUNCION valor .)
     LLAVE_CIERRA    reduce using rule 68 (booleana -> valor CONJUNCION valor .)
-    SUMA            shift and go to state 68
-    RESTA           shift and go to state 69
-    MULTIPLICACION  shift and go to state 70
-    DIVISION        shift and go to state 71
-    MAYOR           shift and go to state 74
-    MENOR           shift and go to state 75
-    MAYOR_IGUAL     shift and go to state 76
-    MENOR_IGUAL     shift and go to state 77
-    IGUAL           shift and go to state 78
+    SUMA            shift and go to state 67
+    RESTA           shift and go to state 68
+    MULTIPLICACION  shift and go to state 69
+    DIVISION        shift and go to state 70
+    MAYOR           shift and go to state 73
+    MENOR           shift and go to state 74
+    MAYOR_IGUAL     shift and go to state 75
+    MENOR_IGUAL     shift and go to state 76
+    IGUAL           shift and go to state 77
 
   ! SUMA            [ reduce using rule 68 (booleana -> valor CONJUNCION valor .) ]
   ! RESTA           [ reduce using rule 68 (booleana -> valor CONJUNCION valor .) ]
@@ -2827,8 +2829,8 @@ state 105
   ! MAYOR_IGUAL     [ reduce using rule 68 (booleana -> valor CONJUNCION valor .) ]
   ! MENOR_IGUAL     [ reduce using rule 68 (booleana -> valor CONJUNCION valor .) ]
   ! IGUAL           [ reduce using rule 68 (booleana -> valor CONJUNCION valor .) ]
-  ! CONJUNCION      [ shift and go to state 72 ]
-  ! DISYUNCION      [ shift and go to state 73 ]
+  ! CONJUNCION      [ shift and go to state 71 ]
+  ! DISYUNCION      [ shift and go to state 72 ]
 
 
 state 106
@@ -2846,33 +2848,33 @@ state 106
     (66) comparacion -> valor . MENOR_IGUAL valor
     (67) comparacion -> valor . IGUAL valor
 
-    CONJUNCION      reduce using rule 69 (booleana -> valor DISYUNCION valor .)
     DISYUNCION      reduce using rule 69 (booleana -> valor DISYUNCION valor .)
     PUNTO_Y_COMA    reduce using rule 69 (booleana -> valor DISYUNCION valor .)
-    PARENTESIS_CIERRA reduce using rule 69 (booleana -> valor DISYUNCION valor .)
     COMA            reduce using rule 69 (booleana -> valor DISYUNCION valor .)
+    PARENTESIS_CIERRA reduce using rule 69 (booleana -> valor DISYUNCION valor .)
     LLAVE_CIERRA    reduce using rule 69 (booleana -> valor DISYUNCION valor .)
-    SUMA            shift and go to state 68
-    RESTA           shift and go to state 69
-    MULTIPLICACION  shift and go to state 70
-    DIVISION        shift and go to state 71
-    MAYOR           shift and go to state 74
-    MENOR           shift and go to state 75
-    MAYOR_IGUAL     shift and go to state 76
-    MENOR_IGUAL     shift and go to state 77
-    IGUAL           shift and go to state 78
+    SUMA            shift and go to state 67
+    RESTA           shift and go to state 68
+    MULTIPLICACION  shift and go to state 69
+    DIVISION        shift and go to state 70
+    CONJUNCION      shift and go to state 71
+    MAYOR           shift and go to state 73
+    MENOR           shift and go to state 74
+    MAYOR_IGUAL     shift and go to state 75
+    MENOR_IGUAL     shift and go to state 76
+    IGUAL           shift and go to state 77
 
   ! SUMA            [ reduce using rule 69 (booleana -> valor DISYUNCION valor .) ]
   ! RESTA           [ reduce using rule 69 (booleana -> valor DISYUNCION valor .) ]
   ! MULTIPLICACION  [ reduce using rule 69 (booleana -> valor DISYUNCION valor .) ]
   ! DIVISION        [ reduce using rule 69 (booleana -> valor DISYUNCION valor .) ]
+  ! CONJUNCION      [ reduce using rule 69 (booleana -> valor DISYUNCION valor .) ]
   ! MAYOR           [ reduce using rule 69 (booleana -> valor DISYUNCION valor .) ]
   ! MENOR           [ reduce using rule 69 (booleana -> valor DISYUNCION valor .) ]
   ! MAYOR_IGUAL     [ reduce using rule 69 (booleana -> valor DISYUNCION valor .) ]
   ! MENOR_IGUAL     [ reduce using rule 69 (booleana -> valor DISYUNCION valor .) ]
   ! IGUAL           [ reduce using rule 69 (booleana -> valor DISYUNCION valor .) ]
-  ! CONJUNCION      [ shift and go to state 72 ]
-  ! DISYUNCION      [ shift and go to state 73 ]
+  ! DISYUNCION      [ shift and go to state 72 ]
 
 
 state 107
@@ -2898,25 +2900,25 @@ state 107
     MENOR_IGUAL     reduce using rule 63 (comparacion -> valor MAYOR valor .)
     IGUAL           reduce using rule 63 (comparacion -> valor MAYOR valor .)
     PUNTO_Y_COMA    reduce using rule 63 (comparacion -> valor MAYOR valor .)
-    PARENTESIS_CIERRA reduce using rule 63 (comparacion -> valor MAYOR valor .)
     COMA            reduce using rule 63 (comparacion -> valor MAYOR valor .)
+    PARENTESIS_CIERRA reduce using rule 63 (comparacion -> valor MAYOR valor .)
     LLAVE_CIERRA    reduce using rule 63 (comparacion -> valor MAYOR valor .)
-    SUMA            shift and go to state 68
-    RESTA           shift and go to state 69
-    MULTIPLICACION  shift and go to state 70
-    DIVISION        shift and go to state 71
+    SUMA            shift and go to state 67
+    RESTA           shift and go to state 68
+    MULTIPLICACION  shift and go to state 69
+    DIVISION        shift and go to state 70
 
   ! SUMA            [ reduce using rule 63 (comparacion -> valor MAYOR valor .) ]
   ! RESTA           [ reduce using rule 63 (comparacion -> valor MAYOR valor .) ]
   ! MULTIPLICACION  [ reduce using rule 63 (comparacion -> valor MAYOR valor .) ]
   ! DIVISION        [ reduce using rule 63 (comparacion -> valor MAYOR valor .) ]
-  ! CONJUNCION      [ shift and go to state 72 ]
-  ! DISYUNCION      [ shift and go to state 73 ]
-  ! MAYOR           [ shift and go to state 74 ]
-  ! MENOR           [ shift and go to state 75 ]
-  ! MAYOR_IGUAL     [ shift and go to state 76 ]
-  ! MENOR_IGUAL     [ shift and go to state 77 ]
-  ! IGUAL           [ shift and go to state 78 ]
+  ! CONJUNCION      [ shift and go to state 71 ]
+  ! DISYUNCION      [ shift and go to state 72 ]
+  ! MAYOR           [ shift and go to state 73 ]
+  ! MENOR           [ shift and go to state 74 ]
+  ! MAYOR_IGUAL     [ shift and go to state 75 ]
+  ! MENOR_IGUAL     [ shift and go to state 76 ]
+  ! IGUAL           [ shift and go to state 77 ]
 
 
 state 108
@@ -2942,25 +2944,25 @@ state 108
     MENOR_IGUAL     reduce using rule 64 (comparacion -> valor MENOR valor .)
     IGUAL           reduce using rule 64 (comparacion -> valor MENOR valor .)
     PUNTO_Y_COMA    reduce using rule 64 (comparacion -> valor MENOR valor .)
-    PARENTESIS_CIERRA reduce using rule 64 (comparacion -> valor MENOR valor .)
     COMA            reduce using rule 64 (comparacion -> valor MENOR valor .)
+    PARENTESIS_CIERRA reduce using rule 64 (comparacion -> valor MENOR valor .)
     LLAVE_CIERRA    reduce using rule 64 (comparacion -> valor MENOR valor .)
-    SUMA            shift and go to state 68
-    RESTA           shift and go to state 69
-    MULTIPLICACION  shift and go to state 70
-    DIVISION        shift and go to state 71
+    SUMA            shift and go to state 67
+    RESTA           shift and go to state 68
+    MULTIPLICACION  shift and go to state 69
+    DIVISION        shift and go to state 70
 
   ! SUMA            [ reduce using rule 64 (comparacion -> valor MENOR valor .) ]
   ! RESTA           [ reduce using rule 64 (comparacion -> valor MENOR valor .) ]
   ! MULTIPLICACION  [ reduce using rule 64 (comparacion -> valor MENOR valor .) ]
   ! DIVISION        [ reduce using rule 64 (comparacion -> valor MENOR valor .) ]
-  ! CONJUNCION      [ shift and go to state 72 ]
-  ! DISYUNCION      [ shift and go to state 73 ]
-  ! MAYOR           [ shift and go to state 74 ]
-  ! MENOR           [ shift and go to state 75 ]
-  ! MAYOR_IGUAL     [ shift and go to state 76 ]
-  ! MENOR_IGUAL     [ shift and go to state 77 ]
-  ! IGUAL           [ shift and go to state 78 ]
+  ! CONJUNCION      [ shift and go to state 71 ]
+  ! DISYUNCION      [ shift and go to state 72 ]
+  ! MAYOR           [ shift and go to state 73 ]
+  ! MENOR           [ shift and go to state 74 ]
+  ! MAYOR_IGUAL     [ shift and go to state 75 ]
+  ! MENOR_IGUAL     [ shift and go to state 76 ]
+  ! IGUAL           [ shift and go to state 77 ]
 
 
 state 109
@@ -2986,25 +2988,25 @@ state 109
     MENOR_IGUAL     reduce using rule 65 (comparacion -> valor MAYOR_IGUAL valor .)
     IGUAL           reduce using rule 65 (comparacion -> valor MAYOR_IGUAL valor .)
     PUNTO_Y_COMA    reduce using rule 65 (comparacion -> valor MAYOR_IGUAL valor .)
-    PARENTESIS_CIERRA reduce using rule 65 (comparacion -> valor MAYOR_IGUAL valor .)
     COMA            reduce using rule 65 (comparacion -> valor MAYOR_IGUAL valor .)
+    PARENTESIS_CIERRA reduce using rule 65 (comparacion -> valor MAYOR_IGUAL valor .)
     LLAVE_CIERRA    reduce using rule 65 (comparacion -> valor MAYOR_IGUAL valor .)
-    SUMA            shift and go to state 68
-    RESTA           shift and go to state 69
-    MULTIPLICACION  shift and go to state 70
-    DIVISION        shift and go to state 71
+    SUMA            shift and go to state 67
+    RESTA           shift and go to state 68
+    MULTIPLICACION  shift and go to state 69
+    DIVISION        shift and go to state 70
 
   ! SUMA            [ reduce using rule 65 (comparacion -> valor MAYOR_IGUAL valor .) ]
   ! RESTA           [ reduce using rule 65 (comparacion -> valor MAYOR_IGUAL valor .) ]
   ! MULTIPLICACION  [ reduce using rule 65 (comparacion -> valor MAYOR_IGUAL valor .) ]
   ! DIVISION        [ reduce using rule 65 (comparacion -> valor MAYOR_IGUAL valor .) ]
-  ! CONJUNCION      [ shift and go to state 72 ]
-  ! DISYUNCION      [ shift and go to state 73 ]
-  ! MAYOR           [ shift and go to state 74 ]
-  ! MENOR           [ shift and go to state 75 ]
-  ! MAYOR_IGUAL     [ shift and go to state 76 ]
-  ! MENOR_IGUAL     [ shift and go to state 77 ]
-  ! IGUAL           [ shift and go to state 78 ]
+  ! CONJUNCION      [ shift and go to state 71 ]
+  ! DISYUNCION      [ shift and go to state 72 ]
+  ! MAYOR           [ shift and go to state 73 ]
+  ! MENOR           [ shift and go to state 74 ]
+  ! MAYOR_IGUAL     [ shift and go to state 75 ]
+  ! MENOR_IGUAL     [ shift and go to state 76 ]
+  ! IGUAL           [ shift and go to state 77 ]
 
 
 state 110
@@ -3030,25 +3032,25 @@ state 110
     MENOR_IGUAL     reduce using rule 66 (comparacion -> valor MENOR_IGUAL valor .)
     IGUAL           reduce using rule 66 (comparacion -> valor MENOR_IGUAL valor .)
     PUNTO_Y_COMA    reduce using rule 66 (comparacion -> valor MENOR_IGUAL valor .)
-    PARENTESIS_CIERRA reduce using rule 66 (comparacion -> valor MENOR_IGUAL valor .)
     COMA            reduce using rule 66 (comparacion -> valor MENOR_IGUAL valor .)
+    PARENTESIS_CIERRA reduce using rule 66 (comparacion -> valor MENOR_IGUAL valor .)
     LLAVE_CIERRA    reduce using rule 66 (comparacion -> valor MENOR_IGUAL valor .)
-    SUMA            shift and go to state 68
-    RESTA           shift and go to state 69
-    MULTIPLICACION  shift and go to state 70
-    DIVISION        shift and go to state 71
+    SUMA            shift and go to state 67
+    RESTA           shift and go to state 68
+    MULTIPLICACION  shift and go to state 69
+    DIVISION        shift and go to state 70
 
   ! SUMA            [ reduce using rule 66 (comparacion -> valor MENOR_IGUAL valor .) ]
   ! RESTA           [ reduce using rule 66 (comparacion -> valor MENOR_IGUAL valor .) ]
   ! MULTIPLICACION  [ reduce using rule 66 (comparacion -> valor MENOR_IGUAL valor .) ]
   ! DIVISION        [ reduce using rule 66 (comparacion -> valor MENOR_IGUAL valor .) ]
-  ! CONJUNCION      [ shift and go to state 72 ]
-  ! DISYUNCION      [ shift and go to state 73 ]
-  ! MAYOR           [ shift and go to state 74 ]
-  ! MENOR           [ shift and go to state 75 ]
-  ! MAYOR_IGUAL     [ shift and go to state 76 ]
-  ! MENOR_IGUAL     [ shift and go to state 77 ]
-  ! IGUAL           [ shift and go to state 78 ]
+  ! CONJUNCION      [ shift and go to state 71 ]
+  ! DISYUNCION      [ shift and go to state 72 ]
+  ! MAYOR           [ shift and go to state 73 ]
+  ! MENOR           [ shift and go to state 74 ]
+  ! MAYOR_IGUAL     [ shift and go to state 75 ]
+  ! MENOR_IGUAL     [ shift and go to state 76 ]
+  ! IGUAL           [ shift and go to state 77 ]
 
 
 state 111
@@ -3070,17 +3072,17 @@ state 111
     DISYUNCION      reduce using rule 67 (comparacion -> valor IGUAL valor .)
     IGUAL           reduce using rule 67 (comparacion -> valor IGUAL valor .)
     PUNTO_Y_COMA    reduce using rule 67 (comparacion -> valor IGUAL valor .)
-    PARENTESIS_CIERRA reduce using rule 67 (comparacion -> valor IGUAL valor .)
     COMA            reduce using rule 67 (comparacion -> valor IGUAL valor .)
+    PARENTESIS_CIERRA reduce using rule 67 (comparacion -> valor IGUAL valor .)
     LLAVE_CIERRA    reduce using rule 67 (comparacion -> valor IGUAL valor .)
-    SUMA            shift and go to state 68
-    RESTA           shift and go to state 69
-    MULTIPLICACION  shift and go to state 70
-    DIVISION        shift and go to state 71
-    MAYOR           shift and go to state 74
-    MENOR           shift and go to state 75
-    MAYOR_IGUAL     shift and go to state 76
-    MENOR_IGUAL     shift and go to state 77
+    SUMA            shift and go to state 67
+    RESTA           shift and go to state 68
+    MULTIPLICACION  shift and go to state 69
+    DIVISION        shift and go to state 70
+    MAYOR           shift and go to state 73
+    MENOR           shift and go to state 74
+    MAYOR_IGUAL     shift and go to state 75
+    MENOR_IGUAL     shift and go to state 76
 
   ! SUMA            [ reduce using rule 67 (comparacion -> valor IGUAL valor .) ]
   ! RESTA           [ reduce using rule 67 (comparacion -> valor IGUAL valor .) ]
@@ -3090,9 +3092,9 @@ state 111
   ! MENOR           [ reduce using rule 67 (comparacion -> valor IGUAL valor .) ]
   ! MAYOR_IGUAL     [ reduce using rule 67 (comparacion -> valor IGUAL valor .) ]
   ! MENOR_IGUAL     [ reduce using rule 67 (comparacion -> valor IGUAL valor .) ]
-  ! CONJUNCION      [ shift and go to state 72 ]
-  ! DISYUNCION      [ shift and go to state 73 ]
-  ! IGUAL           [ shift and go to state 78 ]
+  ! CONJUNCION      [ shift and go to state 71 ]
+  ! DISYUNCION      [ shift and go to state 72 ]
+  ! IGUAL           [ shift and go to state 77 ]
 
 
 state 112
@@ -3111,8 +3113,8 @@ state 112
     MENOR_IGUAL     reduce using rule 36 (valor -> PARENTESIS_ABRE valor PARENTESIS_CIERRA .)
     IGUAL           reduce using rule 36 (valor -> PARENTESIS_ABRE valor PARENTESIS_CIERRA .)
     PUNTO_Y_COMA    reduce using rule 36 (valor -> PARENTESIS_ABRE valor PARENTESIS_CIERRA .)
-    PARENTESIS_CIERRA reduce using rule 36 (valor -> PARENTESIS_ABRE valor PARENTESIS_CIERRA .)
     COMA            reduce using rule 36 (valor -> PARENTESIS_ABRE valor PARENTESIS_CIERRA .)
+    PARENTESIS_CIERRA reduce using rule 36 (valor -> PARENTESIS_ABRE valor PARENTESIS_CIERRA .)
     LLAVE_CIERRA    reduce using rule 36 (valor -> PARENTESIS_ABRE valor PARENTESIS_CIERRA .)
 
 
@@ -3132,8 +3134,8 @@ state 113
     MENOR_IGUAL     reduce using rule 49 (ajson_v -> LLAVE_ABRE lista_v LLAVE_CIERRA .)
     IGUAL           reduce using rule 49 (ajson_v -> LLAVE_ABRE lista_v LLAVE_CIERRA .)
     PUNTO_Y_COMA    reduce using rule 49 (ajson_v -> LLAVE_ABRE lista_v LLAVE_CIERRA .)
-    PARENTESIS_CIERRA reduce using rule 49 (ajson_v -> LLAVE_ABRE lista_v LLAVE_CIERRA .)
     COMA            reduce using rule 49 (ajson_v -> LLAVE_ABRE lista_v LLAVE_CIERRA .)
+    PARENTESIS_CIERRA reduce using rule 49 (ajson_v -> LLAVE_ABRE lista_v LLAVE_CIERRA .)
     LLAVE_CIERRA    reduce using rule 49 (ajson_v -> LLAVE_ABRE lista_v LLAVE_CIERRA .)
 
 
@@ -3149,12 +3151,12 @@ state 114
     (55) clave_v -> . CADENA_COMILLAS
 
     LLAVE_CIERRA    reduce using rule 51 (lista_v -> elemento_v COMA .)
-    CADENA_NO_COMILLAS shift and go to state 85
-    CADENA_COMILLAS shift and go to state 86
+    CADENA_NO_COMILLAS shift and go to state 84
+    CADENA_COMILLAS shift and go to state 85
 
-    elemento_v                     shift and go to state 83
+    elemento_v                     shift and go to state 82
     lista_v                        shift and go to state 128
-    clave_v                        shift and go to state 84
+    clave_v                        shift and go to state 83
 
 state 115
 
@@ -3178,8 +3180,8 @@ state 115
     (49) ajson_v -> . LLAVE_ABRE lista_v LLAVE_CIERRA
     (85) function_call -> . CADENA_NO_COMILLAS PARENTESIS_ABRE arg PARENTESIS_CIERRA
     (14) ident -> . CADENA_NO_COMILLAS
-    (15) ident -> . CADENA_NO_COMILLAS PUNTO ident
-    (16) ident -> . CADENA_NO_COMILLAS CORCHETE_ABRE CADENA_COMILLAS CORCHETE_CIERRA
+    (15) ident -> . CADENA_NO_COMILLAS CORCHETE_ABRE CADENA_COMILLAS CORCHETE_CIERRA
+    (16) ident -> . CADENA_NO_COMILLAS PUNTO ident
     (17) ident -> . CADENA_NO_COMILLAS CORCHETE_ABRE CADENA_COMILLAS CORCHETE_CIERRA PUNTO ident
     (59) aritmetica -> . valor SUMA valor
     (60) aritmetica -> . valor RESTA valor
@@ -3194,27 +3196,27 @@ state 115
     (66) comparacion -> . valor MENOR_IGUAL valor
     (67) comparacion -> . valor IGUAL valor
 
-    ENTERO          shift and go to state 45
-    DECIMAL         shift and go to state 46
-    TR              shift and go to state 47
-    FL              shift and go to state 48
-    NULL            shift and go to state 49
-    CARACTER        shift and go to state 50
-    PARENTESIS_ABRE shift and go to state 51
-    SUMA            shift and go to state 52
-    RESTA           shift and go to state 53
-    LLAVE_ABRE      shift and go to state 57
-    CADENA_NO_COMILLAS shift and go to state 58
-    NEGACION        shift and go to state 59
+    ENTERO          shift and go to state 44
+    DECIMAL         shift and go to state 45
+    TR              shift and go to state 46
+    FL              shift and go to state 47
+    NULL            shift and go to state 48
+    CARACTER        shift and go to state 49
+    PARENTESIS_ABRE shift and go to state 50
+    SUMA            shift and go to state 51
+    RESTA           shift and go to state 52
+    LLAVE_ABRE      shift and go to state 56
+    CADENA_NO_COMILLAS shift and go to state 57
+    NEGACION        shift and go to state 58
 
     valor                          shift and go to state 129
-    operacion                      shift and go to state 41
-    ajson_v                        shift and go to state 42
-    function_call                  shift and go to state 43
-    ident                          shift and go to state 44
-    aritmetica                     shift and go to state 54
-    booleana                       shift and go to state 55
-    comparacion                    shift and go to state 56
+    operacion                      shift and go to state 40
+    ajson_v                        shift and go to state 41
+    function_call                  shift and go to state 42
+    ident                          shift and go to state 43
+    aritmetica                     shift and go to state 53
+    booleana                       shift and go to state 54
+    comparacion                    shift and go to state 55
 
 state 116
 
@@ -3241,17 +3243,17 @@ state 117
 
     PARENTESIS_CIERRA reduce using rule 86 (arg -> valor .)
     COMA            shift and go to state 131
-    SUMA            shift and go to state 68
-    RESTA           shift and go to state 69
-    MULTIPLICACION  shift and go to state 70
-    DIVISION        shift and go to state 71
-    CONJUNCION      shift and go to state 72
-    DISYUNCION      shift and go to state 73
-    MAYOR           shift and go to state 74
-    MENOR           shift and go to state 75
-    MAYOR_IGUAL     shift and go to state 76
-    MENOR_IGUAL     shift and go to state 77
-    IGUAL           shift and go to state 78
+    SUMA            shift and go to state 67
+    RESTA           shift and go to state 68
+    MULTIPLICACION  shift and go to state 69
+    DIVISION        shift and go to state 70
+    CONJUNCION      shift and go to state 71
+    DISYUNCION      shift and go to state 72
+    MAYOR           shift and go to state 73
+    MENOR           shift and go to state 74
+    MAYOR_IGUAL     shift and go to state 75
+    MENOR_IGUAL     shift and go to state 76
+    IGUAL           shift and go to state 77
 
 
 state 118
@@ -3276,7 +3278,7 @@ state 119
     (12) no_semicolon -> . loop
     (13) no_semicolon -> . function_def
     (39) define -> . TYPE CADENA_NO_COMILLAS ASIGNACION ajson
-    (18) declare -> . LET id asign_valor
+    (18) declare -> . LET id
     (25) assign -> . ident asign_valor
     (76) condition -> . IF PARENTESIS_ABRE valor PARENTESIS_CIERRA LLAVE_ABRE statement LLAVE_CIERRA
     (77) condition -> . IF PARENTESIS_ABRE valor PARENTESIS_CIERRA LLAVE_ABRE statement LLAVE_CIERRA ELSE LLAVE_ABRE statement LLAVE_CIERRA
@@ -3284,8 +3286,8 @@ state 119
     (83) function_def -> . FUNCTION CADENA_NO_COMILLAS PARENTESIS_ABRE id_t PARENTESIS_CIERRA DOS_PUNTOS tipo LLAVE_ABRE statement RETURN valor PUNTO_Y_COMA LLAVE_CIERRA
     (84) function_def -> . FUNCTION CADENA_NO_COMILLAS PARENTESIS_ABRE id_t PARENTESIS_CIERRA DOS_PUNTOS tipo LLAVE_ABRE RETURN valor PUNTO_Y_COMA LLAVE_CIERRA
     (14) ident -> . CADENA_NO_COMILLAS
-    (15) ident -> . CADENA_NO_COMILLAS PUNTO ident
-    (16) ident -> . CADENA_NO_COMILLAS CORCHETE_ABRE CADENA_COMILLAS CORCHETE_CIERRA
+    (15) ident -> . CADENA_NO_COMILLAS CORCHETE_ABRE CADENA_COMILLAS CORCHETE_CIERRA
+    (16) ident -> . CADENA_NO_COMILLAS PUNTO ident
     (17) ident -> . CADENA_NO_COMILLAS CORCHETE_ABRE CADENA_COMILLAS CORCHETE_CIERRA PUNTO ident
 
     TYPE            shift and go to state 12
@@ -3320,7 +3322,7 @@ state 120
     (12) no_semicolon -> . loop
     (13) no_semicolon -> . function_def
     (39) define -> . TYPE CADENA_NO_COMILLAS ASIGNACION ajson
-    (18) declare -> . LET id asign_valor
+    (18) declare -> . LET id
     (25) assign -> . ident asign_valor
     (76) condition -> . IF PARENTESIS_ABRE valor PARENTESIS_CIERRA LLAVE_ABRE statement LLAVE_CIERRA
     (77) condition -> . IF PARENTESIS_ABRE valor PARENTESIS_CIERRA LLAVE_ABRE statement LLAVE_CIERRA ELSE LLAVE_ABRE statement LLAVE_CIERRA
@@ -3328,8 +3330,8 @@ state 120
     (83) function_def -> . FUNCTION CADENA_NO_COMILLAS PARENTESIS_ABRE id_t PARENTESIS_CIERRA DOS_PUNTOS tipo LLAVE_ABRE statement RETURN valor PUNTO_Y_COMA LLAVE_CIERRA
     (84) function_def -> . FUNCTION CADENA_NO_COMILLAS PARENTESIS_ABRE id_t PARENTESIS_CIERRA DOS_PUNTOS tipo LLAVE_ABRE RETURN valor PUNTO_Y_COMA LLAVE_CIERRA
     (14) ident -> . CADENA_NO_COMILLAS
-    (15) ident -> . CADENA_NO_COMILLAS PUNTO ident
-    (16) ident -> . CADENA_NO_COMILLAS CORCHETE_ABRE CADENA_COMILLAS CORCHETE_CIERRA
+    (15) ident -> . CADENA_NO_COMILLAS CORCHETE_ABRE CADENA_COMILLAS CORCHETE_CIERRA
+    (16) ident -> . CADENA_NO_COMILLAS PUNTO ident
     (17) ident -> . CADENA_NO_COMILLAS CORCHETE_ABRE CADENA_COMILLAS CORCHETE_CIERRA PUNTO ident
 
     TYPE            shift and go to state 12
@@ -3384,12 +3386,12 @@ state 123
     (82) variable_t -> . CADENA_NO_COMILLAS DOS_PUNTOS tipo
     (3) empty -> .
 
-    CADENA_NO_COMILLAS shift and go to state 91
+    CADENA_NO_COMILLAS shift and go to state 90
     PARENTESIS_CIERRA reduce using rule 3 (empty -> .)
 
-    variable_t                     shift and go to state 93
+    variable_t                     shift and go to state 92
     id_t                           shift and go to state 141
-    empty                          shift and go to state 94
+    empty                          shift and go to state 93
 
 state 124
 
@@ -3412,12 +3414,12 @@ state 125
     (48) clave -> . CADENA_NO_COMILLAS
 
     LLAVE_CIERRA    reduce using rule 42 (lista -> elemento COMA .)
-    CADENA_COMILLAS shift and go to state 98
-    CADENA_NO_COMILLAS shift and go to state 99
+    CADENA_COMILLAS shift and go to state 97
+    CADENA_NO_COMILLAS shift and go to state 98
 
-    elemento                       shift and go to state 96
+    elemento                       shift and go to state 95
     lista                          shift and go to state 142
-    clave                          shift and go to state 97
+    clave                          shift and go to state 96
 
 state 126
 
@@ -3436,7 +3438,7 @@ state 126
     CHARACTER       shift and go to state 138
     BOOLEAN         shift and go to state 139
     CADENA_NO_COMILLAS shift and go to state 134
-    LLAVE_ABRE      shift and go to state 64
+    LLAVE_ABRE      shift and go to state 63
 
     valor_t                        shift and go to state 143
     tipo                           shift and go to state 144
@@ -3489,17 +3491,17 @@ state 129
 
     COMA            reduce using rule 53 (elemento_v -> clave_v DOS_PUNTOS valor .)
     LLAVE_CIERRA    reduce using rule 53 (elemento_v -> clave_v DOS_PUNTOS valor .)
-    SUMA            shift and go to state 68
-    RESTA           shift and go to state 69
-    MULTIPLICACION  shift and go to state 70
-    DIVISION        shift and go to state 71
-    CONJUNCION      shift and go to state 72
-    DISYUNCION      shift and go to state 73
-    MAYOR           shift and go to state 74
-    MENOR           shift and go to state 75
-    MAYOR_IGUAL     shift and go to state 76
-    MENOR_IGUAL     shift and go to state 77
-    IGUAL           shift and go to state 78
+    SUMA            shift and go to state 67
+    RESTA           shift and go to state 68
+    MULTIPLICACION  shift and go to state 69
+    DIVISION        shift and go to state 70
+    CONJUNCION      shift and go to state 71
+    DISYUNCION      shift and go to state 72
+    MAYOR           shift and go to state 73
+    MENOR           shift and go to state 74
+    MAYOR_IGUAL     shift and go to state 75
+    MENOR_IGUAL     shift and go to state 76
+    IGUAL           shift and go to state 77
 
 
 state 130
@@ -3518,8 +3520,8 @@ state 130
     MENOR_IGUAL     reduce using rule 85 (function_call -> CADENA_NO_COMILLAS PARENTESIS_ABRE arg PARENTESIS_CIERRA .)
     IGUAL           reduce using rule 85 (function_call -> CADENA_NO_COMILLAS PARENTESIS_ABRE arg PARENTESIS_CIERRA .)
     PUNTO_Y_COMA    reduce using rule 85 (function_call -> CADENA_NO_COMILLAS PARENTESIS_ABRE arg PARENTESIS_CIERRA .)
-    PARENTESIS_CIERRA reduce using rule 85 (function_call -> CADENA_NO_COMILLAS PARENTESIS_ABRE arg PARENTESIS_CIERRA .)
     COMA            reduce using rule 85 (function_call -> CADENA_NO_COMILLAS PARENTESIS_ABRE arg PARENTESIS_CIERRA .)
+    PARENTESIS_CIERRA reduce using rule 85 (function_call -> CADENA_NO_COMILLAS PARENTESIS_ABRE arg PARENTESIS_CIERRA .)
     LLAVE_CIERRA    reduce using rule 85 (function_call -> CADENA_NO_COMILLAS PARENTESIS_ABRE arg PARENTESIS_CIERRA .)
 
 
@@ -3549,8 +3551,8 @@ state 131
     (49) ajson_v -> . LLAVE_ABRE lista_v LLAVE_CIERRA
     (85) function_call -> . CADENA_NO_COMILLAS PARENTESIS_ABRE arg PARENTESIS_CIERRA
     (14) ident -> . CADENA_NO_COMILLAS
-    (15) ident -> . CADENA_NO_COMILLAS PUNTO ident
-    (16) ident -> . CADENA_NO_COMILLAS CORCHETE_ABRE CADENA_COMILLAS CORCHETE_CIERRA
+    (15) ident -> . CADENA_NO_COMILLAS CORCHETE_ABRE CADENA_COMILLAS CORCHETE_CIERRA
+    (16) ident -> . CADENA_NO_COMILLAS PUNTO ident
     (17) ident -> . CADENA_NO_COMILLAS CORCHETE_ABRE CADENA_COMILLAS CORCHETE_CIERRA PUNTO ident
     (59) aritmetica -> . valor SUMA valor
     (60) aritmetica -> . valor RESTA valor
@@ -3565,30 +3567,30 @@ state 131
     (66) comparacion -> . valor MENOR_IGUAL valor
     (67) comparacion -> . valor IGUAL valor
 
-    ENTERO          shift and go to state 45
-    DECIMAL         shift and go to state 46
-    TR              shift and go to state 47
-    FL              shift and go to state 48
-    NULL            shift and go to state 49
-    CARACTER        shift and go to state 50
-    PARENTESIS_ABRE shift and go to state 51
-    SUMA            shift and go to state 52
-    RESTA           shift and go to state 53
+    ENTERO          shift and go to state 44
+    DECIMAL         shift and go to state 45
+    TR              shift and go to state 46
+    FL              shift and go to state 47
+    NULL            shift and go to state 48
+    CARACTER        shift and go to state 49
+    PARENTESIS_ABRE shift and go to state 50
+    SUMA            shift and go to state 51
+    RESTA           shift and go to state 52
     PARENTESIS_CIERRA reduce using rule 3 (empty -> .)
-    LLAVE_ABRE      shift and go to state 57
-    CADENA_NO_COMILLAS shift and go to state 58
-    NEGACION        shift and go to state 59
+    LLAVE_ABRE      shift and go to state 56
+    CADENA_NO_COMILLAS shift and go to state 57
+    NEGACION        shift and go to state 58
 
     valor                          shift and go to state 117
     arg                            shift and go to state 146
     empty                          shift and go to state 118
-    operacion                      shift and go to state 41
-    ajson_v                        shift and go to state 42
-    function_call                  shift and go to state 43
-    ident                          shift and go to state 44
-    aritmetica                     shift and go to state 54
-    booleana                       shift and go to state 55
-    comparacion                    shift and go to state 56
+    operacion                      shift and go to state 40
+    ajson_v                        shift and go to state 41
+    function_call                  shift and go to state 42
+    ident                          shift and go to state 43
+    aritmetica                     shift and go to state 53
+    booleana                       shift and go to state 54
+    comparacion                    shift and go to state 55
 
 state 132
 
@@ -3788,7 +3790,7 @@ state 151
     (12) no_semicolon -> . loop
     (13) no_semicolon -> . function_def
     (39) define -> . TYPE CADENA_NO_COMILLAS ASIGNACION ajson
-    (18) declare -> . LET id asign_valor
+    (18) declare -> . LET id
     (25) assign -> . ident asign_valor
     (76) condition -> . IF PARENTESIS_ABRE valor PARENTESIS_CIERRA LLAVE_ABRE statement LLAVE_CIERRA
     (77) condition -> . IF PARENTESIS_ABRE valor PARENTESIS_CIERRA LLAVE_ABRE statement LLAVE_CIERRA ELSE LLAVE_ABRE statement LLAVE_CIERRA
@@ -3796,8 +3798,8 @@ state 151
     (83) function_def -> . FUNCTION CADENA_NO_COMILLAS PARENTESIS_ABRE id_t PARENTESIS_CIERRA DOS_PUNTOS tipo LLAVE_ABRE statement RETURN valor PUNTO_Y_COMA LLAVE_CIERRA
     (84) function_def -> . FUNCTION CADENA_NO_COMILLAS PARENTESIS_ABRE id_t PARENTESIS_CIERRA DOS_PUNTOS tipo LLAVE_ABRE RETURN valor PUNTO_Y_COMA LLAVE_CIERRA
     (14) ident -> . CADENA_NO_COMILLAS
-    (15) ident -> . CADENA_NO_COMILLAS PUNTO ident
-    (16) ident -> . CADENA_NO_COMILLAS CORCHETE_ABRE CADENA_COMILLAS CORCHETE_CIERRA
+    (15) ident -> . CADENA_NO_COMILLAS CORCHETE_ABRE CADENA_COMILLAS CORCHETE_CIERRA
+    (16) ident -> . CADENA_NO_COMILLAS PUNTO ident
     (17) ident -> . CADENA_NO_COMILLAS CORCHETE_ABRE CADENA_COMILLAS CORCHETE_CIERRA PUNTO ident
 
     RETURN          shift and go to state 154
@@ -3833,7 +3835,7 @@ state 152
     (12) no_semicolon -> . loop
     (13) no_semicolon -> . function_def
     (39) define -> . TYPE CADENA_NO_COMILLAS ASIGNACION ajson
-    (18) declare -> . LET id asign_valor
+    (18) declare -> . LET id
     (25) assign -> . ident asign_valor
     (76) condition -> . IF PARENTESIS_ABRE valor PARENTESIS_CIERRA LLAVE_ABRE statement LLAVE_CIERRA
     (77) condition -> . IF PARENTESIS_ABRE valor PARENTESIS_CIERRA LLAVE_ABRE statement LLAVE_CIERRA ELSE LLAVE_ABRE statement LLAVE_CIERRA
@@ -3841,8 +3843,8 @@ state 152
     (83) function_def -> . FUNCTION CADENA_NO_COMILLAS PARENTESIS_ABRE id_t PARENTESIS_CIERRA DOS_PUNTOS tipo LLAVE_ABRE statement RETURN valor PUNTO_Y_COMA LLAVE_CIERRA
     (84) function_def -> . FUNCTION CADENA_NO_COMILLAS PARENTESIS_ABRE id_t PARENTESIS_CIERRA DOS_PUNTOS tipo LLAVE_ABRE RETURN valor PUNTO_Y_COMA LLAVE_CIERRA
     (14) ident -> . CADENA_NO_COMILLAS
-    (15) ident -> . CADENA_NO_COMILLAS PUNTO ident
-    (16) ident -> . CADENA_NO_COMILLAS CORCHETE_ABRE CADENA_COMILLAS CORCHETE_CIERRA
+    (15) ident -> . CADENA_NO_COMILLAS CORCHETE_ABRE CADENA_COMILLAS CORCHETE_CIERRA
+    (16) ident -> . CADENA_NO_COMILLAS PUNTO ident
     (17) ident -> . CADENA_NO_COMILLAS CORCHETE_ABRE CADENA_COMILLAS CORCHETE_CIERRA PUNTO ident
 
     TYPE            shift and go to state 12
@@ -3892,8 +3894,8 @@ state 154
     (49) ajson_v -> . LLAVE_ABRE lista_v LLAVE_CIERRA
     (85) function_call -> . CADENA_NO_COMILLAS PARENTESIS_ABRE arg PARENTESIS_CIERRA
     (14) ident -> . CADENA_NO_COMILLAS
-    (15) ident -> . CADENA_NO_COMILLAS PUNTO ident
-    (16) ident -> . CADENA_NO_COMILLAS CORCHETE_ABRE CADENA_COMILLAS CORCHETE_CIERRA
+    (15) ident -> . CADENA_NO_COMILLAS CORCHETE_ABRE CADENA_COMILLAS CORCHETE_CIERRA
+    (16) ident -> . CADENA_NO_COMILLAS PUNTO ident
     (17) ident -> . CADENA_NO_COMILLAS CORCHETE_ABRE CADENA_COMILLAS CORCHETE_CIERRA PUNTO ident
     (59) aritmetica -> . valor SUMA valor
     (60) aritmetica -> . valor RESTA valor
@@ -3908,27 +3910,27 @@ state 154
     (66) comparacion -> . valor MENOR_IGUAL valor
     (67) comparacion -> . valor IGUAL valor
 
-    ENTERO          shift and go to state 45
-    DECIMAL         shift and go to state 46
-    TR              shift and go to state 47
-    FL              shift and go to state 48
-    NULL            shift and go to state 49
-    CARACTER        shift and go to state 50
-    PARENTESIS_ABRE shift and go to state 51
-    SUMA            shift and go to state 52
-    RESTA           shift and go to state 53
-    LLAVE_ABRE      shift and go to state 57
-    CADENA_NO_COMILLAS shift and go to state 58
-    NEGACION        shift and go to state 59
+    ENTERO          shift and go to state 44
+    DECIMAL         shift and go to state 45
+    TR              shift and go to state 46
+    FL              shift and go to state 47
+    NULL            shift and go to state 48
+    CARACTER        shift and go to state 49
+    PARENTESIS_ABRE shift and go to state 50
+    SUMA            shift and go to state 51
+    RESTA           shift and go to state 52
+    LLAVE_ABRE      shift and go to state 56
+    CADENA_NO_COMILLAS shift and go to state 57
+    NEGACION        shift and go to state 58
 
     valor                          shift and go to state 157
-    operacion                      shift and go to state 41
-    ajson_v                        shift and go to state 42
-    function_call                  shift and go to state 43
-    ident                          shift and go to state 44
-    aritmetica                     shift and go to state 54
-    booleana                       shift and go to state 55
-    comparacion                    shift and go to state 56
+    operacion                      shift and go to state 40
+    ajson_v                        shift and go to state 41
+    function_call                  shift and go to state 42
+    ident                          shift and go to state 43
+    aritmetica                     shift and go to state 53
+    booleana                       shift and go to state 54
+    comparacion                    shift and go to state 55
 
 state 155
 
@@ -3959,8 +3961,8 @@ state 156
     (49) ajson_v -> . LLAVE_ABRE lista_v LLAVE_CIERRA
     (85) function_call -> . CADENA_NO_COMILLAS PARENTESIS_ABRE arg PARENTESIS_CIERRA
     (14) ident -> . CADENA_NO_COMILLAS
-    (15) ident -> . CADENA_NO_COMILLAS PUNTO ident
-    (16) ident -> . CADENA_NO_COMILLAS CORCHETE_ABRE CADENA_COMILLAS CORCHETE_CIERRA
+    (15) ident -> . CADENA_NO_COMILLAS CORCHETE_ABRE CADENA_COMILLAS CORCHETE_CIERRA
+    (16) ident -> . CADENA_NO_COMILLAS PUNTO ident
     (17) ident -> . CADENA_NO_COMILLAS CORCHETE_ABRE CADENA_COMILLAS CORCHETE_CIERRA PUNTO ident
     (59) aritmetica -> . valor SUMA valor
     (60) aritmetica -> . valor RESTA valor
@@ -3975,27 +3977,27 @@ state 156
     (66) comparacion -> . valor MENOR_IGUAL valor
     (67) comparacion -> . valor IGUAL valor
 
-    ENTERO          shift and go to state 45
-    DECIMAL         shift and go to state 46
-    TR              shift and go to state 47
-    FL              shift and go to state 48
-    NULL            shift and go to state 49
-    CARACTER        shift and go to state 50
-    PARENTESIS_ABRE shift and go to state 51
-    SUMA            shift and go to state 52
-    RESTA           shift and go to state 53
-    LLAVE_ABRE      shift and go to state 57
-    CADENA_NO_COMILLAS shift and go to state 58
-    NEGACION        shift and go to state 59
+    ENTERO          shift and go to state 44
+    DECIMAL         shift and go to state 45
+    TR              shift and go to state 46
+    FL              shift and go to state 47
+    NULL            shift and go to state 48
+    CARACTER        shift and go to state 49
+    PARENTESIS_ABRE shift and go to state 50
+    SUMA            shift and go to state 51
+    RESTA           shift and go to state 52
+    LLAVE_ABRE      shift and go to state 56
+    CADENA_NO_COMILLAS shift and go to state 57
+    NEGACION        shift and go to state 58
 
     valor                          shift and go to state 159
-    operacion                      shift and go to state 41
-    ajson_v                        shift and go to state 42
-    function_call                  shift and go to state 43
-    ident                          shift and go to state 44
-    aritmetica                     shift and go to state 54
-    booleana                       shift and go to state 55
-    comparacion                    shift and go to state 56
+    operacion                      shift and go to state 40
+    ajson_v                        shift and go to state 41
+    function_call                  shift and go to state 42
+    ident                          shift and go to state 43
+    aritmetica                     shift and go to state 53
+    booleana                       shift and go to state 54
+    comparacion                    shift and go to state 55
 
 state 157
 
@@ -4013,17 +4015,17 @@ state 157
     (67) comparacion -> valor . IGUAL valor
 
     PUNTO_Y_COMA    shift and go to state 160
-    SUMA            shift and go to state 68
-    RESTA           shift and go to state 69
-    MULTIPLICACION  shift and go to state 70
-    DIVISION        shift and go to state 71
-    CONJUNCION      shift and go to state 72
-    DISYUNCION      shift and go to state 73
-    MAYOR           shift and go to state 74
-    MENOR           shift and go to state 75
-    MAYOR_IGUAL     shift and go to state 76
-    MENOR_IGUAL     shift and go to state 77
-    IGUAL           shift and go to state 78
+    SUMA            shift and go to state 67
+    RESTA           shift and go to state 68
+    MULTIPLICACION  shift and go to state 69
+    DIVISION        shift and go to state 70
+    CONJUNCION      shift and go to state 71
+    DISYUNCION      shift and go to state 72
+    MAYOR           shift and go to state 73
+    MENOR           shift and go to state 74
+    MAYOR_IGUAL     shift and go to state 75
+    MENOR_IGUAL     shift and go to state 76
+    IGUAL           shift and go to state 77
 
 
 state 158
@@ -4057,17 +4059,17 @@ state 159
     (67) comparacion -> valor . IGUAL valor
 
     PUNTO_Y_COMA    shift and go to state 161
-    SUMA            shift and go to state 68
-    RESTA           shift and go to state 69
-    MULTIPLICACION  shift and go to state 70
-    DIVISION        shift and go to state 71
-    CONJUNCION      shift and go to state 72
-    DISYUNCION      shift and go to state 73
-    MAYOR           shift and go to state 74
-    MENOR           shift and go to state 75
-    MAYOR_IGUAL     shift and go to state 76
-    MENOR_IGUAL     shift and go to state 77
-    IGUAL           shift and go to state 78
+    SUMA            shift and go to state 67
+    RESTA           shift and go to state 68
+    MULTIPLICACION  shift and go to state 69
+    DIVISION        shift and go to state 70
+    CONJUNCION      shift and go to state 71
+    DISYUNCION      shift and go to state 72
+    MAYOR           shift and go to state 73
+    MENOR           shift and go to state 74
+    MAYOR_IGUAL     shift and go to state 75
+    MENOR_IGUAL     shift and go to state 76
+    IGUAL           shift and go to state 77
 
 
 state 160
