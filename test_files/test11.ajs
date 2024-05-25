@@ -1,4 +1,4 @@
-
+/*
 // Comentado
 let var, var1, var2 = 0.1;
 let var3, var4 = 1;
@@ -11,7 +11,7 @@ var2 = 44;
 var4 = 2;
 // Error se quiere meter un float en un int
 // var3 = 0.3;
-
+*/
 
 type circulo = {
     a: float,
@@ -27,6 +27,8 @@ v_circulo = {
     c: tr,
 };
 
-let ej1, ej2;
+let ej1, ej2, ej3, ej4;
 ej1 = v_circulo.a;
 ej2 = v_circulo["b"];
+ej3 = v_circulo["a"];
+ej4 = v_circulo.b; // este debe dar error

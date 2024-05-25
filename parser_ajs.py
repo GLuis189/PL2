@@ -262,6 +262,7 @@ def p_valor(p):
 def p_valor_ident(p):
     '''valor : ident'''
     #print('valor_ident')
+    print(p[1])
     if len(p[1]) == 1:
         ident = p[1][0]
         if ident in symbols:
@@ -270,17 +271,29 @@ def p_valor_ident(p):
             p[0] = registros[ident]
     else:
         aux = registros
+        b = True
         for i in range(len(p[1])):
             name = p[1][i]
+            tipo = name[1]
+            print(name)
             if name in aux or name[0] in aux:
                 if name in aux:
+                    n = name[0]
+                    if (n, 1) in registros:
+                        t = registros[(n, 1)][0]
+                        r1 = objects[t].keys()
+                        r2= [(letra, numero - 1) for letra, numero in r1]
                     if i == len(p[1]) - 1:
                         p[0] = aux[name]
                     else:
                         aux = aux[name][1]
                 else:
+                    # aqui estamos ya dentro del objeto
+                    if not(name in r1 or name in r2):
+                        print('[ERROR][PARSER] Mal uso de los corchetes en %s' % name[0])
+                        break  
                     if i == len(p[1]) - 1:
-                        p[0] = aux[name[0]]
+                        p[0] = aux[name[0]]          
                     else:
                         aux = aux[name[0]][1]
             else:
