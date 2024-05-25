@@ -119,25 +119,25 @@ def p_declare(p):
                     symbols[name] = (tipo_a, value)
                 else:
                     if tipo in objects:
-                        #recorremos el diccionario comprobando el tipo
                         coincide = True
-                        print(value['a'])
-                        for clave_registro, clave_objeto, clave_llave in zip(list(p[2][i+1].values()), list(objects[tipo].values()), list(p[2][i+1].keys())):
-                            if clave_registro[0] != clave_objeto:
-                                if clave_objeto == 'float':
-                                    if clave_registro[0] == 'int':
-                                        value[clave_llave] = ('float' , float(value[clave_llave][1]))
-                                    elif clave_registro[0] == 'char':
-                                        value[clave_llave] = ('float' , float(ord(value[clave_llave][1])))
-                                    else:
-                                       coincide = False
-                                       print("[ERROR][PARSER] Type mismatch, can't covert %s to %s" % (clave_registro[0], clave_objeto))
-                                if clave_objeto == 'int':
-                                    if clave_registro[0] == 'char':
-                                        value[clave_llave] = ('int' , ord(value[clave_llave][1]))
-                                    else:
-                                        coincide = False
+                        if value:
+                        #recorremos el diccionario comprobando el tipo
+                            for clave_registro, clave_objeto, clave_llave in zip(list(p[2][i+1].values()), list(objects[tipo].values()), list(p[2][i+1].keys())):
+                                if clave_registro[0] != clave_objeto:
+                                    if clave_objeto == 'float':
+                                        if clave_registro[0] == 'int':
+                                            value[clave_llave] = ('float' , float(value[clave_llave][1]))
+                                        elif clave_registro[0] == 'char':
+                                            value[clave_llave] = ('float' , float(ord(value[clave_llave][1])))
+                                        else:
+                                            coincide = False
                                         print("[ERROR][PARSER] Type mismatch, can't covert %s to %s" % (clave_registro[0], clave_objeto))
+                                    if clave_objeto == 'int':
+                                        if clave_registro[0] == 'char':
+                                            value[clave_llave] = ('int' , ord(value[clave_llave][1]))
+                                        else:
+                                            coincide = False
+                                            print("[ERROR][PARSER] Type mismatch, can't covert %s to %s" % (clave_registro[0], clave_objeto))
                         if coincide:
                             registros[name] = (tipo, value)
                         

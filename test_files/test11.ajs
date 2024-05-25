@@ -13,14 +13,15 @@ var4 = 2;
 // var3 = 0.3;
 
 type circulo = {
-    a: int,
+    a: float,
     "b": character,
     c: boolean
 };
 
 
-let  v_circulo: circulo = {
-    a: 15.5,
+let  v_circulo: circulo;
+v_circulo = {
+    a: 15,
     "b": 'a',
     c: tr,
 };
