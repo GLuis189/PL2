@@ -20,7 +20,7 @@ type circulo = {
 
 
 let  v_circulo: circulo = {
-    a: 15,
+    a: 15.5,
     "b": 'a',
     c: tr,
 };
