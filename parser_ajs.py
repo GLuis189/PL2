@@ -262,7 +262,6 @@ def p_valor(p):
 def p_valor_ident(p):
     '''valor : ident'''
     #print('valor_ident')
-    print(p[1])
     if len(p[1]) == 1:
         ident = p[1][0]
         if ident in symbols:
@@ -274,8 +273,6 @@ def p_valor_ident(p):
         b = True
         for i in range(len(p[1])):
             name = p[1][i]
-            tipo = name[1]
-            print(name)
             if name in aux or name[0] in aux:
                 if name in aux:
                     n = name[0]
