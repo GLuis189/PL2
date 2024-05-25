@@ -123,7 +123,7 @@ def p_declare(p):
             tipo, name = p[2][i]
             name = name[0]
             if name in symbols:
-                print('[ERROR][PARSER] Variable %s already declared' % name)
+                print('[ERROR][PARSER] Variable %s already declared' % name[0])
             else:
                 if tipo == tipo_a or tipo == None:
                     symbols[name] = (tipo_a, value)
