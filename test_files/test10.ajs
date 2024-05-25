@@ -4,7 +4,7 @@ type Object = { prop1: float, "nested": NestedObject };
 let var1: Object, var2, var3;
 var1 = {
     prop1: 10e-1,
-    nested: { "this is": 'A', prop2: 10, prop3: 'r' }}
+    nested: { "this is": 'A', prop2: 10, prop3: 'r' }
 ;
 var2 = 10;
 
