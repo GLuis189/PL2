@@ -1,5 +1,16 @@
 
+// Comentado
+let var, var1, var2 = 0.1;
+let var3, var4 = 1;
+let var5 = 'a';
+let vacio;
 
+
+var1 = 0.2;
+var2 = 44;
+var4 = 2;
+// Error se quiere meter un float en un int
+// var3 = 0.3;
 
 type circulo = {
     a: int,

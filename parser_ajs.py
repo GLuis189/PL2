@@ -119,7 +119,15 @@ def p_declare(p):
                     symbols[name] = (tipo_a, value)
                 else:
                     if tipo in objects:
-                        registros[name] = (tipo, value)
+                        #recorremos el diccionario comprobando el tipo
+                        coincide = True
+                        for clave_registro,clave_objeto in zip(list(p[2][i+1].values()), list(objects[tipo].values())):
+
+                            if clave_registro[0] != clave_objeto:
+                                coincide = False
+                                print('[ERROR][PARSER] Type mismatch in object value %s != %s' % (clave_registro[0], clave_objeto))
+                        if coincide:
+                            registros[name] = (tipo, value)
 
 def p_asign_valor(p):
     '''
