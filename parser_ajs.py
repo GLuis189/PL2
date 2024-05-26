@@ -90,6 +90,7 @@ def p_ident_simple(p):
     # p[0] = p[1]
     if len(p) == 2: p[0] = [(p[1], 1)]
     else : p[0] = [(p[1], 1), (p[3], 0)]
+   
     
 
 def p_ident_recurivo(p):
@@ -99,6 +100,7 @@ def p_ident_recurivo(p):
     # p[0] = p[1]
     if len(p) == 4: p[0] = [(p[1], 1)] + p[3]
     else: p[0] = [(p[1], 1), (p[3], 0)] + p[6]
+    
 
 ###################### DECLARACIONES ######################
 
@@ -121,7 +123,8 @@ def p_declare(p):
                     tipo_a = None
                     value = p[2][i+1]
             tipo, name = p[2][i]
-            name = name[0]
+            name = name[0][0]
+            print(name)
             if name in symbols:
                 print('[ERROR][PARSER] Variable %s already declared' % name[0])
             else:
@@ -150,7 +153,7 @@ def p_declare(p):
                                             print("[ERROR][PARSER] Type mismatch, can't covert %s to %s" % (clave_registro[0], clave_objeto))
                         if coincide:
                             registros[name] = (tipo, value)
-                        
+             
                             
 
 def p_asign_valor(p):
@@ -197,7 +200,7 @@ def p_assign(p):
     # print('assign')
     ident = p[1]
     if len(ident) == 1:
-        ident = ident[0]
+        ident = ident[0][0]
     if isinstance(ident, list):
         for i in ident:
             if i in symbols:
@@ -228,10 +231,10 @@ def p_assign(p):
             #         print('[ERROR][PARSER] Type mismatch in variable %s' % ident)
         elif ident in registros:
             if isinstance(p[2], dict) or not p[2]:
-                    registros[ident] = (registros[ident][0],p[2])
+                print(ident)
+                registros[ident] = (registros[ident][0],p[2])
             else:
-                tipo, value = p[2]
-                registros[ident] = (tipo, value)
+                print('[ERROR][PARSER] object %s cannot be assigned' % ident)
         elif ident in functions:
             print('[ERROR][PARSER] Function %s cannot be assigned' % ident)
         else:
