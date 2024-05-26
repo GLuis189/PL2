@@ -1,45 +1,46 @@
 Symbols:
 {
-    "('a', 1)": [
-        "int",
-        10
-    ],
-    "('b', 1)": [
-        "bool",
-        true
-    ],
-    "('c', 1)": [
-        "char",
-        "$"
-    ],
     "('var1', 1)": [
         "int",
-        3
+        33
     ],
-    "('VAR1', 1)": [
-        "bool",
-        true
-    ],
-    "('Var1', 1)": [
-        null,
-        null
-    ],
-    "('d', 1)": [
-        null,
-        null
-    ],
-    "('e', 1)": [
+    "('circle_area', 1)": [
         "float",
-        0.1133333333333585
+        9.9538
     ],
-    "('A', 1)": [
+    "('square_area', 1)": [
         "float",
-        69.88
+        5.5
     ]
 }
 Registros:
-{}
+{
+    "('square', 1)": [
+        "Square",
+        {
+            "side": [
+                "float",
+                10.0
+            ],
+            "color": [
+                "char",
+                "b"
+            ]
+        }
+    ]
+}
 Objects:
-{}
+{
+    "Circle": {
+        "('cx', 1)": "char",
+        "('cy', 1)": "float",
+        "('radio', 1)": "float",
+        "('color', 1)": "char"
+    },
+    "Square": {
+        "('side', 1)": "float",
+        "('color', 1)": "char"
+    }
+}
 Functions:
 {}

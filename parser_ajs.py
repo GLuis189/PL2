@@ -123,7 +123,7 @@ def p_declare(p):
                     tipo_a = None
                     value = p[2][i+1]
             tipo, name = p[2][i]
-            name = name[0][0]
+            name = name[0]
             if name in symbols:
                 print('[ERROR][PARSER] Variable %s already declared' % name[0])
             else:
@@ -204,7 +204,7 @@ def p_assign(p):
     # print('assign')
     ident = p[1]
     if len(ident) == 1:
-        ident = ident[0][0]
+        ident = ident[0]
     if isinstance(ident, list):
         for i in ident:
             if i in symbols:
@@ -523,6 +523,7 @@ def p_comparacion(p):
 def p_comparacion_igual(p):
     '''comparacion : valor IGUAL valor %prec IGUAL'''
     #print('comparacion_igual')
+    print(p[1], p[3])
     t1, v1 = p[1]
     t2, v2 = p[3]
     if t1 in ['int', 'float', 'char', 'bool'] and t2 in ['int', 'float', 'char', 'bool']:
@@ -612,6 +613,16 @@ def p_condition(p):
               | IF PARENTESIS_ABRE valor PARENTESIS_CIERRA LLAVE_ABRE statement LLAVE_CIERRA ELSE LLAVE_ABRE statement LLAVE_CIERRA
     '''
     #print('condition')
+    valor = p[3]
+    if valor[0] != 'bool':
+        print('[ERROR][PARSER] Condition must be a boolean expression')
+        return
+    if valor == ('bool', True):
+        pass
+    elif valor == ('bool', False):
+        pass
+    else:
+        print('[ERROR][PARSER] Condition must be a boolean expression')
 
 def p_loop(p):
     '''
