@@ -124,7 +124,6 @@ def p_declare(p):
                     value = p[2][i+1]
             tipo, name = p[2][i]
             name = name[0][0]
-            print(name)
             if name in symbols:
                 print('[ERROR][PARSER] Variable %s already declared' % name[0])
             else:
@@ -136,6 +135,7 @@ def p_declare(p):
                         if value:
                         #recorremos el diccionario comprobando el tipo
                             for clave_registro, clave_objeto, clave_llave in zip(list(p[2][i+1].values()), list(objects[tipo].values()), list(p[2][i+1].keys())):
+                                print(clave_registro[0],clave_objeto)
                                 if clave_registro[0] != clave_objeto:
                                     if clave_objeto == 'float':
                                         if clave_registro[0] == 'int':
@@ -151,6 +151,10 @@ def p_declare(p):
                                         else:
                                             coincide = False
                                             print("[ERROR][PARSER] Type mismatch, can't covert %s to %s" % (clave_registro[0], clave_objeto))
+                                    else:
+                                        coincide = False
+                                        print("[ERROR][PARSER] Type mismatch, can't covert %s to %s" % (clave_registro[0], clave_objeto))
+
                         if coincide:
                             registros[name] = (tipo, value)
              
