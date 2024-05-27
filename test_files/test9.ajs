@@ -10,7 +10,7 @@ var2 = 10;
 
 //This us a function
 function gte(a: int, b: int): boolean {
-    return a > b;
+    return 1 > 2;
 }
 
 //This us a function without params

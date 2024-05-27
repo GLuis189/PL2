@@ -4,7 +4,7 @@ let var1 =33;
 let circle: Circle = {
     cx: 0.,
     cy: 0.,
-    radio: 10.2,
+    "radio": 10.2,
     color: 'r',
 };
 

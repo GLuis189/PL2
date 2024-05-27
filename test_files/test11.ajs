@@ -20,11 +20,14 @@ type circulo = {
 };
 
 
-let  v_circulo: circulo;
-v_circulo = {
-    a: 15,
+let  v_circulo: circulo = {
+    "a": 15,
     b: 'a',
     "c": tr,
 };
 
-
+let ej1, ej2, ej3, ej4;
+ej1 = v_circulo.a;
+ej2 = v_circulo["b"];
+ej3 = v_circulo["a"];
+ej4 = v_circulo.b; // este debe dar error

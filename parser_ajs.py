@@ -164,8 +164,10 @@ def p_declare(p):
                                             coincide = False
                                             print("[ERROR][PARSER] Type mismatch, can't covert %s to %s" % (clave_registro[0], clave_objeto))
                                 c-= 1
-                        if coincide:
+                        if coincide and len(list(p[2][i+1].values())) == len(list(objects[tipo].values())):
                             registros[name] = (tipo, value)
+                        else:
+                            print("[ERROR][PARSER]Type mismatch, the given assignment %s does not match the object %s " % (name[0],tipo))
              
                             
 
@@ -263,11 +265,46 @@ def p_assign(p):
             #     else:
             #         print('[ERROR][PARSER] Type mismatch in variable %s' % ident)
         elif ident in registros:
-            print(registros[ident])
             if isinstance(p[2], tuple) or not p[2]:
                 registros[ident] = p[2]
             elif isinstance(p[2], dict):
-                registros[ident] = (registros[ident][0],p[2])
+                if registros[ident][0] in objects:
+                        coincide = True
+                        c = 0
+                        tipo = registros[ident][0]
+                        value = p[2]
+                        while c == 0:
+                        #recorremos el diccionario comprobando el tipo
+                            for clave_registro, clave_objeto, clave_llave in zip(list(value.values()), list(objects[tipo].values()), list(p[2].keys())):
+                                    if isinstance(clave_objeto, dict):
+                                        if isinstance(clave_registro, dict):
+                                            pass
+                                        else:
+                                             coincide = False
+                                             print("[ERROR][PARSER] Type mismatch,  %s it´s not a dict %" % (clave_registro[0]))
+                                    elif clave_registro[0] != clave_objeto:
+                                        if clave_objeto == 'float':
+                                            if clave_registro[0] == 'int':
+                                                value[clave_llave] = ('float' , float(value[clave_llave][1]))
+                                            elif clave_registro[0] == 'char':
+                                                value[clave_llave] = ('float' , float(ord(value[clave_llave][1])))
+                                            else:
+                                                coincide = False
+                                                print("[ERROR][PARSER] Type mismatch, can't covert %s to %s" % (clave_registro[0], clave_objeto))
+                                        elif clave_objeto == 'int':
+                                            if clave_registro[0] == 'char':
+                                                value[clave_llave] = ('int' , ord(value[clave_llave][1]))
+                                            else:
+                                                coincide = False
+                                                print("[ERROR][PARSER] Type mismatch, can't covert %s to %s" % (clave_registro[0], clave_objeto))
+                                        else:
+                                            coincide = False
+                                            print("[ERROR][PARSER] Type mismatch, can't covert %s to %s" % (clave_registro[0], clave_objeto))
+                            c-= 1
+                        if coincide and len(list(value.values())) == len(list(objects[tipo].values())):
+                           registros[ident] = (registros[ident][0],p[2])
+                        else:
+                            print("[ERROR][PARSER]Type mismatch, the given assignment %s does not match the object %s " % (ident[0],registros[ident][0]))
             else:
                 print('[ERROR][PARSER] object %s cannot be assigned' % ident[0])
             
@@ -313,7 +350,6 @@ def p_valor_ident(p):
         for i in range(len(p[1])):
             name = p[1][i]
             clave_num = 1
-            print(name, aux)
             if ((name[0],1) in aux) or ((name[0], 0) in aux):
                 if name[1] == 0:
                     if ((name[0], 0)) in aux:
@@ -340,7 +376,7 @@ def p_valor_ident(p):
             else:
                 print('[ERROR][PARSER] Attribute %s not declared' % name[0])
                 break
-    print(p[0])
+    
 
         
 
