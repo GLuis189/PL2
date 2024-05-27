@@ -1,15 +1,15 @@
 type House = {
     localition : {
         city : character, country:character},
-        price:{euro:int, dollar:int, yen: int}
+    price:{euro:float, dollar:int, yen: int}
 };
 
 let my_house: House = {
-    "localition":{
+    localition:{
         city: 'M', country: 'E',
     },
     price:{
-        euro: 100, "dolar": 108, "yen":16397
+        "yen": 100, euro: 108, dollar:16397
     },
 };
 

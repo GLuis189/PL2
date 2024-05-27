@@ -1,13 +1,14 @@
 type est = {
-    a: character,
+    a: int,
     b: int,
 };
 
 let e: est;
-let e1: 
-est = {
+let e1: est;
+ e1 = {
     a: 'a', 
     b: 1
 };
 e = e1;
+
 

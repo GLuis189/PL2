@@ -113,6 +113,38 @@ def p_declare(p):
     '''
     #print('declare')
     lista_vars = p[2]
+    def comprobar_estructura(Reg:dict, Obj:dict, coincide:bool, value:dict):
+        for clave_registro, clave_objeto, clave_llave in zip(Reg.values(), list(Obj.values()), list(Reg.keys())):
+            if isinstance(clave_objeto, dict):
+                if isinstance(clave_registro, dict):
+                    coincide = comprobar_estructura(clave_registro, clave_objeto, coincide, value[clave_llave])
+                else:
+                    coincide = False
+                    print("[ERROR][PARSER] Type mismatch,  %s it´s not a dict %" % (clave_registro[0]))
+            elif clave_registro[0] != clave_objeto:
+                if clave_objeto == 'float':
+                    if clave_registro[0] == 'int':
+                        value[clave_llave] = ('float' , float(value[clave_llave][1]))
+                    elif clave_registro[0] == 'char':
+                        value[clave_llave] = ('float' , float(ord(value[clave_llave][1])))
+                    else:
+                        coincide = False
+                        print("[ERROR][PARSER] Type mismatch, can't covert %s to %s" % (clave_registro[0], clave_objeto))
+                elif clave_objeto == 'int':
+                    if clave_registro[0] == 'char':
+                        value[clave_llave] = ('int' , ord(value[clave_llave][1]))
+                    else:
+                        coincide = False
+                        print("[ERROR][PARSER] Type mismatch, can't covert %s to %s" % (clave_registro[0], clave_objeto))
+                else:
+                    coincide = False
+                    print("[ERROR][PARSER] Type mismatch, can't covert %s to %s" % (clave_registro[0], clave_objeto))
+        if not (len(list(Reg.values())) == len(Obj.values())):
+            coincide = False
+            print("[ERROR][PARSER]Type mismatch, the given assignment %s does not match the object %s " % (name[0],tipo))
+        return coincide
+            
+
     for i in range(len(lista_vars)):
         if i%2 == 0:
             if isinstance(p[2][i+1], dict):
@@ -128,6 +160,8 @@ def p_declare(p):
             name = name[0]
             if name in symbols:
                 print('[ERROR][PARSER] Variable %s already declared' % name[0])
+            if tipo in objects and not value :
+                registros[name] = (tipo, value)
             else:
                 if tipo == tipo_a or tipo == None:
                     symbols[name] = (tipo_a, value)
@@ -135,40 +169,10 @@ def p_declare(p):
                     if tipo in objects:
                         coincide = True
                         if value:
-                            c = 0
-                            while c ==0:
+                            if comprobar_estructura(p[2][i+1], objects[tipo], coincide, value):
+                                registros[name] = (tipo, value)
                         #recorremos el diccionario comprobando el tipo
-                                for clave_registro, clave_objeto, clave_llave in zip(list(p[2][i+1].values()), list(objects[tipo].values()), list(p[2][i+1].keys())):
-                                    if isinstance(clave_objeto, dict):
-                                        if isinstance(clave_registro, dict):
-                                            pass
-                                        else:
-                                             coincide = False
-                                             print("[ERROR][PARSER] Type mismatch,  %s it´s not a dict %" % (clave_registro[0]))
-                                    elif clave_registro[0] != clave_objeto:
-                                        if clave_objeto == 'float':
-                                            if clave_registro[0] == 'int':
-                                                value[clave_llave] = ('float' , float(value[clave_llave][1]))
-                                            elif clave_registro[0] == 'char':
-                                                value[clave_llave] = ('float' , float(ord(value[clave_llave][1])))
-                                            else:
-                                                coincide = False
-                                                print("[ERROR][PARSER] Type mismatch, can't covert %s to %s" % (clave_registro[0], clave_objeto))
-                                        elif clave_objeto == 'int':
-                                            if clave_registro[0] == 'char':
-                                                value[clave_llave] = ('int' , ord(value[clave_llave][1]))
-                                            else:
-                                                coincide = False
-                                                print("[ERROR][PARSER] Type mismatch, can't covert %s to %s" % (clave_registro[0], clave_objeto))
-                                        else:
-                                            coincide = False
-                                            print("[ERROR][PARSER] Type mismatch, can't covert %s to %s" % (clave_registro[0], clave_objeto))
-                                c-= 1
-                        if coincide and len(list(p[2][i+1].values())) == len(list(objects[tipo].values())):
-                            registros[name] = (tipo, value)
-                        else:
-                            print("[ERROR][PARSER]Type mismatch, the given assignment %s does not match the object %s " % (name[0],tipo))
-             
+                                
                             
 
 def p_asign_valor(p):
@@ -239,6 +243,37 @@ def p_assign(p):
             return regist
         else:
             pass
+    
+    def comprobar_estructura(Reg:dict, Obj:dict, coincide:bool, value:dict):
+        for clave_registro, clave_objeto, clave_llave in zip(Reg.values(), list(Obj.values()), list(Reg.keys())):
+            if isinstance(clave_objeto, dict):
+                if isinstance(clave_registro, dict):
+                    coincide = comprobar_estructura(clave_registro, clave_objeto, coincide, value[clave_llave])
+                else:
+                    coincide = False
+                    print("[ERROR][PARSER] Type mismatch,  %s it´s not a dict %" % (clave_registro[0]))
+            elif clave_registro[0] != clave_objeto:
+                if clave_objeto == 'float':
+                    if clave_registro[0] == 'int':
+                        value[clave_llave] = ('float' , float(value[clave_llave][1]))
+                    elif clave_registro[0] == 'char':
+                        value[clave_llave] = ('float' , float(ord(value[clave_llave][1])))
+                    else:
+                        coincide = False
+                        print("[ERROR][PARSER] Type mismatch, can't covert %s to %s" % (clave_registro[0], clave_objeto))
+                elif clave_objeto == 'int':
+                    if clave_registro[0] == 'char':
+                        value[clave_llave] = ('int' , ord(value[clave_llave][1]))
+                    else:
+                        coincide = False
+                        print("[ERROR][PARSER] Type mismatch, can't covert %s to %s" % (clave_registro[0], clave_objeto))
+                else:
+                    coincide = False
+                    print("[ERROR][PARSER] Type mismatch, can't covert %s to %s" % (clave_registro[0], clave_objeto))
+        if not (len(list(Reg.values())) == len(Obj.values())):
+            coincide = False
+            print("[ERROR][PARSER]Type mismatch, the given assignment %s does not match the object %s " % (ident[0],tipo))
+        return coincide
 
     ident = p[1]
     if len(ident) == 1:
@@ -270,48 +305,16 @@ def p_assign(p):
             elif isinstance(p[2], dict):
                 if registros[ident][0] in objects:
                         coincide = True
-                        c = 0
                         tipo = registros[ident][0]
-                        value = p[2]
-                        while c == 0:
-                        #recorremos el diccionario comprobando el tipo
-                            for clave_registro, clave_objeto, clave_llave in zip(list(value.values()), list(objects[tipo].values()), list(p[2].keys())):
-                                    if isinstance(clave_objeto, dict):
-                                        if isinstance(clave_registro, dict):
-                                            pass
-                                        else:
-                                             coincide = False
-                                             print("[ERROR][PARSER] Type mismatch,  %s it´s not a dict %" % (clave_registro[0]))
-                                    elif clave_registro[0] != clave_objeto:
-                                        if clave_objeto == 'float':
-                                            if clave_registro[0] == 'int':
-                                                value[clave_llave] = ('float' , float(value[clave_llave][1]))
-                                            elif clave_registro[0] == 'char':
-                                                value[clave_llave] = ('float' , float(ord(value[clave_llave][1])))
-                                            else:
-                                                coincide = False
-                                                print("[ERROR][PARSER] Type mismatch, can't covert %s to %s" % (clave_registro[0], clave_objeto))
-                                        elif clave_objeto == 'int':
-                                            if clave_registro[0] == 'char':
-                                                value[clave_llave] = ('int' , ord(value[clave_llave][1]))
-                                            else:
-                                                coincide = False
-                                                print("[ERROR][PARSER] Type mismatch, can't covert %s to %s" % (clave_registro[0], clave_objeto))
-                                        else:
-                                            coincide = False
-                                            print("[ERROR][PARSER] Type mismatch, can't covert %s to %s" % (clave_registro[0], clave_objeto))
-                            c-= 1
-                        if coincide and len(list(value.values())) == len(list(objects[tipo].values())):
-                           registros[ident] = (registros[ident][0],p[2])
+                        if registros[ident][1] == None:
+                            if comprobar_estructura(p[2] ,objects[tipo], coincide, p[2]):
+                                registros[ident] = (tipo,p[2])
                         else:
-                            print("[ERROR][PARSER]Type mismatch, the given assignment %s does not match the object %s " % (ident[0],registros[ident][0]))
-            else:
-                print('[ERROR][PARSER] object %s cannot be assigned' % ident[0])
-            
-        elif ident in functions:
-            print('[ERROR][PARSER] Function %s cannot be assigned' % ident[0])
-        else:
-            print('[ERROR][PARSER] Variable %s not declared' % ident[0])
+                            if comprobar_estructura(registros[ident][1] ,objects[tipo], coincide, p[2]):
+                                registros[ident] = (tipo,p[2])
+                        #recorremos el diccionario comprobando el tipo
+                        
+                        
    
 
 # def p_valor(p):
