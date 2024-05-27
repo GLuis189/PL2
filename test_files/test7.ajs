@@ -5,7 +5,7 @@ type House = {
 };
 
 let my_house: House = {
-    localition:{
+    "localition":{
         city: 'M', country: 'E',
     },
     price:{
@@ -14,4 +14,4 @@ let my_house: House = {
 };
 
 let with_tax = my_house["price"].euro * 1.1;
-let euro_to_yen = my_house.price["euro"] * 163.97;
+

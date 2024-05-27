@@ -12,6 +12,8 @@ def convert_keys_to_strings(d):
         return new_dict
     elif isinstance(d, list):
         return [convert_keys_to_strings(item) for item in d]
+    elif isinstance(d, tuple):
+        return [d[0],convert_keys_to_strings(d[1])]
     else:
         return d
 
@@ -133,28 +135,35 @@ def p_declare(p):
                     if tipo in objects:
                         coincide = True
                         if value:
+                            c = 0
+                            while c ==0:
                         #recorremos el diccionario comprobando el tipo
-                            for clave_registro, clave_objeto, clave_llave in zip(list(p[2][i+1].values()), list(objects[tipo].values()), list(p[2][i+1].keys())):
-                                print(clave_registro[0],clave_objeto)
-                                if clave_registro[0] != clave_objeto:
-                                    if clave_objeto == 'float':
-                                        if clave_registro[0] == 'int':
-                                            value[clave_llave] = ('float' , float(value[clave_llave][1]))
-                                        elif clave_registro[0] == 'char':
-                                            value[clave_llave] = ('float' , float(ord(value[clave_llave][1])))
+                                for clave_registro, clave_objeto, clave_llave in zip(list(p[2][i+1].values()), list(objects[tipo].values()), list(p[2][i+1].keys())):
+                                    if isinstance(clave_objeto, dict):
+                                        if isinstance(clave_registro, dict):
+                                            pass
                                         else:
-                                            coincide = False
-                                        print("[ERROR][PARSER] Type mismatch, can't covert %s to %s" % (clave_registro[0], clave_objeto))
-                                    if clave_objeto == 'int':
-                                        if clave_registro[0] == 'char':
-                                            value[clave_llave] = ('int' , ord(value[clave_llave][1]))
+                                             coincide = False
+                                             print("[ERROR][PARSER] Type mismatch,  %s it´s not a dict %" % (clave_registro[0]))
+                                    elif clave_registro[0] != clave_objeto:
+                                        if clave_objeto == 'float':
+                                            if clave_registro[0] == 'int':
+                                                value[clave_llave] = ('float' , float(value[clave_llave][1]))
+                                            elif clave_registro[0] == 'char':
+                                                value[clave_llave] = ('float' , float(ord(value[clave_llave][1])))
+                                            else:
+                                                coincide = False
+                                                print("[ERROR][PARSER] Type mismatch, can't covert %s to %s" % (clave_registro[0], clave_objeto))
+                                        if clave_objeto == 'int':
+                                            if clave_registro[0] == 'char':
+                                                value[clave_llave] = ('int' , ord(value[clave_llave][1]))
+                                            else:
+                                                coincide = False
+                                                print("[ERROR][PARSER] Type mismatch, can't covert %s to %s" % (clave_registro[0], clave_objeto))
                                         else:
                                             coincide = False
                                             print("[ERROR][PARSER] Type mismatch, can't covert %s to %s" % (clave_registro[0], clave_objeto))
-                                    else:
-                                        coincide = False
-                                        print("[ERROR][PARSER] Type mismatch, can't covert %s to %s" % (clave_registro[0], clave_objeto))
-
+                                c-= 1
                         if coincide:
                             registros[name] = (tipo, value)
              
@@ -168,6 +177,20 @@ def p_asign_valor(p):
     #print('asign_valor')
     if len(p) > 2: p[0] = p[2]
     else: p[0] = (None, p[1])
+    '''def recorrer_diccionario(diccionario):
+        if isinstance(diccionario, dict):
+            for clave, valor in diccionario.items():
+                if isinstance(valor, dict):
+                    recorrer_diccionario(valor)
+                    print(valor,'TOMATEEEEEEEEE')
+                    print(clave)
+                else:
+                    pass
+    recorrer_diccionario(p[2])'''
+    
+    
+
+
 
 def p_id(p):
     '''id : variable asign_valor'''
@@ -202,19 +225,28 @@ def p_assign(p):
     assign : ident asign_valor
     '''
     # print('assign')
+    def asignar_valor(clave, regist, value):
+        if clave in regist:
+            if isinstance(regist[clave], dict):
+                asignar_valor(ident, regist[clave], value)
+            else:
+                regist[clave] = value
+    
     ident = p[1]
     if len(ident) == 1:
         ident = ident[0]
     if isinstance(ident, list):
+        c = 0
         for i in ident:
-            if i in symbols:
+            c += 1
+            if i in registros:
                 tipo, value = p[2]
-                if tipo == symbols[i][0]:
-                    symbols[i] = (tipo, value)
+                if registros[i][1][ident[c]][0] == tipo :
+                    registros[i][1][ident[c]] = (tipo, value)
                 else:
-                    print('[ERROR][PARSER] Type mismatch in variable %s' % i)
+                    print('[ERROR][PARSER] Type mismatch in variable %s' % registros[i][1][ident[c]][0])
             else:
-                print('[ERROR][PARSER] Variable %s not declared' % i)
+                print('[ERROR][PARSER] Variable %s not declared' % i[0])
     else:
         if ident in symbols:
             if isinstance(p[2], dict) or not p[2]:
@@ -235,7 +267,6 @@ def p_assign(p):
             #         print('[ERROR][PARSER] Type mismatch in variable %s' % ident)
         elif ident in registros:
             if isinstance(p[2], dict) or not p[2]:
-                print(ident)
                 registros[ident] = (registros[ident][0],p[2])
             else:
                 print('[ERROR][PARSER] object %s cannot be assigned' % ident)
@@ -277,32 +308,35 @@ def p_valor_ident(p):
             p[0] = registros[ident]
     else:
         aux = registros
-        b = True
         for i in range(len(p[1])):
             name = p[1][i]
-            if name in aux or name[0] in aux:
-                if name in aux:
-                    n = name[0]
-                    if (n, 1) in registros:
-                        t = registros[(n, 1)][0]
-                        r1 = objects[t].keys()
-                        r2= [(letra, numero - 1) for letra, numero in r1]
-                    if i == len(p[1]) - 1:
-                        p[0] = aux[name]
+            clave_num = 1
+            if ((name[0],1) in aux) or ((name[0], 0) in aux):
+                if name[1] == 0:
+                    if ((name[0], 0)) in aux:
+                        clave_num = 0
+                    if i == 0:
+                        aux = aux[(name[0], clave_num)][1]
                     else:
-                        aux = aux[name][1]
+                        if i == len(p[1]) - 1:
+                            p[0] = aux[(name[0], clave_num)] 
+                        else:
+                            aux = aux[(name[0], clave_num)]
                 else:
-                    # aqui estamos ya dentro del objeto
-                    if not(name in r1 or name in r2):
-                        print('[ERROR][PARSER] Mal uso de los corchetes en %s' % name[0])
-                        break  
-                    if i == len(p[1]) - 1:
-                        p[0] = aux[name[0]]          
+                    if ((name[0], 0)) in aux:
+                        print('[ERROR][PARSER] Misuse of the point with attribute %s' % name[0])
+                        break
+                    if i == 0:
+                        aux = aux[name][1]
                     else:
-                        aux = aux[name[0]][1]
+                        if i == len(p[1]) - 1:
+                            p[0] = aux[name] 
+                        else:
+                            aux = aux[name]   
             else:
-                print('[ERROR][PARSER] Variable %s not declared' % name)
+                print('[ERROR][PARSER] Attribute %s not declared' % name[0])
                 break
+
         
 
 
@@ -361,6 +395,7 @@ def p_define(p):
         print('[ERROR][PARSER] Object %s already defined' % name)
     else:
         objects[name] = p[4]
+   
 
 def p_ajson(p):
     '''ajson : LLAVE_ABRE lista LLAVE_CIERRA'''
@@ -379,6 +414,7 @@ def p_elemento(p):
     '''elemento : clave DOS_PUNTOS valor_t'''
     #print('elemento')
     p[0] = {p[1]: p[3]}
+    
 
 def p_valor_t(p):
     '''valor_t : tipo
@@ -400,6 +436,7 @@ def p_clave_comillas(p):
     '''clave : CADENA_COMILLAS'''
     #print('clave_comillas')
     p[0] = (p[1], 0)
+   
 
 def p_clave_no_comillas(p):
     '''clave : CADENA_NO_COMILLAS'''
@@ -425,11 +462,16 @@ def p_elemento_v(p):
     #print('elemento')
     p[0] = {p[1]: p[3]}
 
-def p_clave_v(p):
-    '''clave_v : CADENA_NO_COMILLAS
-               | CADENA_COMILLAS'''
-    #print('clave_v')
-    p[0] = p[1]
+def p_clave_v_comillas(p):
+    '''clave_v : CADENA_COMILLAS'''
+    #print('clave_comillas')
+    p[0] = (p[1], 0)
+   
+
+def p_clave_v_no_comillas(p):
+    '''clave_v : CADENA_NO_COMILLAS'''
+    #print('clave_no_comillas')
+    p[0] = (p[1], 1)
 
 def p_operacion(p):
     '''operacion : aritmetica
@@ -523,7 +565,6 @@ def p_comparacion(p):
 def p_comparacion_igual(p):
     '''comparacion : valor IGUAL valor %prec IGUAL'''
     #print('comparacion_igual')
-    print(p[1], p[3])
     t1, v1 = p[1]
     t2, v2 = p[3]
     if t1 in ['int', 'float', 'char', 'bool'] and t2 in ['int', 'float', 'char', 'bool']:
@@ -616,19 +657,18 @@ def p_condition(p):
     valor = p[3]
     if valor[0] != 'bool':
         print('[ERROR][PARSER] Condition must be a boolean expression')
-        return
-    if valor == ('bool', True):
-        pass
-    elif valor == ('bool', False):
-        pass
-    else:
-        print('[ERROR][PARSER] Condition must be a boolean expression')
+
 
 def p_loop(p):
     '''
     loop : WHILE PARENTESIS_ABRE valor PARENTESIS_CIERRA LLAVE_ABRE statement LLAVE_CIERRA
     '''
     #print('loop')
+    valor = p[3]
+    if valor[0] != 'bool':
+        print('[ERROR][PARSER] Condition must be a boolean expression')
+
+
 
 def p_id_t(p):
     '''id_t : variable_t

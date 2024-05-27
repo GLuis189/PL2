@@ -14,17 +14,17 @@ var4 = 2;
 */
 
 type circulo = {
-    a: float,
-    "b": character,
+    "a": float,
+    b: character,
     c: boolean
 };
 
 
 let  v_circulo: circulo;
 v_circulo = {
-    a: 15,
-    "b": 'a',
-    c: tr,
+    "a": 15,
+    b: 'a',
+    "c": tr,
 };
 
 let ej1, ej2, ej3, ej4;
