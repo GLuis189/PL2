@@ -1,21 +1,28 @@
-/*
-let a;
-a = 'A' + 2;
-let b;
-b = 'C' - 2;
-let c;
-c = 2 + 'A';
-let d;
-d = -2 + 'C';
-*/
 
 function ejem(a: int, b: boolean): int{
     return a;
 }
 
 function ejem(a: int, b:int, c: boolean): int{
+    a = 1;
     return a;
 }
-let a = tr;
-let r;
-r = ejem(4, tr);
+
+let r1;
+r2 = ejem(4, tr);
+let r2;
+let e = 1;
+r2 = ejem(4, e, tr);
+
+
+function greatest_common_divisor(a:int, b:int): int {
+    let temp;
+    while (!(b == 0)){
+        temp = b;
+        b = mod(a,b);
+        a = temp;
+    }
+    return a;
+}
+
+let result = greatest_common_divisor(132,0xFF);

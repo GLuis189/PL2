@@ -56,8 +56,8 @@ Rule 50    lista_v -> elemento_v
 Rule 51    lista_v -> elemento_v COMA
 Rule 52    lista_v -> elemento_v COMA lista_v
 Rule 53    elemento_v -> clave_v DOS_PUNTOS valor
-Rule 54    clave_v -> CADENA_NO_COMILLAS
-Rule 55    clave_v -> CADENA_COMILLAS
+Rule 54    clave_v -> CADENA_COMILLAS
+Rule 55    clave_v -> CADENA_NO_COMILLAS
 Rule 56    operacion -> aritmetica
 Rule 57    operacion -> booleana
 Rule 58    operacion -> comparacion
@@ -96,8 +96,8 @@ Terminals, with rules where they appear
 
 ASIGNACION           : 19 39
 BOOLEAN              : 74
-CADENA_COMILLAS      : 15 17 47 55
-CADENA_NO_COMILLAS   : 14 15 16 17 24 39 48 54 75 82 83 84 85
+CADENA_COMILLAS      : 15 17 47 54
+CADENA_NO_COMILLAS   : 14 15 16 17 24 39 48 55 75 82 83 84 85
 CARACTER             : 35
 CHARACTER            : 73
 COMA                 : 22 42 43 51 52 80 87
@@ -1334,11 +1334,11 @@ state 56
     (51) lista_v -> . elemento_v COMA
     (52) lista_v -> . elemento_v COMA lista_v
     (53) elemento_v -> . clave_v DOS_PUNTOS valor
-    (54) clave_v -> . CADENA_NO_COMILLAS
-    (55) clave_v -> . CADENA_COMILLAS
+    (54) clave_v -> . CADENA_COMILLAS
+    (55) clave_v -> . CADENA_NO_COMILLAS
 
-    CADENA_NO_COMILLAS shift and go to state 84
-    CADENA_COMILLAS shift and go to state 85
+    CADENA_COMILLAS shift and go to state 84
+    CADENA_NO_COMILLAS shift and go to state 85
 
     lista_v                        shift and go to state 81
     elemento_v                     shift and go to state 82
@@ -2387,16 +2387,16 @@ state 83
 
 state 84
 
-    (54) clave_v -> CADENA_NO_COMILLAS .
+    (54) clave_v -> CADENA_COMILLAS .
 
-    DOS_PUNTOS      reduce using rule 54 (clave_v -> CADENA_NO_COMILLAS .)
+    DOS_PUNTOS      reduce using rule 54 (clave_v -> CADENA_COMILLAS .)
 
 
 state 85
 
-    (55) clave_v -> CADENA_COMILLAS .
+    (55) clave_v -> CADENA_NO_COMILLAS .
 
-    DOS_PUNTOS      reduce using rule 55 (clave_v -> CADENA_COMILLAS .)
+    DOS_PUNTOS      reduce using rule 55 (clave_v -> CADENA_NO_COMILLAS .)
 
 
 state 86
@@ -3147,12 +3147,12 @@ state 114
     (51) lista_v -> . elemento_v COMA
     (52) lista_v -> . elemento_v COMA lista_v
     (53) elemento_v -> . clave_v DOS_PUNTOS valor
-    (54) clave_v -> . CADENA_NO_COMILLAS
-    (55) clave_v -> . CADENA_COMILLAS
+    (54) clave_v -> . CADENA_COMILLAS
+    (55) clave_v -> . CADENA_NO_COMILLAS
 
     LLAVE_CIERRA    reduce using rule 51 (lista_v -> elemento_v COMA .)
-    CADENA_NO_COMILLAS shift and go to state 84
-    CADENA_COMILLAS shift and go to state 85
+    CADENA_COMILLAS shift and go to state 84
+    CADENA_NO_COMILLAS shift and go to state 85
 
     elemento_v                     shift and go to state 82
     lista_v                        shift and go to state 128

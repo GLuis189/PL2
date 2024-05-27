@@ -1,46 +1,85 @@
 Symbols:
 {
-    "('var1', 1)": [
+    "('a', 1)": [
         "int",
-        33
+        132
     ],
-    "('circle_area', 1)": [
-        "float",
-        9.9538
+    "('b', 1)": [
+        "int",
+        255
     ],
-    "('square_area', 1)": [
-        "float",
-        5.5
+    "('c', 1)": [
+        "bool",
+        true
+    ],
+    "('r1', 1)": [
+        null,
+        null
+    ],
+    "('r2', 1)": [
+        "int",
+        null
+    ],
+    "('e', 1)": [
+        "int",
+        1
+    ],
+    "('temp', 1)": [
+        "int",
+        1
+    ],
+    "('result', 1)": [
+        "int",
+        null
     ]
 }
 Registros:
+{}
+Objects:
+{}
+Functions:
 {
-    "('square', 1)": [
-        "Square",
-        {
-            "side": [
-                "float",
-                10.0
+    "('ejem', ('int', 'bool'))": [
+        "int",
+        [
+            [
+                "int",
+                "a"
             ],
-            "color": [
-                "char",
+            [
+                "bool",
                 "b"
             ]
-        }
+        ]
+    ],
+    "('ejem', ('int', 'int', 'bool'))": [
+        "int",
+        [
+            [
+                "int",
+                "a"
+            ],
+            [
+                "int",
+                "b"
+            ],
+            [
+                "bool",
+                "c"
+            ]
+        ]
+    ],
+    "('greatest_common_divisor', ('int', 'int'))": [
+        "int",
+        [
+            [
+                "int",
+                "a"
+            ],
+            [
+                "int",
+                "b"
+            ]
+        ]
     ]
 }
-Objects:
-{
-    "Circle": {
-        "('cx', 1)": "char",
-        "('cy', 1)": "float",
-        "('radio', 1)": "float",
-        "('color', 1)": "char"
-    },
-    "Square": {
-        "('side', 1)": "float",
-        "('color', 1)": "char"
-    }
-}
-Functions:
-{}

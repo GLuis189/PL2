@@ -746,6 +746,9 @@ def p_function_def(p):
         print('[ERROR][PARSER] Function %s already defined' % name)
     else:
         functions[name] = (tipo, args)
+        for v in args:
+            symbols[(v[1], 1)] = (v[0], None)
+        
 
 def p_function_call(p):
     '''
@@ -759,18 +762,21 @@ def p_function_call(p):
         aux.append(arg[0])
     name = (name, tuple(aux))
     if name in functions:
-        tipo, args = functions[name]
-        # Hay q hacer que devuelva el resultado????? ##########################################################################################
+        tipo, args_d = functions[name]
+        print(args_d)
+        for i in range(len(args)):
+            symbols[(args_d[i][1], 1)] = (args_d[i][0], args[i][1])
         p[0] = (tipo, None)
     else:
-        print('[ERROR][PARSER] Function %s not defined' % name)
+        print(name)
+        print('[ERROR][PARSER] Function %s not defined' % name[0])
 
 def p_arg(p):
     '''arg : valor
            | valor COMA arg
            | empty'''
     #print('arg')
-    if len(p) == 2: p[0] = [p[1]]
+    if len(p) == 2: p[0] = [p[1]] 
     elif len(p) == 4: p[0] = [p[1]] + p[3]
     else: p[0] = []
 
