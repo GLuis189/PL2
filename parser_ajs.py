@@ -92,6 +92,7 @@ def p_ident_simple(p):
     # p[0] = p[1]
     if len(p) == 2: p[0] = [(p[1], 1)]
     else : p[0] = [(p[1], 1), (p[3], 0)]
+    print(p[0])
    
     
 
@@ -102,7 +103,7 @@ def p_ident_recurivo(p):
     # p[0] = p[1]
     if len(p) == 4: p[0] = [(p[1], 1)] + p[3]
     else: p[0] = [(p[1], 1), (p[3], 0)] + p[6]
-    
+    print(p[0],'palomitas')
 
 ###################### DECLARACIONES ######################
 
@@ -225,6 +226,7 @@ def p_assign(p):
     assign : ident asign_valor
     '''
     # print('assign')
+    print(p[1],p[2])
     def asignar_valor(clave, regist, value):
         if clave in regist:
             if isinstance(regist[clave], dict):
@@ -266,10 +268,11 @@ def p_assign(p):
             #     else:
             #         print('[ERROR][PARSER] Type mismatch in variable %s' % ident)
         elif ident in registros:
-            if isinstance(p[2], dict) or not p[2]:
-                registros[ident] = (registros[ident][0],p[2])
+            print('ujgdfhujgqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqq', ident, p[2])
+            if isinstance(p[2], tuple) or not p[2]:
+                registros[ident] = p[2]
             else:
-                print('[ERROR][PARSER] object %s cannot be assigned' % ident)
+                print('[ERROR][PARSER] object %s cannot be assigned' % ident[0])
         elif ident in functions:
             print('[ERROR][PARSER] Function %s cannot be assigned' % ident)
         else:
@@ -336,6 +339,7 @@ def p_valor_ident(p):
             else:
                 print('[ERROR][PARSER] Attribute %s not declared' % name[0])
                 break
+    print(p[0])
 
         
 
