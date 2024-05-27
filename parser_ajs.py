@@ -154,7 +154,7 @@ def p_declare(p):
                                             else:
                                                 coincide = False
                                                 print("[ERROR][PARSER] Type mismatch, can't covert %s to %s" % (clave_registro[0], clave_objeto))
-                                        if clave_objeto == 'int':
+                                        elif clave_objeto == 'int':
                                             if clave_registro[0] == 'char':
                                                 value[clave_llave] = ('int' , ord(value[clave_llave][1]))
                                             else:
@@ -242,7 +242,8 @@ def p_assign(p):
     if len(ident) == 1:
         ident = ident[0]
     if isinstance(ident, list):
-        objects = asignar_valor(ident, registros, p[2])
+        #build-up registros
+        Registros = asignar_valor(ident, registros, p[2])
     else:
         if ident in symbols:
             if isinstance(p[2], dict) or not p[2]:
@@ -262,8 +263,11 @@ def p_assign(p):
             #     else:
             #         print('[ERROR][PARSER] Type mismatch in variable %s' % ident)
         elif ident in registros:
+            print(registros[ident])
             if isinstance(p[2], tuple) or not p[2]:
                 registros[ident] = p[2]
+            elif isinstance(p[2], dict):
+                registros[ident] = (registros[ident][0],p[2])
             else:
                 print('[ERROR][PARSER] object %s cannot be assigned' % ident[0])
             
@@ -309,6 +313,7 @@ def p_valor_ident(p):
         for i in range(len(p[1])):
             name = p[1][i]
             clave_num = 1
+            print(name, aux)
             if ((name[0],1) in aux) or ((name[0], 0) in aux):
                 if name[1] == 0:
                     if ((name[0], 0)) in aux:
@@ -328,7 +333,8 @@ def p_valor_ident(p):
                         aux = aux[name][1]
                     else:
                         if i == len(p[1]) - 1:
-                            p[0] = aux[name] 
+                            p[0] = aux[name]
+                            
                         else:
                             aux = aux[name]   
             else:
