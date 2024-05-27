@@ -92,7 +92,7 @@ def p_ident_simple(p):
     # p[0] = p[1]
     if len(p) == 2: p[0] = [(p[1], 1)]
     else : p[0] = [(p[1], 1), (p[3], 0)]
-    print(p[0])
+
    
     
 
@@ -103,7 +103,6 @@ def p_ident_recurivo(p):
     # p[0] = p[1]
     if len(p) == 4: p[0] = [(p[1], 1)] + p[3]
     else: p[0] = [(p[1], 1), (p[3], 0)] + p[6]
-    print(p[0],'palomitas')
 
 ###################### DECLARACIONES ######################
 
@@ -226,29 +225,24 @@ def p_assign(p):
     assign : ident asign_valor
     '''
     # print('assign')
-    print(p[1],p[2])
     def asignar_valor(clave, regist, value):
-        if clave in regist:
-            if isinstance(regist[clave], dict):
-                asignar_valor(ident, regist[clave], value)
-            else:
-                regist[clave] = value
-    
+        if len(clave) == 1 :
+            regist[clave[0]] = value
+            return regist
+        elif isinstance(regist[clave[0]], dict):
+            regist[clave[0]] = asignar_valor(clave[1:], regist[clave[0]], value)
+            return regist
+        elif isinstance(regist[clave[0]], tuple):
+            regist[clave[0]] = (regist[clave[0]][0], asignar_valor(clave[1:], regist[clave[0]][1], value))
+            return regist
+        else:
+            pass
+
     ident = p[1]
     if len(ident) == 1:
         ident = ident[0]
     if isinstance(ident, list):
-        c = 0
-        for i in ident:
-            c += 1
-            if i in registros:
-                tipo, value = p[2]
-                if registros[i][1][ident[c]][0] == tipo :
-                    registros[i][1][ident[c]] = (tipo, value)
-                else:
-                    print('[ERROR][PARSER] Type mismatch in variable %s' % registros[i][1][ident[c]][0])
-            else:
-                print('[ERROR][PARSER] Variable %s not declared' % i[0])
+        objects = asignar_valor(ident, registros, p[2])
     else:
         if ident in symbols:
             if isinstance(p[2], dict) or not p[2]:
@@ -268,15 +262,16 @@ def p_assign(p):
             #     else:
             #         print('[ERROR][PARSER] Type mismatch in variable %s' % ident)
         elif ident in registros:
-            print('ujgdfhujgqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqq', ident, p[2])
             if isinstance(p[2], tuple) or not p[2]:
                 registros[ident] = p[2]
             else:
                 print('[ERROR][PARSER] object %s cannot be assigned' % ident[0])
+            
         elif ident in functions:
-            print('[ERROR][PARSER] Function %s cannot be assigned' % ident)
+            print('[ERROR][PARSER] Function %s cannot be assigned' % ident[0])
         else:
-            print('[ERROR][PARSER] Variable %s not declared' % ident)
+            print('[ERROR][PARSER] Variable %s not declared' % ident[0])
+   
 
 # def p_valor(p):
 #     '''valor : ident

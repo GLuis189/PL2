@@ -15,4 +15,4 @@ square = {
     color: 'b'
 };
 
-square.side = 5.5;
+circle.radio = 7.5;
