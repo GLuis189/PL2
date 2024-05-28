@@ -1,28 +1,23 @@
-
 function ejem(a: int, b: boolean): int{
+    if (a == b) {
+        a = a + 1;
+    }
+    else {
+        a = a - 1;
+    }
     return a;
 }
 
-function ejem(a: int, b:int, c: boolean): int{
-    a = 1;
+function ejem(a: int, b:boolean, c: boolean): int{
+    while (a >= b) {
+        a = 1
+    }
     return a;
 }
 
 let r1;
 r2 = ejem(4, tr);
 let r2;
-let e = 1;
+let e = tr;
 r2 = ejem(4, e, tr);
 
-
-function greatest_common_divisor(a:int, b:int): int {
-    let temp;
-    while (!(b == 0)){
-        temp = b;
-        b = mod(a,b); // mod no definido
-        a = temp;
-    }
-    return a;
-}
-
-let result = greatest_common_divisor(132,0xFF);

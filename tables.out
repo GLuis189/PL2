@@ -2,33 +2,9 @@ Symbols:
 {
     "('a', 1)": [
         "int",
-        132
+        null
     ],
     "('b', 1)": [
-        "int",
-        255
-    ],
-    "('c', 1)": [
-        "bool",
-        true
-    ],
-    "('r1', 1)": [
-        null,
-        null
-    ],
-    "('r2', 1)": [
-        "int",
-        null
-    ],
-    "('e', 1)": [
-        "int",
-        1
-    ],
-    "('temp', 1)": [
-        "int",
-        1
-    ],
-    "('result', 1)": [
         "int",
         null
     ]
@@ -39,37 +15,7 @@ Objects:
 {}
 Functions:
 {
-    "('ejem', ('int', 'bool'))": [
-        "int",
-        [
-            [
-                "int",
-                "a"
-            ],
-            [
-                "bool",
-                "b"
-            ]
-        ]
-    ],
-    "('ejem', ('int', 'int', 'bool'))": [
-        "int",
-        [
-            [
-                "int",
-                "a"
-            ],
-            [
-                "int",
-                "b"
-            ],
-            [
-                "bool",
-                "c"
-            ]
-        ]
-    ],
-    "('greatest_common_divisor', ('int', 'int'))": [
+    "('mod', ('int', 'int'))": [
         "int",
         [
             [

@@ -37,6 +37,7 @@ symbols = {}
 registros = {}
 objects = {}
 functions = {}
+auxiliar = {}
 
 precedence = (
         ('left', 'DISYUNCION'),
@@ -92,9 +93,6 @@ def p_ident_simple(p):
     # p[0] = p[1]
     if len(p) == 2: p[0] = [(p[1], 1)]
     else : p[0] = [(p[1], 1), (p[3], 0)]
-
-   
-    
 
 def p_ident_recurivo(p):
     '''ident : CADENA_NO_COMILLAS PUNTO ident
@@ -193,16 +191,11 @@ def p_asign_valor(p):
                 else:
                     pass
     recorrer_diccionario(p[2])'''
-    
-    
-
-
 
 def p_id(p):
     '''id : variable asign_valor'''
     #print('id')
     p[0] = [p[1], p[2]]
-    
 
 def p_id_varios(p):
     '''id : variable asign_valor COMA id'''
@@ -314,24 +307,6 @@ def p_assign(p):
                                 registros[ident] = (tipo,p[2])
                         #recorremos el diccionario comprobando el tipo
                         
-                        
-   
-
-# def p_valor(p):
-#     '''valor : ident
-#              | ENTERO
-#              | DECIMAL
-#              | operacion
-#              | v_bool
-#              | NULL
-#              | ajson_v
-#              | CARACTER
-#              | function_call
-#              | PARENTESIS_ABRE valor PARENTESIS_CIERRA
-#              | SUMA valor %prec UPLUS
-#              | RESTA valor %prec UMINUS
-#     '''
-#     #print('valor')
 
 def p_valor(p):
     '''valor : operacion
@@ -348,6 +323,9 @@ def p_valor_ident(p):
             p[0] = symbols[ident]
         elif ident in registros:
             p[0] = registros[ident]
+        else:
+            p[0] = ("aux", ident)
+            auxiliar[ident] = (None, None)
     else:
         aux = registros
         for i in range(len(p[1])):
@@ -528,7 +506,17 @@ def p_aritmetica_suma_resta(p):
     '''aritmetica : valor SUMA valor %prec SUMA
                   | valor RESTA valor %prec RESTA'''
     #print('aritmetica')
-    if p[1] and p[2]:
+    if p[1][0] == 'aux':
+        if auxiliar[(p[1][1])][0] != None:
+            print('[ERROR][PARSER] Variable %s not declared' % p[1][1][0])
+            return
+        p[1] = auxiliar[(p[1][1])]
+    if p[3][0] == 'aux':
+        if auxiliar[(p[3][1])][0] != None:
+            print('[ERROR][PARSER] Variable %s not declared' % p[3][1][0])
+            return
+        p[3] = auxiliar[p[3][1]]
+    if p[1] and p[3]:
         t1, v1 = p[1]
         t2, v2 = p[3]
         op = p[2]
@@ -536,8 +524,8 @@ def p_aritmetica_suma_resta(p):
         print('[ERROR][PARSER] Not declared variable')
         t1= p[1]
         t2 = p[3]
-    if t1 in ['int', 'float', 'char'] and t2 in ['int', 'float', 'char']:
-        if t1 == t2:
+    if t1 in ['int', 'float', 'char', None] and t2 in ['int', 'float', 'char', None]:
+        if t1 == t2 and t1 != None:
             if op == '+': p[0] = (t1, v1 + v2)
             else: p[0] = (t1, v1 - v2)
         #int -> float
@@ -565,6 +553,16 @@ def p_aritmetica_mul_div(p):
     '''aritmetica : valor MULTIPLICACION valor %prec MULTIPLICACION
                   | valor DIVISION valor %prec DIVISION'''
     #print('aritmetica')
+    if p[1][0] == 'aux':
+        if auxiliar[(p[1][1])][0] != None:
+            print('[ERROR][PARSER] Variable %s not declared' % p[1][1][0])
+            return
+        p[1] = auxiliar[(p[1][1])]
+    if p[3][0] == 'aux':
+        if auxiliar[(p[3][1])][0] != None:
+            print('[ERROR][PARSER] Variable %s not declared' % p[3][1][0])
+            return
+        p[3] = auxiliar[p[3][1]]
     if p[1] and p[2]:
         t1, v1 = p[1]
         t2, v2 = p[3]
@@ -573,8 +571,8 @@ def p_aritmetica_mul_div(p):
         print('[ERROR][PARSER] Not declared variable')
         t1= p[1]
         t2 = p[3]
-    if t1 in ['int', 'float'] and t2 in ['int', 'float']:
-        if t1 == t2:
+    if t1 in ['int', 'float', None] and t2 in ['int', 'float', None]:
+        if t1 == t2 and t1 != None:
             if op == '*': p[0] = (t1, v1 * v2)
             else:
                 if v2 != 0: p[0] = (t1, v1 / v2)
@@ -594,10 +592,22 @@ def p_comparacion(p):
                    | valor MAYOR_IGUAL valor %prec MAYOR_IGUAL
                    | valor MENOR_IGUAL valor %prec MENOR_IGUAL'''
     #print('comparacion')
+    if p[1][0] == 'aux':
+        if auxiliar[(p[1][1])][0] != None:
+            print('[ERROR][PARSER] Variable %s not declared' % p[1][1][0])
+            return
+        p[1] = auxiliar[(p[1][1])]
+    if p[3][0] == 'aux':
+        if auxiliar[(p[3][1])][0] != None:
+            print('[ERROR][PARSER] Variable %s not declared' % p[3][1][0])
+            return
+        p[3] = auxiliar[p[3][1]]
     t1, v1 = p[1]
     t2, v2 = p[3]
     op = p[2]
-    if t1 in ['int', 'float', 'char'] and t2 in ['int', 'float', 'char']:
+    if v1 == None: v1 = True
+    if v2 == None: v2 = True
+    if t1 in ['int', 'float', 'char', None] and t2 in ['int', 'float', 'char', None]:
         if t1 == t2 or (t1 == 'int' and t2 == 'float' or t1 == 'float' and t2 == 'int'):
             if op == '>': p[0] = ('bool', v1 > v2)
             elif op == '<': p[0] = ('bool', v1 < v2)
@@ -611,7 +621,7 @@ def p_comparacion_igual(p):
     #print('comparacion_igual')
     t1, v1 = p[1]
     t2, v2 = p[3]
-    if t1 in ['int', 'float', 'char', 'bool'] and t2 in ['int', 'float', 'char', 'bool']:
+    if t1 in ['int', 'float', 'char', 'bool', None] and t2 in ['int', 'float', 'char', 'bool', None]:
         if t1 == t2:
             p[0] = ('bool', v1 == v2)
         elif t1 == 'int' and t2 == 'float' or t1 == 'float' and t2 == 'int':
@@ -699,6 +709,8 @@ def p_condition(p):
     '''
     #print('condition')
     valor = p[3]
+    if valor == None:
+        valor = ('bool', False)
     if valor[0] != 'bool':
         print('[ERROR][PARSER] Condition must be a boolean expression')
 
@@ -709,6 +721,8 @@ def p_loop(p):
     '''
     #print('loop')
     valor = p[3]
+    if valor == None:
+        valor = ('bool', False)
     if valor[0] != 'bool':
         print('[ERROR][PARSER] Condition must be a boolean expression')
 
@@ -735,6 +749,7 @@ def p_function_def(p):
                  | FUNCTION CADENA_NO_COMILLAS PARENTESIS_ABRE id_t PARENTESIS_CIERRA DOS_PUNTOS tipo LLAVE_ABRE RETURN valor PUNTO_Y_COMA LLAVE_CIERRA
     '''
     #print('function_def')
+    auxiliar.clear()
     name = p[2]
     tipo = p[7]
     args = p[4]
@@ -755,6 +770,7 @@ def p_function_call(p):
     function_call : CADENA_NO_COMILLAS PARENTESIS_ABRE arg PARENTESIS_CIERRA
     '''
     #print('function_call')
+    auxiliar.clear()
     name = p[1]
     args = p[3]
     aux = []
@@ -763,12 +779,10 @@ def p_function_call(p):
     name = (name, tuple(aux))
     if name in functions:
         tipo, args_d = functions[name]
-        print(args_d)
         for i in range(len(args)):
             symbols[(args_d[i][1], 1)] = (args_d[i][0], args[i][1])
         p[0] = (tipo, None)
     else:
-        print(name)
         print('[ERROR][PARSER] Function %s not defined' % name[0])
 
 def p_arg(p):

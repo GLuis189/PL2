@@ -1,12 +1,14 @@
 function mod (a: int, b: int): int{
     while (a >= b) {
-        a = a -b;
+        a = a - b;
     }
     return a;
 }
 
+/*
 function greatest_common_divisor(a:int, b:int): int {
     let temp;
+    temp = a + b;
     while (!(b == 0)){
         temp = b;
         b = mod(a,b);
@@ -18,4 +20,4 @@ function greatest_common_divisor(a:int, b:int): int {
 let result = greatest_common_divisor(132,0xFF);
 
 type Point = {x: int, y: int};
-
+*/
