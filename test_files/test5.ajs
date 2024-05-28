@@ -11,6 +11,6 @@ if (f2 == 15 || b1 && b2 || 10 - 5 * i1 >= 0xFF - 1e-1){
     f2 = 10 - f1 * f1;  
 }
 
-if (null){
+if (null){ // error no es booleano
     let a;
 }
