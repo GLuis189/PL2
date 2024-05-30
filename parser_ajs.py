@@ -237,7 +237,6 @@ def p_assign(p):
         if len(clave) == 1:
             coincide = True
             clave_registro = value
-            print(regist, value)
             try:
                 clave_objeto = regist[(clave[0][0], 0)][0]
                 condicion = 0
