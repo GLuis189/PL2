@@ -112,8 +112,11 @@ def p_declare(p):
     #print('declare')
     lista_vars = p[2]
     def comprobar_estructura(Reg:dict, Obj:dict, coincide:bool, value:dict):
-        for clave_registro, clave_objeto, clave_llave in zip(Reg.values(), list(Obj.values()), list(Reg.keys())):
-            if isinstance(clave_objeto, dict):
+        for clave_registro, clave_objeto, clave_llave, llave_comprobante in zip(Reg.values(), list(Obj.values()), list(Reg.keys()), list(Obj.keys())):
+            if clave_llave[0] != llave_comprobante[0]:
+                coincide = False
+                print("[ERROR][PARSER] Type mismatch, icorrect object  attribute order structure %s is different than %s" % (clave_llave[0], llave_comprobante[0]))
+            elif isinstance(clave_objeto, dict):
                 if isinstance(clave_registro, dict):
                     coincide = comprobar_estructura(clave_registro, clave_objeto, coincide, value[clave_llave])
                 else:
@@ -232,6 +235,7 @@ def p_assign(p):
     # print('assign')
     def asignar_valor(clave, regist, value):
         if len(clave) == 1 :
+            print(clave, regist, value)
             regist[clave[0]] = value
             return regist
         elif isinstance(regist[clave[0]], dict):
@@ -244,8 +248,11 @@ def p_assign(p):
             pass
     
     def comprobar_estructura(Reg:dict, Obj:dict, coincide:bool, value:dict):
-        for clave_registro, clave_objeto, clave_llave in zip(Reg.values(), list(Obj.values()), list(Reg.keys())):
-            if isinstance(clave_objeto, dict):
+        for clave_registro, clave_objeto, clave_llave, llave_comprobante in zip(Reg.values(), list(Obj.values()), list(Reg.keys()), list(Obj.keys())):
+            if clave_llave[0] != llave_comprobante[0]:
+                coincide = False
+                print("[ERROR][PARSER] Type mismatch, icorrect object  attribute order structure %s is different than %s" % (clave_llave[0], llave_comprobante[0]))
+            elif isinstance(clave_objeto, dict):
                 if isinstance(clave_registro, dict):
                     coincide = comprobar_estructura(clave_registro, clave_objeto, coincide, value[clave_llave])
                 else:
