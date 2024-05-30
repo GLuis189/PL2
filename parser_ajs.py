@@ -821,7 +821,7 @@ def p_function_def(p):
         functions[name] = (tipo, args)
         for v in args:
             if v:
-                symbols[(v[1], 1)] = (v[0], None)
+                symbols[(v[1], 1)] = (v[0], 0)
 
         
 

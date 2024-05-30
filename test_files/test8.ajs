@@ -5,7 +5,7 @@ function mod (a: int, b: int): int{
     return a;
 }
 
-/*
+
 function greatest_common_divisor(a:int, b:int): int {
     let temp;
     temp = a + b;
@@ -20,4 +20,4 @@ function greatest_common_divisor(a:int, b:int): int {
 let result = greatest_common_divisor(132,0xFF);
 
 type Point = {x: int, y: int};
-*/
+
