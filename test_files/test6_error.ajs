@@ -16,4 +16,4 @@ square = {
 };
 
 circle["radio"] = 7.5;
-circle.radio = 7;
+circle.radio = 7; //error

@@ -1,0 +1,11 @@
+let my_house: House = {
+    localition:{
+        city: 'M', country: 'E',
+    },
+    price:{
+        "yen": 100, euro: 108, dollar:16397
+    },
+};
+
+let with_tax = my_house["price"].euro * 1.1;
+

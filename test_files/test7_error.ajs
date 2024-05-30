@@ -1,0 +1,17 @@
+type House = {
+    localition : {
+        city : character, country:character},
+    price:{yen:float, euro:int, dollar: int}
+};
+
+let my_house: House = {
+    localition:{
+        city: 'M', country: 'E',
+    },
+    price:{
+        euro: 100, yen: 108, dollar:16397
+    },
+};
+
+let with_tax = my_house["price"].euro * 1.1;
+

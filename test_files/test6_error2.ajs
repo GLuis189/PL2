@@ -1,4 +1,4 @@
-type Circle = { cx: float, cy: float, radio: float, color: int };
+type Circle = { cx: float, cy: float, radio: int, color: character };
 type Square = {side: float, color: character};
 let var1 =33;
 let circle: Circle = {
@@ -12,8 +12,7 @@ let square: Square, circle_area;
 circle_area = 3.14 *3.17;
 square = {
     side: 10.,
-    color: 'b'
 };
 
 circle["radio"] = 7.5;
-circle.radio = 7;
+circle.radio = 7; 
