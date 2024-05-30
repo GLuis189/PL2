@@ -812,14 +812,17 @@ def p_function_def(p):
     args = p[4]
     arg_t = []
     for arg in args:
-        arg_t.append(arg[0])
+        if arg:
+            arg_t.append(arg[0])
     name = (name, tuple(arg_t))
     if name in functions:
         print('[ERROR][PARSER] Function %s already defined' % name)
     else:
         functions[name] = (tipo, args)
         for v in args:
-            symbols[(v[1], 1)] = (v[0], None)
+            if v:
+                symbols[(v[1], 1)] = (v[0], None)
+
         
 
 def p_function_call(p):
