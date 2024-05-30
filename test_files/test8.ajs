@@ -18,6 +18,3 @@ function greatest_common_divisor(a:int, b:int): int {
 }
 
 let result = greatest_common_divisor(132,0xFF);
-
-type Point = {x: int, y: int};
-

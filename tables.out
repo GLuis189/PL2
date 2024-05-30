@@ -1,22 +1,68 @@
 Symbols:
 {
+    "('var2', 1)": [
+        "int",
+        10
+    ],
+    "('var3', 1)": [
+        null,
+        null
+    ],
+    "('var4', 1)": [
+        null,
+        null
+    ],
     "('a', 1)": [
         "int",
-        null
+        0
     ],
     "('b', 1)": [
         "int",
-        null
+        0
     ]
 }
-Registros:
-{}
+Registers:
+{
+    "('var1', 1)": [
+        "Object",
+        {
+            "('prop1', 1)": [
+                "float",
+                1.0
+            ],
+            "('nested', 1)": {
+                "('this is', 0)": [
+                    "char",
+                    "A"
+                ],
+                "('prop2', 1)": [
+                    "int",
+                    10
+                ],
+                "('prop3', 1)": [
+                    "bool",
+                    true
+                ]
+            }
+        }
+    ]
+}
 Objects:
-{}
+{
+    "NestedObject": {
+        "('this is', 0)": "char",
+        "('prop2', 1)": "int",
+        "('prop3', 0)": "bool"
+    },
+    "Object": {
+        "('prop1', 1)": "float",
+        "('nested', 0)": "NestedObject"
+    }
+}
 Functions:
 {
-    "('mod', ('int', 'int'))": [
-        "int",
+    "('gte', ('int', 'int'))": [
+        "bool",
         [
             [
                 "int",
@@ -26,6 +72,12 @@ Functions:
                 "int",
                 "b"
             ]
+        ]
+    ],
+    "('gte', ())": [
+        "bool",
+        [
+            null
         ]
     ]
 }
