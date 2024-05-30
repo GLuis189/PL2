@@ -111,7 +111,9 @@ def p_declare(p):
     '''
     #print('declare')
     lista_vars = p[2]
-    
+    '''funcion recursiva que comprueba una estructura correcta en los ley, en caso de no coincidir en todos los atributos 
+    y tipo con el objeto original devuelve falso y no se asigna el objeto,también transforma
+    tipos si es posible. '''
     def comprobar_estructura(Reg:dict, Obj:dict, coincide:bool, value:dict):
         for clave_registro, clave_objeto, clave_llave, llave_comprobante in zip(Reg.values(), list(Obj.values()), list(Reg.keys()), list(Obj.keys())):
             if clave_llave[0] != llave_comprobante[0]:
@@ -152,7 +154,7 @@ def p_declare(p):
             print("[ERROR][PARSER]Type mismatch, the given assignment %s does not match the object %s " % (name[0],tipo))
         return coincide
             
-
+    '''nombrado compuesto,su busqueda y asignación'''
     for i in range(len(lista_vars)):
         if i%2 == 0:
             if isinstance(p[2][i+1], dict):
@@ -234,6 +236,9 @@ def p_assign(p):
     assign : ident asign_valor
     '''
     # print('assign')
+    '''asignar valor es recursiva del mismo modo permitiendo buscar un y asignar el valor buscado en un atributo concreto
+    de un objeto, si los tipos son correctos se asigna, en caso contrario da los errores pertinente, también transforma
+    tipos si es posible.'''
     def asignar_valor(clave, regist, value):
         if len(clave) == 1:
             coincide = True
@@ -293,7 +298,9 @@ def p_assign(p):
             return regist
         else:
             pass
-    
+    '''funcion recursiva que comprueba una estructura correcta en los ley, en caso de no coincidir en todos los atributos 
+    y tipo con el objeto original devuelve falso y no se asigna el objeto,también transforma
+    tipos si es posible. '''
     def comprobar_estructura(Reg:dict, Obj:dict, coincide:bool, value:dict):
         for clave_registro, clave_objeto, clave_llave, llave_comprobante in zip(Reg.values(), list(Obj.values()), list(Reg.keys()), list(Obj.keys())):
             if clave_llave[0] != llave_comprobante[0]:
@@ -339,6 +346,8 @@ def p_assign(p):
         ident = ident[0]
     if isinstance(ident, list):
         #build-up registros
+        '''llamada a asignar valor, ya que registros se incializa despúes pero ya que el no hace copia, estamos
+         asignando a los registros originales, este sirve para reasignar atributos '''
         Registros = asignar_valor(ident, registros, p[2])
     else:
         if ident in symbols:
@@ -346,19 +355,9 @@ def p_assign(p):
                     symbols[ident] = (symbols[ident][0],p[2])
             else:
                 tipo, value = p[2]
-                #tipo_s= symbols[ident][0]
                 symbols[ident] = (tipo, value)
-            # Comprobaciones de tipo pero no se si es necesario #######################################################################################
-            # if tipo == tipo_s or tipo_s == None:
-            #     symbols[ident] = (tipo, value)
-            # else:
-            #     if tipo == 'int' and tipo_s == 'float':
-            #         symbols[ident] = (tipo, value)
-            #     elif tipo == 'char' and tipo_s == 'int':
-            #         symbols[ident] = (tipo_s, value.encode('utf-8'))
-            #     else:
-            #         print('[ERROR][PARSER] Type mismatch in variable %s' % ident)
         elif ident in registros:
+            '''asignacion de un objeto definido a otro'''
             if isinstance(p[2], tuple) or not p[2]:
                 tipo = registros[ident][0]
                 if p[2][0] == tipo:
@@ -366,6 +365,7 @@ def p_assign(p):
                 else:
                     print("[ERROR][PARSER]Type mismatch, the given assignment object %s does not match the object %s " % (p[2][0],tipo))
             elif isinstance(p[2], dict):
+                '''Asignación y comprobación de objetos y diccionarios'''
                 if registros[ident][0] in objects:
                         coincide = True
                         tipo = registros[ident][0]
@@ -387,6 +387,8 @@ def p_valor(p):
 def p_valor_ident(p):
     '''valor : ident'''
     #print('valor_ident')
+    '''debido a nuestra estructura de comporbación de dobles comillas y puntos, esta estructura iterativa
+    comprueba que se sigue la normativa de llamada atributos y además recupera dicho nombre'''
     if len(p[1]) == 1:
         ident = p[1][0]
         if ident in symbols:
