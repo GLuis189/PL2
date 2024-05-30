@@ -15,4 +15,4 @@ square = {
     color: 'b'
 };
 
-circle.radio = 7.5;
+circle["radio"] = 7.5;
