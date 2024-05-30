@@ -22,7 +22,7 @@ def cargar_symbolos():
         f.write('Symbols:\n')
         f.write(json.dumps(convert_keys_to_strings(symbols), indent=4))
         f.write('\n')
-        f.write('Registros:\n')
+        f.write('Registers:\n')
         f.write(json.dumps(convert_keys_to_strings(registros), indent=4))
         f.write('\n')
         f.write('Objects:\n')
@@ -119,6 +119,12 @@ def p_declare(p):
                 else:
                     coincide = False
                     print("[ERROR][PARSER] Type mismatch,  %s it´s not a dict %" % (clave_registro[0]))
+            elif clave_objeto in objects:
+                if isinstance(clave_registro, dict):
+                    coincide = comprobar_estructura(value[clave_llave], objects[clave_objeto], coincide, value[clave_llave])
+                else:
+                    coincide = False
+                    print("[ERROR][PARSER] Type mismatch, mested object %s it´s not a dict %" % (clave_registro[0]))
             elif clave_registro[0] != clave_objeto:
                 if clave_objeto == 'float':
                     if clave_registro[0] == 'int':
@@ -245,6 +251,12 @@ def p_assign(p):
                 else:
                     coincide = False
                     print("[ERROR][PARSER] Type mismatch,  %s it´s not a dict %" % (clave_registro[0]))
+            elif clave_objeto in objects:
+                if isinstance(clave_registro, dict):
+                    coincide = comprobar_estructura(value[clave_llave], objects[clave_objeto], coincide, value[clave_llave])
+                else:
+                    coincide = False
+                    print("[ERROR][PARSER] Type mismatch, mested object %s it´s not a dict %" % (clave_registro[0]))
             elif clave_registro[0] != clave_objeto:
                 if clave_objeto == 'float':
                     if clave_registro[0] == 'int':
