@@ -234,9 +234,47 @@ def p_assign(p):
     '''
     # print('assign')
     def asignar_valor(clave, regist, value):
-        if len(clave) == 1 :
-            print(clave, regist, value)
-            regist[clave[0]] = value
+        if len(clave) == 1:
+            coincide = True
+            clave_registro = value
+            clave_objeto = regist[clave[0]][0]
+            if isinstance(clave_objeto, dict):
+                if isinstance(clave_registro, dict):
+                    coincide = comprobar_estructura(clave_registro, clave_objeto, coincide, regist[clave])
+                    if coincide:   
+                        regist[clave[0]] = value
+                else:
+                    coincide = False
+                    print("[ERROR][PARSER] Type mismatch,  %s it´s not a dict %" % (clave_registro[0]))
+            elif clave_objeto in objects:
+                if isinstance(clave_registro, dict):
+                    coincide = comprobar_estructura(regist[clave], objects[clave_objeto], coincide, regist[clave])
+                    if coincide:   
+                        regist[clave[0]] = value
+                else:
+                    coincide = False
+                    print("[ERROR][PARSER] Type mismatch, mested object %s it´s not a dict %" % (clave_registro[0]))
+            elif clave_registro[0] != clave_objeto:
+                print(clave_registro, clave_objeto)
+                if clave_objeto == 'float':
+                    if clave_registro[0] == 'int':
+                        regist[clave[0]] = ('float' , float(value[1]))
+                    elif clave_registro[0] == 'char':
+                        regist[clave[0]] = ('float' , float(ord(value[1])))
+                    else:
+                        coincide = False
+                        print("[ERROR][PARSER] Type mismatch, can't covert %s to %s" % (clave_registro[0], clave_objeto))
+                elif clave_objeto == 'int':
+                    if clave_registro[0] == 'char':
+                        regist[clave[0]] = ('int' , ord(value[1]))
+                    else:
+                        coincide = False
+                        print("[ERROR][PARSER] Type mismatch, can't covert %s to %s" % (clave_registro[0], clave_objeto))
+                else:
+                    coincide = False
+                    print("[ERROR][PARSER] Type mismatch, can't covert %s to %s" % (clave_registro[0], clave_objeto))
+            else:
+                regist[clave[0]] = value
             return regist
         elif isinstance(regist[clave[0]], dict):
             regist[clave[0]] = asignar_valor(clave[1:], regist[clave[0]], value)
